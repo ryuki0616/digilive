@@ -187,6 +187,49 @@
             border-color: rgba(255, 68, 68, 0.5);
         }
 
+        .debug-answer {
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            z-index: 1000;
+            font-size: 12px;
+            max-width: 250px;
+        }
+
+        .debug-answer h4 {
+            margin: 0 0 10px 0;
+            color: #ffaa44;
+            font-size: 14px;
+        }
+
+        .debug-color-item {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .debug-color-circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .debug-color-text {
+            font-family: monospace;
+            font-size: 11px;
+        }
+
         .score {
             font-size: 18px;
             margin-bottom: 10px;
@@ -326,6 +369,12 @@
     <!-- 戻るリンク -->
     <a href="index.html" class="back-link">← 戻る</a>
     
+    <!-- デバッグ用答え表示 -->
+    <div class="debug-answer" id="debugAnswer">
+        <h4>🔍 答え（デバッグ）</h4>
+        <div id="debugAnswerContent">読み込み中...</div>
+    </div>
+    
     <!-- 難易度インジケーター -->
     <div class="difficulty-indicator" id="difficultyIndicator">
         お題の難易度を計算中...
@@ -390,6 +439,8 @@
                 this.accuracyScore = document.getElementById('accuracyScore');
                 this.accuracyFill = document.getElementById('accuracyFill');
                 this.difficultyIndicator = document.getElementById('difficultyIndicator');
+                this.debugAnswer = document.getElementById('debugAnswer');
+                this.debugAnswerContent = document.getElementById('debugAnswerContent');
                 
                 this.init();
             }
@@ -399,6 +450,7 @@
                 this.generateTargetColor(); // 色円を生成してからお題の色を生成
                 this.updateColorPreview();
                 this.updateDifficultyIndicator();
+                this.updateDebugAnswer(); // デバッグ情報を更新
             }
             
             generateTargetColor() {
@@ -672,6 +724,34 @@
                 this.difficultyIndicator.className = `difficulty-indicator ${className}`;
             }
             
+            updateDebugAnswer() {
+                if (!this.targetSourceColors || this.targetSourceColors.length === 0) {
+                    this.debugAnswerContent.innerHTML = "答えが生成されていません";
+                    return;
+                }
+                
+                let debugHTML = `<div style="margin-bottom: 10px;">
+                    <strong>お題の色を作るには:</strong>
+                </div>`;
+                
+                this.targetSourceColors.forEach((color, index) => {
+                    debugHTML += `
+                        <div class="debug-color-item">
+                            <div class="debug-color-circle" style="background-color: rgb(${color.r}, ${color.g}, ${color.b});"></div>
+                            <div class="debug-color-text">${index + 1}. RGB(${color.r}, ${color.g}, ${color.b})</div>
+                        </div>
+                    `;
+                });
+                
+                debugHTML += `<div style="margin-top: 10px; padding: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 5px; font-size: 10px;">
+                    <strong>💡 ヒント:</strong><br>
+                    これらの色を選択すれば<br>
+                    完璧な色が作れます！
+                </div>`;
+                
+                this.debugAnswerContent.innerHTML = debugHTML;
+            }
+            
             mixColors(colors) {
                 if (colors.length === 0) return { r: 0, g: 0, b: 0 };
                 if (colors.length === 1) return colors[0];
@@ -913,9 +993,11 @@
                     circle.classList.remove('selected');
                 });
                 
-                this.updateColorPreview();
-                this.generateTargetColor();
                 this.generateColorCircles();
+                this.generateTargetColor();
+                this.updateColorPreview();
+                this.updateDifficultyIndicator();
+                this.updateDebugAnswer(); // デバッグ情報も更新
             }
         }
         
