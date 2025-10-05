@@ -94,6 +94,10 @@
             transition: all 0.3s ease;
             animation: float 4s ease-in-out infinite;
             user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
         }
 
         .color-circle:hover {
@@ -124,6 +128,19 @@
             100% {
                 box-shadow: 0 0 60px #f39c12, 0 0 80px rgba(243, 156, 18, 0.5);
             }
+        }
+
+        .color-label {
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.8), 0 0 10px rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.4);
+            padding: 2px 4px;
+            border-radius: 3px;
+            backdrop-filter: blur(2px);
+            line-height: 1.2;
+            text-align: center;
         }
 
         .game-info {
@@ -308,25 +325,66 @@
                 });
                 
                 const colors = [
-                    // 基本色
+                    // 基本色（RGBの三原色）
                     { r: 255, g: 0, b: 0 },     // 赤
                     { r: 0, g: 255, b: 0 },     // 緑
                     { r: 0, g: 0, b: 255 },     // 青
+                    
+                    // 二次色（補色）
                     { r: 255, g: 255, b: 0 },   // 黄
                     { r: 255, g: 0, b: 255 },   // マゼンタ
                     { r: 0, g: 255, b: 255 },   // シアン
+                    
+                    // 明度の極値
                     { r: 255, g: 255, b: 255 }, // 白
                     { r: 0, g: 0, b: 0 },       // 黒
                     
-                    // 中間色
+                    // 中間明度のグレー
+                    { r: 128, g: 128, b: 128 }, // 50%グレー
+                    { r: 192, g: 192, b: 192 }, // 75%グレー
+                    { r: 64, g: 64, b: 64 },    // 25%グレー
+                    
+                    // 高彩度の中間色
                     { r: 255, g: 128, b: 0 },   // オレンジ
                     { r: 128, g: 255, b: 0 },   // ライム
                     { r: 0, g: 128, b: 255 },   // 空色
                     { r: 128, g: 0, b: 255 },   // 紫
-                    { r: 255, g: 192, b: 203 }, // ピンク
-                    { r: 160, g: 82, b: 45 },   // 茶色
-                    { r: 128, g: 128, b: 128 }, // グレー
-                    { r: 255, g: 165, b: 0 },   // 金色
+                    { r: 255, g: 0, b: 128 },   // ローズ
+                    { r: 0, g: 255, b: 128 },   // スプリンググリーン
+                    
+                    // 低彩度の色
+                    { r: 200, g: 150, b: 100 }, // ベージュ
+                    { r: 150, g: 200, b: 100 }, // オリーブ
+                    { r: 100, g: 150, b: 200 }, // パウダーブルー
+                    { r: 180, g: 100, b: 180 }, // ラベンダー
+                    { r: 200, g: 180, b: 120 }, // ゴールド
+                    { r: 120, g: 200, b: 180 }, // ミント
+                    
+                    // より細かい中間色
+                    { r: 255, g: 192, b: 0 },   // ゴールド
+                    { r: 192, g: 255, b: 0 },   // ライムグリーン
+                    { r: 0, g: 192, b: 255 },   // スカイブルー
+                    { r: 192, g: 0, b: 255 },   // バイオレット
+                    { r: 255, g: 0, b: 192 },   // マゼンタピンク
+                    { r: 0, g: 255, b: 192 },   // アクア
+                    
+                    // 暖色系
+                    { r: 255, g: 128, b: 128 }, // ライトレッド
+                    { r: 255, g: 192, b: 128 }, // ピーチ
+                    { r: 255, g: 224, b: 128 }, // ライトイエロー
+                    
+                    // 寒色系
+                    { r: 128, g: 128, b: 255 }, // ライトブルー
+                    { r: 128, g: 192, b: 255 }, // パステルブルー
+                    { r: 128, g: 255, b: 192 }, // ライトグリーン
+                    
+                    // より多様な混合色
+                    { r: 200, g: 100, b: 50 },  // ブラウン
+                    { r: 100, g: 200, b: 50 },  // オリーブグリーン
+                    { r: 50, g: 100, b: 200 },  // ネイビー
+                    { r: 200, g: 50, b: 100 },  // バーガンディ
+                    { r: 50, g: 200, b: 100 },  // フォレストグリーン
+                    { r: 100, g: 50, b: 200 },  // インディゴ
                 ];
                 
                 // ランダムに色を選択して配置
@@ -348,14 +406,23 @@
                 const circle = document.createElement('div');
                 circle.className = 'color-circle';
                 circle.style.backgroundColor = `rgb(${color.r}, ${color.g}, ${color.b})`;
-                circle.style.width = Math.floor(Math.random() * 40) + 60 + 'px';
-                circle.style.height = circle.style.width;
+                
+                // 円のサイズを決定（ラベルが入るように少し大きめに）
+                const size = Math.floor(Math.random() * 40) + 80;
+                circle.style.width = size + 'px';
+                circle.style.height = size + 'px';
+                
+                // RGBラベルを作成
+                const label = document.createElement('div');
+                label.className = 'color-label';
+                label.textContent = `RGB(${color.r}, ${color.g}, ${color.b})`;
+                circle.appendChild(label);
                 
                 // ランダムな位置に配置（中央エリアを避ける）
                 let x, y;
                 do {
-                    x = Math.random() * (window.innerWidth - 100);
-                    y = Math.random() * (window.innerHeight - 100);
+                    x = Math.random() * (window.innerWidth - size);
+                    y = Math.random() * (window.innerHeight - size);
                 } while (
                     Math.abs(x - window.innerWidth / 2) < 150 && 
                     Math.abs(y - window.innerHeight / 2) < 150
@@ -419,26 +486,42 @@
             }
             
             mixColors(colors) {
-                // 平均を取る方法で色を混合
-                const total = colors.reduce((acc, color) => ({
-                    r: acc.r + color.r,
-                    g: acc.g + color.g,
-                    b: acc.b + color.b
-                }), { r: 0, g: 0, b: 0 });
+                if (colors.length === 0) return { r: 0, g: 0, b: 0 };
+                if (colors.length === 1) return colors[0];
+                
+                // 重み付き平均で色を混合（より自然な混合）
+                let totalWeight = 0;
+                const total = colors.reduce((acc, color) => {
+                    // 明度に基づいて重みを決定
+                    const brightness = (color.r + color.g + color.b) / 3;
+                    const weight = brightness > 128 ? 1 : 1.2; // 暗い色により重みを付ける
+                    totalWeight += weight;
+                    
+                    return {
+                        r: acc.r + color.r * weight,
+                        g: acc.g + color.g * weight,
+                        b: acc.b + color.b * weight
+                    };
+                }, { r: 0, g: 0, b: 0 });
                 
                 return {
-                    r: Math.round(total.r / colors.length),
-                    g: Math.round(total.g / colors.length),
-                    b: Math.round(total.b / colors.length)
+                    r: Math.round(Math.min(255, Math.max(0, total.r / totalWeight))),
+                    g: Math.round(Math.min(255, Math.max(0, total.g / totalWeight))),
+                    b: Math.round(Math.min(255, Math.max(0, total.b / totalWeight)))
                 };
             }
             
             calculateColorDifference(color1, color2) {
-                // 色の差を計算（ユークリッド距離）
+                // より人間の視覚に近い色差計算（CIE76色差式を簡略化）
                 const dr = color1.r - color2.r;
                 const dg = color1.g - color2.g;
                 const db = color1.b - color2.b;
-                return Math.sqrt(dr * dr + dg * dg + db * db);
+                
+                // 人間の目は緑に敏感なので、緑の重みを上げる
+                const deltaE = Math.sqrt(dr * dr + (dg * 1.2) * (dg * 1.2) + db * db);
+                
+                // より厳密な判定のため、色差を調整
+                return deltaE * 0.8;
             }
             
             showResult() {
@@ -446,21 +529,26 @@
                 const difference = this.calculateColorDifference(mixedColor, this.targetColor);
                 
                 let message, isSuccess;
-                if (difference < 50) {
-                    message = "🎉 素晴らしい！\n完璧に近い色ができました！";
+                if (difference < 15) {
+                    message = "🎉 完璧！\nお見事！完璧に同じ色ができました！";
+                    isSuccess = true;
+                    this.score += 200;
+                } else if (difference < 30) {
+                    message = "🌟 素晴らしい！\nほぼ完璧に近い色ができました！";
+                    isSuccess = true;
+                    this.score += 150;
+                } else if (difference < 60) {
+                    message = "😊 良い感じ！\nかなり近い色ができました！";
                     isSuccess = true;
                     this.score += 100;
                 } else if (difference < 100) {
-                    message = "😊 良い感じ！\nかなり近い色ができました！";
-                    isSuccess = true;
-                    this.score += 50;
-                } else if (difference < 150) {
                     message = "😐 まあまあ...\nもう少し頑張りましょう！";
                     isSuccess = false;
-                    this.score += 10;
+                    this.score += 50;
                 } else {
                     message = "😅 惜しい！\nもう一度挑戦してみましょう！";
                     isSuccess = false;
+                    this.score += 10;
                 }
                 
                 this.resultText.textContent = message;
