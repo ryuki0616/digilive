@@ -156,6 +156,37 @@
             z-index: 1000;
         }
 
+        .difficulty-indicator {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .difficulty-indicator.easy {
+            background: rgba(68, 255, 68, 0.2);
+            border-color: rgba(68, 255, 68, 0.5);
+        }
+
+        .difficulty-indicator.medium {
+            background: rgba(255, 170, 68, 0.2);
+            border-color: rgba(255, 170, 68, 0.5);
+        }
+
+        .difficulty-indicator.hard {
+            background: rgba(255, 68, 68, 0.2);
+            border-color: rgba(255, 68, 68, 0.5);
+        }
+
         .score {
             font-size: 18px;
             margin-bottom: 10px;
@@ -295,6 +326,11 @@
     <!-- 戻るリンク -->
     <a href="index.html" class="back-link">← 戻る</a>
     
+    <!-- 難易度インジケーター -->
+    <div class="difficulty-indicator" id="difficultyIndicator">
+        お題の難易度を計算中...
+    </div>
+    
     <!-- ゲーム情報 -->
     <div class="game-info">
         <div class="score">スコア: <span id="score">0</span></div>
@@ -353,6 +389,7 @@
                 this.scoreElement = document.getElementById('score');
                 this.accuracyScore = document.getElementById('accuracyScore');
                 this.accuracyFill = document.getElementById('accuracyFill');
+                this.difficultyIndicator = document.getElementById('difficultyIndicator');
                 
                 this.init();
             }
@@ -361,6 +398,7 @@
                 this.generateTargetColor();
                 this.generateColorCircles();
                 this.updateColorPreview();
+                this.updateDifficultyIndicator();
             }
             
             generateTargetColor() {
@@ -566,6 +604,29 @@
                 }
             }
             
+            updateDifficultyIndicator() {
+                const analysis = this.analyzePerfectScorePossibility();
+                const bestAccuracy = analysis.bestAccuracy;
+                
+                let difficulty, className, message;
+                if (bestAccuracy >= 85) {
+                    difficulty = "簡単";
+                    className = "easy";
+                    message = "🎯 簡単 - 100点達成可能！";
+                } else if (bestAccuracy >= 70) {
+                    difficulty = "普通";
+                    className = "medium";
+                    message = "⚖️ 普通 - 高得点を狙える";
+                } else {
+                    difficulty = "困難";
+                    className = "hard";
+                    message = "😤 困難 - 挑戦的！";
+                }
+                
+                this.difficultyIndicator.textContent = message;
+                this.difficultyIndicator.className = `difficulty-indicator ${className}`;
+            }
+            
             mixColors(colors) {
                 if (colors.length === 0) return { r: 0, g: 0, b: 0 };
                 if (colors.length === 1) return colors[0];
@@ -638,6 +699,21 @@
                 }
                 
                 return bestSolution;
+            }
+            
+            // 100点が取れる可能性を分析する関数
+            analyzePerfectScorePossibility() {
+                const optimalSolution = this.findOptimalSolution();
+                const isPerfectPossible = optimalSolution.difference < 15;
+                
+                return {
+                    isPerfectPossible: isPerfectPossible,
+                    bestDifference: optimalSolution.difference,
+                    bestAccuracy: optimalSolution.accuracy,
+                    message: isPerfectPossible ? 
+                        "🎯 このお題は100点達成可能です！" : 
+                        "😅 このお題は100点達成が困難です..."
+                };
             }
             
             getCombinations(arr, size) {
@@ -715,6 +791,9 @@
                 // 最適解を計算・表示
                 const optimalSolution = this.findOptimalSolution();
                 
+                // 100点達成可能性を分析
+                const perfectAnalysis = this.analyzePerfectScorePossibility();
+                
                 // 詳細な結果メッセージを作成
                 const detailedMessage = `${message}\n\n` +
                     `📊 詳細スコア\n` +
@@ -755,7 +834,10 @@
                     ).join('\n') +
                     `\n\nこの組み合わせで:\n` +
                     `精度スコア: ${Math.round(optimalSolution.accuracy * 10) / 10}/100\n` +
-                    `色差: ${Math.round(optimalSolution.difference * 10) / 10}`;
+                    `色差: ${Math.round(optimalSolution.difference * 10) / 10}\n\n` +
+                    `🎯 100点達成可能性:\n` +
+                    `${perfectAnalysis.message}\n` +
+                    `理論上の最高精度: ${Math.round(optimalSolution.accuracy * 10) / 10}/100`;
                 
                 const finalMessage = detailedMessage + colorDetails + usedColorsInfo + optimalInfo;
                 
