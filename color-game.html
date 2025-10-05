@@ -483,9 +483,25 @@
                     { r: 100, g: 50, b: 200 },  // インディゴ
                 ];
                 
-                // ランダムに色を選択して配置
+                // ランダムに色を選択して配置（より多くの基本色を含む）
                 const selectedColors = [];
-                const numCircles = Math.floor(Math.random() * 8) + 8; // 8-15個の円
+                
+                // 基本色を必ず含める
+                const basicColors = [
+                    { r: 255, g: 0, b: 0 },     // 赤
+                    { r: 0, g: 255, b: 0 },     // 緑
+                    { r: 0, g: 0, b: 255 },     // 青
+                    { r: 255, g: 255, b: 0 },   // 黄
+                    { r: 255, g: 0, b: 255 },   // マゼンタ
+                    { r: 0, g: 255, b: 255 },   // シアン
+                    { r: 255, g: 255, b: 255 }, // 白
+                    { r: 0, g: 0, b: 0 },       // 黒
+                ];
+                
+                // 基本色を必ず追加
+                selectedColors.push(...basicColors);
+                
+                const numCircles = Math.floor(Math.random() * 6) + 12; // 12-17個の円
                 
                 for (let i = 0; i < numCircles; i++) {
                     const randomColor = colors[Math.floor(Math.random() * colors.length)];
@@ -609,11 +625,11 @@
                 const bestAccuracy = analysis.bestAccuracy;
                 
                 let difficulty, className, message;
-                if (bestAccuracy >= 85) {
+                if (bestAccuracy >= 75) {
                     difficulty = "簡単";
                     className = "easy";
                     message = "🎯 簡単 - 100点達成可能！";
-                } else if (bestAccuracy >= 70) {
+                } else if (bestAccuracy >= 60) {
                     difficulty = "普通";
                     className = "medium";
                     message = "⚖️ 普通 - 高得点を狙える";
@@ -662,8 +678,8 @@
                 // 人間の目は緑に敏感なので、緑の重みを上げる
                 const deltaE = Math.sqrt(dr * dr + (dg * 1.2) * (dg * 1.2) + db * db);
                 
-                // より厳密な判定のため、色差を調整
-                return deltaE * 0.8;
+                // 難易度を下げるため、色差をさらに調整（より寛容に）
+                return deltaE * 0.6;
             }
             
             findOptimalSolution() {
@@ -704,7 +720,7 @@
             // 100点が取れる可能性を分析する関数
             analyzePerfectScorePossibility() {
                 const optimalSolution = this.findOptimalSolution();
-                const isPerfectPossible = optimalSolution.difference < 15;
+                const isPerfectPossible = optimalSolution.difference < 25; // 基準を緩和
                 
                 return {
                     isPerfectPossible: isPerfectPossible,
@@ -752,22 +768,22 @@
                 let basePoints = 0;
                 let message, isSuccess, grade;
                 
-                if (difference < 15) {
+                if (difference < 25) {
                     message = "🎉 完璧！";
                     grade = "S";
                     basePoints = 200;
                     isSuccess = true;
-                } else if (difference < 30) {
+                } else if (difference < 50) {
                     message = "🌟 素晴らしい！";
                     grade = "A";
                     basePoints = 150;
                     isSuccess = true;
-                } else if (difference < 60) {
+                } else if (difference < 80) {
                     message = "😊 良い感じ！";
                     grade = "B";
                     basePoints = 100;
                     isSuccess = true;
-                } else if (difference < 100) {
+                } else if (difference < 120) {
                     message = "😐 まあまあ...";
                     grade = "C";
                     basePoints = 50;
