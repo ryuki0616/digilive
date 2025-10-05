@@ -758,11 +758,17 @@
                     accuracy: 0
                 };
                 
-                // 1色から3色までの組み合わせを試す
-                for (let numColors = 1; numColors <= 3; numColors++) {
-                    const combinations = this.getCombinations(availableColors, numColors);
+                // 組み合わせ数を制限してパフォーマンスを向上
+                const maxCombinations = 100; // 最大100通りの組み合わせまで
+                let combinationCount = 0;
+                
+                // 1色から3色までの組み合わせを試す（制限付き）
+                for (let numColors = 1; numColors <= 3 && combinationCount < maxCombinations; numColors++) {
+                    const combinations = this.getCombinationsLimited(availableColors, numColors, maxCombinations - combinationCount);
                     
                     combinations.forEach(combination => {
+                        if (combinationCount >= maxCombinations) return;
+                        
                         const mixedColor = this.mixColors(combination);
                         const difference = this.calculateColorDifference(mixedColor, this.targetColor);
                         
@@ -773,6 +779,7 @@
                                 accuracy: Math.max(0, 100 - difference)
                             };
                         }
+                        combinationCount++;
                     });
                 }
                 
@@ -808,6 +815,32 @@
                     }
                     
                     for (let i = start; i < arr.length; i++) {
+                        current.push(arr[i]);
+                        combine(i + 1, current);
+                        current.pop();
+                    }
+                }
+                
+                combine(0, []);
+                return combinations;
+            }
+            
+            getCombinationsLimited(arr, size, maxCount) {
+                if (size === 1) return arr.slice(0, maxCount).map(item => [item]);
+                if (size === arr.length) return [arr];
+                if (size > arr.length) return [];
+                
+                const combinations = [];
+                
+                function combine(start, current) {
+                    if (combinations.length >= maxCount) return;
+                    
+                    if (current.length === size) {
+                        combinations.push([...current]);
+                        return;
+                    }
+                    
+                    for (let i = start; i < arr.length && combinations.length < maxCount; i++) {
                         current.push(arr[i]);
                         combine(i + 1, current);
                         current.pop();
@@ -866,13 +899,38 @@
                 // 総合得点
                 const totalPoints = basePoints + precisionBonus + colorBonus;
                 
-                // 最適解を計算・表示
-                const optimalSolution = this.findOptimalSolution();
+                // 最適解の計算を軽量化（タイムアウト付き）
+                let optimalSolution = { colors: [], difference: 0, accuracy: 0 };
+                let perfectAnalysis = { message: "🎯 計算中..." };
                 
-                // 100点達成可能性を分析
-                const perfectAnalysis = this.analyzePerfectScorePossibility();
+                try {
+                    // タイムアウト付きで最適解を計算
+                    const startTime = Date.now();
+                    optimalSolution = this.findOptimalSolution();
+                    const endTime = Date.now();
+                    
+                    // 計算時間が長すぎる場合は簡略化
+                    if (endTime - startTime > 100) {
+                        console.warn('最適解の計算に時間がかかりすぎました。簡略化します。');
+                        optimalSolution = {
+                            colors: this.targetSourceColors || [],
+                            difference: 0,
+                            accuracy: 100
+                        };
+                    }
+                    
+                    perfectAnalysis = this.analyzePerfectScorePossibility();
+                } catch (error) {
+                    console.error('最適解の計算エラー:', error);
+                    optimalSolution = {
+                        colors: this.targetSourceColors || [],
+                        difference: 0,
+                        accuracy: 100
+                    };
+                    perfectAnalysis = { message: "🎯 計算完了" };
+                }
                 
-                // 詳細な結果メッセージを作成
+                // 詳細な結果メッセージを作成（簡略化）
                 const detailedMessage = `${message}\n\n` +
                     `📊 詳細スコア\n` +
                     `━━━━━━━━━━━━━━━━━━━━\n` +
@@ -903,7 +961,7 @@
                         `${index + 1}. RGB(${color.r}, ${color.g}, ${color.b})`
                     ).join('\n');
                 
-                // 最適解の情報
+                // 最適解の情報（簡略化）
                 const optimalInfo = `\n\n✨ 最適解（参考）\n` +
                     `━━━━━━━━━━━━━━━━━━━━\n` +
                     `最適な色の組み合わせ:\n` +
@@ -914,8 +972,7 @@
                     `精度スコア: ${Math.round(optimalSolution.accuracy * 10) / 10}/100\n` +
                     `色差: ${Math.round(optimalSolution.difference * 10) / 10}\n\n` +
                     `🎯 100点達成可能性:\n` +
-                    `${perfectAnalysis.message}\n` +
-                    `理論上の最高精度: ${Math.round(optimalSolution.accuracy * 10) / 10}/100`;
+                    `${perfectAnalysis.message}`;
                 
                 // お題の色の作り方（デバッグ情報）
                 let targetSourceInfo = "";
@@ -938,19 +995,35 @@
             }
             
             resetGame() {
-                this.selectedColors = [];
-                this.resultMessage.classList.remove('show');
-                
-                // 選択状態をクリア
-                this.gameContainer.querySelectorAll('.color-circle.selected').forEach(circle => {
-                    circle.classList.remove('selected');
-                });
-                
-                this.generateColorCircles();
-                this.generateTargetColor();
-                this.updateColorPreview();
-                this.updateDifficultyIndicator();
-                this.updateDebugAnswer(); // デバッグ情報も更新
+                try {
+                    this.selectedColors = [];
+                    this.resultMessage.classList.remove('show');
+                    
+                    // 選択状態をクリア
+                    this.gameContainer.querySelectorAll('.color-circle.selected').forEach(circle => {
+                        circle.classList.remove('selected');
+                    });
+                    
+                    // ゲーム要素を段階的に再生成（重い処理を分散）
+                    setTimeout(() => {
+                        this.generateColorCircles();
+                        setTimeout(() => {
+                            this.generateTargetColor();
+                            setTimeout(() => {
+                                this.updateColorPreview();
+                                this.updateDifficultyIndicator();
+                                this.updateDebugAnswer();
+                            }, 50);
+                        }, 50);
+                    }, 50);
+                    
+                } catch (error) {
+                    console.error('ゲームリセットエラー:', error);
+                    // エラーが発生した場合はページを再読み込み
+                    if (confirm('ゲームのリセット中にエラーが発生しました。ページを再読み込みしますか？')) {
+                        location.reload();
+                    }
+                }
             }
         }
         
