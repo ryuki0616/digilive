@@ -967,7 +967,52 @@
         
         // ページ読み込み時にゲーム開始
         document.addEventListener('DOMContentLoaded', () => {
-            startNewGame();
+            try {
+                startNewGame();
+                console.log('✅ 色合わせゲームが正常に開始されました');
+            } catch (error) {
+                console.error('❌ ゲーム開始エラー:', error);
+                
+                // エラー表示
+                const errorDiv = document.createElement('div');
+                errorDiv.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: rgba(255, 0, 0, 0.9);
+                    color: white;
+                    padding: 30px;
+                    border-radius: 15px;
+                    z-index: 10000;
+                    text-align: center;
+                    font-family: Arial, sans-serif;
+                `;
+                errorDiv.innerHTML = `
+                    <h2>⚠️ ゲームエラー</h2>
+                    <p>色合わせゲームでエラーが発生しました。</p>
+                    <p style="font-size: 12px; margin-top: 10px;">${error.message}</p>
+                    <button onclick="location.reload()" style="
+                        background: #3498db;
+                        color: white;
+                        border: none;
+                        padding: 10px 20px;
+                        border-radius: 5px;
+                        margin-top: 15px;
+                        cursor: pointer;
+                    ">ページを再読み込み</button>
+                `;
+                document.body.appendChild(errorDiv);
+            }
+        });
+        
+        // エラーハンドリング
+        window.addEventListener('error', function(e) {
+            console.error('JavaScript エラー:', e.error);
+        });
+        
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('未処理のPromise拒否:', e.reason);
         });
     </script>
 </body>

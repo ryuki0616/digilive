@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>テスト - 色合わせゲーム</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+        }
+        .test-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .error-log {
+            background: rgba(255, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 0, 0, 0.3);
+        }
+        .link {
+            color: #3498db;
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(52, 152, 219, 0.2);
+            border-radius: 5px;
+            display: inline-block;
+            margin: 10px 0;
+        }
+        .link:hover {
+            background: rgba(52, 152, 219, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <h1>色合わせゲーム アクセステスト</h1>
+    
+    <div class="test-info">
+        <h2>🔍 診断情報</h2>
+        <p><strong>現在時刻:</strong> <span id="currentTime"></span></p>
+        <p><strong>ページロード状態:</strong> <span id="loadStatus">読み込み中...</span></p>
+        <p><strong>JavaScript実行状態:</strong> <span id="jsStatus">チェック中...</span></p>
+    </div>
+    
+    <div class="error-log">
+        <h2>📋 エラーログ</h2>
+        <div id="errorLog">エラーは検出されていません</div>
+    </div>
+    
+    <div>
+        <h2>🔗 リンクテスト</h2>
+        <a href="color-game.html" class="link">色合わせゲーム（メイン）</a><br>
+        <a href="index.html" class="link">メインページに戻る</a><br>
+        <a href="test.html" class="link">波紋エフェクトテスト</a>
+    </div>
+    
+    <script>
+        // 現在時刻を表示
+        document.getElementById('currentTime').textContent = new Date().toLocaleString('ja-JP');
+        
+        // ページロード完了
+        window.addEventListener('load', function() {
+            document.getElementById('loadStatus').textContent = '✅ ページロード完了';
+            document.getElementById('jsStatus').textContent = '✅ JavaScript実行中';
+        });
+        
+        // エラーキャッチ
+        window.addEventListener('error', function(e) {
+            const errorLog = document.getElementById('errorLog');
+            errorLog.innerHTML += `<p style="color: #ff6b6b;">❌ ${e.message} (${e.filename}:${e.lineno})</p>`;
+        });
+        
+        // 未処理のPromise拒否をキャッチ
+        window.addEventListener('unhandledrejection', function(e) {
+            const errorLog = document.getElementById('errorLog');
+            errorLog.innerHTML += `<p style="color: #ff6b6b;">❌ Promise拒否: ${e.reason}</p>`;
+        });
+        
+        // color-game.htmlの存在確認
+        fetch('color-game.html')
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('errorLog').innerHTML += '<p style="color: #51cf66;">✅ color-game.html ファイルは存在します</p>';
+                } else {
+                    document.getElementById('errorLog').innerHTML += `<p style="color: #ff6b6b;">❌ color-game.html アクセスエラー: ${response.status}</p>`;
+                }
+            })
+            .catch(error => {
+                document.getElementById('errorLog').innerHTML += `<p style="color: #ff6b6b;">❌ color-game.html 読み込みエラー: ${error.message}</p>`;
+            });
+    </script>
+</body>
+</html>
