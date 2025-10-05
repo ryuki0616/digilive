@@ -503,36 +503,6 @@
                     // 明度の極値
                     { r: 255, g: 255, b: 255 }, // 白
                     { r: 0, g: 0, b: 0 },       // 黒
-                    
-                    // 原色に近い中間色（より鮮やかで基本色に近い）
-                    { r: 255, g: 128, b: 0 },   // オレンジ（赤+黄）
-                    { r: 255, g: 64, b: 0 },    // 赤オレンジ
-                    { r: 255, g: 192, b: 0 },   // 黄オレンジ
-                    
-                    { r: 128, g: 255, b: 0 },   // ライム（緑+黄）
-                    { r: 192, g: 255, b: 0 },   // 黄緑
-                    { r: 64, g: 255, b: 0 },    // 緑ライム
-                    
-                    { r: 0, g: 128, b: 255 },   // 空色（青+シアン）
-                    { r: 0, g: 192, b: 255 },   // ライトブルー
-                    { r: 0, g: 64, b: 255 },    // ブルー
-                    
-                    { r: 128, g: 0, b: 255 },   // 紫（青+マゼンタ）
-                    { r: 192, g: 0, b: 255 },   // バイオレット
-                    { r: 64, g: 0, b: 255 },    // インディゴ
-                    
-                    { r: 255, g: 0, b: 128 },   // ローズ（赤+マゼンタ）
-                    { r: 255, g: 0, b: 192 },   // マゼンタピンク
-                    { r: 255, g: 0, b: 64 },    // 赤マゼンタ
-                    
-                    { r: 0, g: 255, b: 128 },   // スプリンググリーン（緑+シアン）
-                    { r: 0, g: 255, b: 192 },   // アクアグリーン
-                    { r: 0, g: 255, b: 64 },    // グリーンシアン
-                    
-                    // 基本的な中間明度のグレー
-                    { r: 128, g: 128, b: 128 }, // 50%グレー
-                    { r: 192, g: 192, b: 192 }, // 75%グレー
-                    { r: 64, g: 64, b: 64 },    // 25%グレー
                 ];
                 
                 // ランダムに色を選択して配置（より多くの基本色を含む）
@@ -558,22 +528,11 @@
                     usedColors.add(colorKey);
                 });
                 
-                const numCircles = Math.floor(Math.random() * 3) + 8; // 8-10個の円
+                const numCircles = Math.floor(Math.random() * 2) + 8; // 8-9個の円（原色のみなので少し減らす）
                 
-                // 重複を避けながら追加の色を選択（原色に近い色を優先）
-                const primaryColors = colors.slice(0, 14); // 基本色と二次色を優先
-                const extendedColors = colors.slice(14);   // その他の色
-                
+                // 重複を避けながら追加の色を選択（原色のみ）
                 while (selectedColors.length < numCircles) {
-                    let randomColor;
-                    
-                    // 70%の確率で原色に近い色を選択
-                    if (Math.random() < 0.7) {
-                        randomColor = primaryColors[Math.floor(Math.random() * primaryColors.length)];
-                    } else {
-                        randomColor = extendedColors[Math.floor(Math.random() * extendedColors.length)];
-                    }
-                    
+                    const randomColor = colors[Math.floor(Math.random() * colors.length)];
                     const colorKey = `${randomColor.r},${randomColor.g},${randomColor.b}`;
                     
                     if (!usedColors.has(colorKey)) {
