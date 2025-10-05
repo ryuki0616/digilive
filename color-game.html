@@ -171,16 +171,20 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.9);
             color: white;
             padding: 30px;
             border-radius: 20px;
-            text-align: center;
-            font-size: 24px;
+            text-align: left;
+            font-size: 16px;
             z-index: 2000;
             display: none;
             backdrop-filter: blur(10px);
             border: 2px solid rgba(255, 255, 255, 0.3);
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            line-height: 1.6;
         }
 
         .result-message.show {
@@ -242,6 +246,49 @@
             border-radius: 10px;
             backdrop-filter: blur(5px);
         }
+
+        .accuracy-meter {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+            min-width: 150px;
+        }
+
+        .accuracy-score {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .accuracy-label {
+            font-size: 12px;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        .accuracy-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .accuracy-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff4444, #ffaa44, #44ff44);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
     </style>
 </head>
 <body>
@@ -267,6 +314,15 @@
     <!-- 現在の色プレビュー -->
     <div class="color-preview-label">現在の色</div>
     <div class="color-preview" id="colorPreview"></div>
+    
+    <!-- 精度メーター -->
+    <div class="accuracy-meter">
+        <div class="accuracy-score" id="accuracyScore">0</div>
+        <div class="accuracy-label">精度スコア</div>
+        <div class="accuracy-bar">
+            <div class="accuracy-fill" id="accuracyFill" style="width: 0%"></div>
+        </div>
+    </div>
     
     <!-- ゲームコンテナ -->
     <div class="game-container" id="gameContainer">
@@ -295,6 +351,8 @@
                 this.resultMessage = document.getElementById('resultMessage');
                 this.resultText = document.getElementById('resultText');
                 this.scoreElement = document.getElementById('score');
+                this.accuracyScore = document.getElementById('accuracyScore');
+                this.accuracyFill = document.getElementById('accuracyFill');
                 
                 this.init();
             }
@@ -477,12 +535,35 @@
             updateColorPreview() {
                 if (this.selectedColors.length === 0) {
                     this.colorPreview.style.backgroundColor = '#333';
+                    this.updateAccuracyMeter(0);
                     return;
                 }
                 
                 // 色を混合
                 const mixedColor = this.mixColors(this.selectedColors);
                 this.colorPreview.style.backgroundColor = `rgb(${mixedColor.r}, ${mixedColor.g}, ${mixedColor.b})`;
+                
+                // 精度スコアを更新
+                const difference = this.calculateColorDifference(mixedColor, this.targetColor);
+                const accuracy = Math.max(0, 100 - difference);
+                this.updateAccuracyMeter(accuracy);
+            }
+            
+            updateAccuracyMeter(accuracy) {
+                const roundedAccuracy = Math.round(accuracy * 10) / 10;
+                this.accuracyScore.textContent = roundedAccuracy;
+                this.accuracyFill.style.width = accuracy + '%';
+                
+                // 精度に応じて色を変更
+                if (accuracy >= 80) {
+                    this.accuracyScore.style.color = '#44ff44';
+                } else if (accuracy >= 60) {
+                    this.accuracyScore.style.color = '#ffaa44';
+                } else if (accuracy >= 40) {
+                    this.accuracyScore.style.color = '#ffaa44';
+                } else {
+                    this.accuracyScore.style.color = '#ff4444';
+                }
             }
             
             mixColors(colors) {
@@ -528,30 +609,78 @@
                 const mixedColor = this.mixColors(this.selectedColors);
                 const difference = this.calculateColorDifference(mixedColor, this.targetColor);
                 
-                let message, isSuccess;
+                // 精度スコアを計算（0-100点）
+                const accuracyScore = Math.max(0, 100 - difference);
+                const roundedAccuracy = Math.round(accuracyScore * 10) / 10;
+                
+                // 基本ポイントを計算
+                let basePoints = 0;
+                let message, isSuccess, grade;
+                
                 if (difference < 15) {
-                    message = "🎉 完璧！\nお見事！完璧に同じ色ができました！";
+                    message = "🎉 完璧！";
+                    grade = "S";
+                    basePoints = 200;
                     isSuccess = true;
-                    this.score += 200;
                 } else if (difference < 30) {
-                    message = "🌟 素晴らしい！\nほぼ完璧に近い色ができました！";
+                    message = "🌟 素晴らしい！";
+                    grade = "A";
+                    basePoints = 150;
                     isSuccess = true;
-                    this.score += 150;
                 } else if (difference < 60) {
-                    message = "😊 良い感じ！\nかなり近い色ができました！";
+                    message = "😊 良い感じ！";
+                    grade = "B";
+                    basePoints = 100;
                     isSuccess = true;
-                    this.score += 100;
                 } else if (difference < 100) {
-                    message = "😐 まあまあ...\nもう少し頑張りましょう！";
+                    message = "😐 まあまあ...";
+                    grade = "C";
+                    basePoints = 50;
                     isSuccess = false;
-                    this.score += 50;
                 } else {
-                    message = "😅 惜しい！\nもう一度挑戦してみましょう！";
+                    message = "😅 惜しい！";
+                    grade = "D";
+                    basePoints = 10;
                     isSuccess = false;
-                    this.score += 10;
                 }
                 
-                this.resultText.textContent = message;
+                // 精度ボーナスを計算
+                const precisionBonus = Math.round(accuracyScore * 2);
+                
+                // 使用した色数ボーナス（少ないほど高得点）
+                const colorBonus = Math.max(0, (4 - this.selectedColors.length) * 25);
+                
+                // 総合得点
+                const totalPoints = basePoints + precisionBonus + colorBonus;
+                
+                // 詳細な結果メッセージを作成
+                const detailedMessage = `${message}\n\n` +
+                    `📊 詳細スコア\n` +
+                    `━━━━━━━━━━━━━━━━━━━━\n` +
+                    `🎯 精度スコア: ${roundedAccuracy}/100\n` +
+                    `📏 色差: ${Math.round(difference * 10) / 10}\n` +
+                    `🏆 グレード: ${grade}\n\n` +
+                    `💰 得点内訳\n` +
+                    `━━━━━━━━━━━━━━━━━━━━\n` +
+                    `基本ポイント: ${basePoints}pt\n` +
+                    `精度ボーナス: +${precisionBonus}pt\n` +
+                    `効率ボーナス: +${colorBonus}pt\n` +
+                    `━━━━━━━━━━━━━━━━━━━━\n` +
+                    `💎 総合得点: ${totalPoints}pt`;
+                
+                // 色の詳細情報も追加
+                const colorDetails = `\n\n🎨 色の詳細\n` +
+                    `━━━━━━━━━━━━━━━━━━━━\n` +
+                    `目標色: RGB(${this.targetColor.r}, ${this.targetColor.g}, ${this.targetColor.b})\n` +
+                    `作成色: RGB(${mixedColor.r}, ${mixedColor.g}, ${mixedColor.b})\n` +
+                    `差分: R${mixedColor.r - this.targetColor.r >= 0 ? '+' : ''}${mixedColor.r - this.targetColor.r}, ` +
+                    `G${mixedColor.g - this.targetColor.g >= 0 ? '+' : ''}${mixedColor.g - this.targetColor.g}, ` +
+                    `B${mixedColor.b - this.targetColor.b >= 0 ? '+' : ''}${mixedColor.b - this.targetColor.b}`;
+                
+                const finalMessage = detailedMessage + colorDetails;
+                
+                this.resultText.innerHTML = finalMessage.replace(/\n/g, '<br>');
+                this.score += totalPoints;
                 this.scoreElement.textContent = this.score;
                 this.resultMessage.classList.add('show');
             }
