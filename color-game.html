@@ -515,14 +515,25 @@
                     { r: 0, g: 0, b: 0 },       // 黒
                 ];
                 
-                // 基本色を必ず追加
-                selectedColors.push(...basicColors);
+                // 基本色を必ず追加（重複チェック付き）
+                const usedColors = new Set();
+                basicColors.forEach(color => {
+                    const colorKey = `${color.r},${color.g},${color.b}`;
+                    selectedColors.push(color);
+                    usedColors.add(colorKey);
+                });
                 
-                const numCircles = Math.floor(Math.random() * 6) + 12; // 12-17個の円
+                const numCircles = Math.floor(Math.random() * 3) + 8; // 8-10個の円
                 
-                for (let i = 0; i < numCircles; i++) {
+                // 重複を避けながら追加の色を選択
+                while (selectedColors.length < numCircles) {
                     const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                    selectedColors.push(randomColor);
+                    const colorKey = `${randomColor.r},${randomColor.g},${randomColor.b}`;
+                    
+                    if (!usedColors.has(colorKey)) {
+                        selectedColors.push(randomColor);
+                        usedColors.add(colorKey);
+                    }
                 }
                 
                 // 円を配置
