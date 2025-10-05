@@ -605,6 +605,65 @@
                 return deltaE * 0.8;
             }
             
+            findOptimalSolution() {
+                // 利用可能な色を取得
+                const availableColors = [];
+                this.gameContainer.querySelectorAll('.color-circle').forEach(circle => {
+                    const colorData = JSON.parse(circle.dataset.color);
+                    availableColors.push(colorData);
+                });
+                
+                let bestSolution = {
+                    colors: [],
+                    difference: Infinity,
+                    accuracy: 0
+                };
+                
+                // 1色から3色までの組み合わせを試す
+                for (let numColors = 1; numColors <= 3; numColors++) {
+                    const combinations = this.getCombinations(availableColors, numColors);
+                    
+                    combinations.forEach(combination => {
+                        const mixedColor = this.mixColors(combination);
+                        const difference = this.calculateColorDifference(mixedColor, this.targetColor);
+                        
+                        if (difference < bestSolution.difference) {
+                            bestSolution = {
+                                colors: combination,
+                                difference: difference,
+                                accuracy: Math.max(0, 100 - difference)
+                            };
+                        }
+                    });
+                }
+                
+                return bestSolution;
+            }
+            
+            getCombinations(arr, size) {
+                if (size === 1) return arr.map(item => [item]);
+                if (size === arr.length) return [arr];
+                if (size > arr.length) return [];
+                
+                const combinations = [];
+                
+                function combine(start, current) {
+                    if (current.length === size) {
+                        combinations.push([...current]);
+                        return;
+                    }
+                    
+                    for (let i = start; i < arr.length; i++) {
+                        current.push(arr[i]);
+                        combine(i + 1, current);
+                        current.pop();
+                    }
+                }
+                
+                combine(0, []);
+                return combinations;
+            }
+            
             showResult() {
                 const mixedColor = this.mixColors(this.selectedColors);
                 const difference = this.calculateColorDifference(mixedColor, this.targetColor);
@@ -653,6 +712,9 @@
                 // 総合得点
                 const totalPoints = basePoints + precisionBonus + colorBonus;
                 
+                // 最適解を計算・表示
+                const optimalSolution = this.findOptimalSolution();
+                
                 // 詳細な結果メッセージを作成
                 const detailedMessage = `${message}\n\n` +
                     `📊 詳細スコア\n` +
@@ -677,7 +739,25 @@
                     `G${mixedColor.g - this.targetColor.g >= 0 ? '+' : ''}${mixedColor.g - this.targetColor.g}, ` +
                     `B${mixedColor.b - this.targetColor.b >= 0 ? '+' : ''}${mixedColor.b - this.targetColor.b}`;
                 
-                const finalMessage = detailedMessage + colorDetails;
+                // 使用した色の情報
+                const usedColorsInfo = `\n\n🎯 使用した色\n` +
+                    `━━━━━━━━━━━━━━━━━━━━\n` +
+                    this.selectedColors.map((color, index) => 
+                        `${index + 1}. RGB(${color.r}, ${color.g}, ${color.b})`
+                    ).join('\n');
+                
+                // 最適解の情報
+                const optimalInfo = `\n\n✨ 最適解（参考）\n` +
+                    `━━━━━━━━━━━━━━━━━━━━\n` +
+                    `最適な色の組み合わせ:\n` +
+                    optimalSolution.colors.map((color, index) => 
+                        `${index + 1}. RGB(${color.r}, ${color.g}, ${color.b})`
+                    ).join('\n') +
+                    `\n\nこの組み合わせで:\n` +
+                    `精度スコア: ${Math.round(optimalSolution.accuracy * 10) / 10}/100\n` +
+                    `色差: ${Math.round(optimalSolution.difference * 10) / 10}`;
+                
+                const finalMessage = detailedMessage + colorDetails + usedColorsInfo + optimalInfo;
                 
                 this.resultText.innerHTML = finalMessage.replace(/\n/g, '<br>');
                 this.score += totalPoints;
