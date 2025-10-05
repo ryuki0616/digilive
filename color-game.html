@@ -395,23 +395,40 @@
             }
             
             init() {
-                this.generateTargetColor();
                 this.generateColorCircles();
+                this.generateTargetColor(); // 色円を生成してからお題の色を生成
                 this.updateColorPreview();
                 this.updateDifficultyIndicator();
             }
             
             generateTargetColor() {
-                // ランダムなRGB色を生成
-                const r = Math.floor(Math.random() * 256);
-                const g = Math.floor(Math.random() * 256);
-                const b = Math.floor(Math.random() * 256);
+                // 表示された円からランダムに3つ選んでお題の色を生成
+                const availableColors = [];
+                this.gameContainer.querySelectorAll('.color-circle').forEach(circle => {
+                    const colorData = JSON.parse(circle.dataset.color);
+                    availableColors.push(colorData);
+                });
                 
-                this.targetColor = { r, g, b };
+                // 3つ以下の場合は利用可能な色数に合わせる
+                const numColorsToUse = Math.min(3, Math.max(1, availableColors.length));
+                
+                // ランダムに色を選択
+                const selectedColors = [];
+                const shuffled = [...availableColors].sort(() => Math.random() - 0.5);
+                
+                for (let i = 0; i < numColorsToUse; i++) {
+                    selectedColors.push(shuffled[i]);
+                }
+                
+                // 選択した色を混合してお題の色を生成
+                this.targetColor = this.mixColors(selectedColors);
                 
                 // お題の色を表示
-                this.targetColorElement.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
-                this.targetRGBElement.textContent = `RGB(${r}, ${g}, ${b})`;
+                this.targetColorElement.style.backgroundColor = `rgb(${this.targetColor.r}, ${this.targetColor.g}, ${this.targetColor.b})`;
+                this.targetRGBElement.textContent = `RGB(${this.targetColor.r}, ${this.targetColor.g}, ${this.targetColor.b})`;
+                
+                // デバッグ用：どの色から作られたかを保存
+                this.targetSourceColors = selectedColors;
             }
             
             generateColorCircles() {
@@ -625,18 +642,19 @@
                 const bestAccuracy = analysis.bestAccuracy;
                 
                 let difficulty, className, message;
+                // 新しいアルゴリズムでは常に100点達成可能
                 if (bestAccuracy >= 75) {
                     difficulty = "簡単";
                     className = "easy";
                     message = "🎯 簡単 - 100点達成可能！";
                 } else if (bestAccuracy >= 60) {
                     difficulty = "普通";
-                    className = "medium";
-                    message = "⚖️ 普通 - 高得点を狙える";
+                    className = "easy"; // 普通でも簡単扱い
+                    message = "🎯 普通 - 100点達成可能！";
                 } else {
-                    difficulty = "困難";
-                    className = "hard";
-                    message = "😤 困難 - 挑戦的！";
+                    difficulty = "挑戦";
+                    className = "medium"; // 困難でも挑戦レベル
+                    message = "⚖️ 挑戦 - 100点達成可能！";
                 }
                 
                 this.difficultyIndicator.textContent = message;
@@ -728,7 +746,7 @@
                     bestAccuracy: optimalSolution.accuracy,
                     message: isPerfectPossible ? 
                         "🎯 このお題は100点達成可能です！" : 
-                        "😅 このお題は100点達成が困難です..."
+                        "🎯 このお題も100点達成可能です！" // 新しいアルゴリズムでは常に可能
                 };
             }
             
@@ -855,7 +873,19 @@
                     `${perfectAnalysis.message}\n` +
                     `理論上の最高精度: ${Math.round(optimalSolution.accuracy * 10) / 10}/100`;
                 
-                const finalMessage = detailedMessage + colorDetails + usedColorsInfo + optimalInfo;
+                // お題の色の作り方（デバッグ情報）
+                let targetSourceInfo = "";
+                if (this.targetSourceColors && this.targetSourceColors.length > 0) {
+                    targetSourceInfo = `\n\n🔍 お題の色の作り方（ヒント）\n` +
+                        `━━━━━━━━━━━━━━━━━━━━\n` +
+                        `このお題は以下の色から作られました:\n` +
+                        this.targetSourceColors.map((color, index) => 
+                            `${index + 1}. RGB(${color.r}, ${color.g}, ${color.b})`
+                        ).join('\n') +
+                        `\n\n💡 この組み合わせを選択すれば完璧な色が作れます！`;
+                }
+                
+                const finalMessage = detailedMessage + colorDetails + usedColorsInfo + optimalInfo + targetSourceInfo;
                 
                 this.resultText.innerHTML = finalMessage.replace(/\n/g, '<br>');
                 this.score += totalPoints;
