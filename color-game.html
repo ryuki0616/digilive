@@ -484,70 +484,72 @@
             }
             
             generateColorCircles() {
-                // 既存の色円をクリア
-                this.gameContainer.querySelectorAll('.color-circle').forEach(circle => {
-                    circle.remove();
-                });
-                
-                const colors = [
-                    // 基本色（RGBの三原色）
-                    { r: 255, g: 0, b: 0 },     // 赤
-                    { r: 0, g: 255, b: 0 },     // 緑
-                    { r: 0, g: 0, b: 255 },     // 青
+                // 既存の色円をクリア（効率的に）
+                const existingCircles = this.gameContainer.querySelectorAll('.color-circle');
+                if (existingCircles.length > 0) {
+                    // 一度にすべて削除
+                    const fragment = document.createDocumentFragment();
+                    existingCircles.forEach(circle => {
+                        circle.style.opacity = '0';
+                        circle.style.transform = 'scale(0)';
+                    });
                     
-                    // 二次色（補色）
-                    { r: 255, g: 255, b: 0 },   // 黄
-                    { r: 255, g: 0, b: 255 },   // マゼンタ
-                    { r: 0, g: 255, b: 255 },   // シアン
-                    
-                    // 明度の極値
-                    { r: 255, g: 255, b: 255 }, // 白
-                    { r: 0, g: 0, b: 0 },       // 黒
-                ];
-                
-                // ランダムに色を選択して配置（より多くの基本色を含む）
-                const selectedColors = [];
-                
-                // 基本色を必ず含める
-                const basicColors = [
-                    { r: 255, g: 0, b: 0 },     // 赤
-                    { r: 0, g: 255, b: 0 },     // 緑
-                    { r: 0, g: 0, b: 255 },     // 青
-                    { r: 255, g: 255, b: 0 },   // 黄
-                    { r: 255, g: 0, b: 255 },   // マゼンタ
-                    { r: 0, g: 255, b: 255 },   // シアン
-                    { r: 255, g: 255, b: 255 }, // 白
-                    { r: 0, g: 0, b: 0 },       // 黒
-                ];
-                
-                // 基本色を必ず追加（重複チェック付き）
-                const usedColors = new Set();
-                basicColors.forEach(color => {
-                    const colorKey = `${color.r},${color.g},${color.b}`;
-                    selectedColors.push(color);
-                    usedColors.add(colorKey);
-                });
-                
-                const numCircles = Math.floor(Math.random() * 2) + 8; // 8-9個の円（原色のみなので少し減らす）
-                
-                // 重複を避けながら追加の色を選択（原色のみ）
-                while (selectedColors.length < numCircles) {
-                    const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                    const colorKey = `${randomColor.r},${randomColor.g},${randomColor.b}`;
-                    
-                    if (!usedColors.has(colorKey)) {
-                        selectedColors.push(randomColor);
-                        usedColors.add(colorKey);
-                    }
+                    // アニメーション完了後に削除
+                    setTimeout(() => {
+                        existingCircles.forEach(circle => circle.remove());
+                        this.createColorCirclesBatch();
+                    }, 300);
+                } else {
+                    this.createColorCirclesBatch();
                 }
-                
-                // 円を配置
-                selectedColors.forEach((color, index) => {
-                    this.createColorCircle(color, index);
-                });
             }
             
-            createColorCircle(color, index) {
+            createColorCirclesBatch() {
+                // パフォーマンス最適化：事前定義された色セットを使用
+                const colorSets = [
+                    // セット1: 基本色のみ
+                    [
+                        { r: 255, g: 0, b: 0 },     // 赤
+                        { r: 0, g: 255, b: 0 },     // 緑
+                        { r: 0, g: 0, b: 255 },     // 青
+                        { r: 255, g: 255, b: 0 },   // 黄
+                        { r: 255, g: 0, b: 255 },   // マゼンタ
+                        { r: 0, g: 255, b: 255 },   // シアン
+                        { r: 255, g: 255, b: 255 }, // 白
+                        { r: 0, g: 0, b: 0 },       // 黒
+                    ],
+                    // セット2: 中間色を含む
+                    [
+                        { r: 255, g: 0, b: 0 },     // 赤
+                        { r: 0, g: 255, b: 0 },     // 緑
+                        { r: 0, g: 0, b: 255 },     // 青
+                        { r: 255, g: 128, b: 0 },   // オレンジ
+                        { r: 128, g: 0, b: 255 },   // 紫
+                        { r: 0, g: 255, b: 128 },   // ライム
+                        { r: 255, g: 255, b: 255 }, // 白
+                        { r: 64, g: 64, b: 64 },    // グレー
+                    ]
+                ];
+                
+                // ランダムにセットを選択
+                const selectedSet = colorSets[Math.floor(Math.random() * colorSets.length)];
+                
+                // 色円を段階的に作成（パフォーマンス向上）
+                const fragment = document.createDocumentFragment();
+                
+                selectedSet.forEach((color, index) => {
+                    const circle = this.createColorCircleElement(color, index);
+                    fragment.appendChild(circle);
+                });
+                
+                // 一度にDOMに追加
+                this.gameContainer.appendChild(fragment);
+                
+                // アニメーションを段階的に実行
+                this.animateColorCircles();
+            }
+            
+            createColorCircleElement(color, index) {
                 const circle = document.createElement('div');
                 circle.className = 'color-circle';
                 circle.style.backgroundColor = `rgb(${color.r}, ${color.g}, ${color.b})`;
@@ -583,7 +585,21 @@
                 // データ属性に色情報を保存
                 circle.dataset.color = JSON.stringify(color);
                 
-                this.gameContainer.appendChild(circle);
+                return circle;
+            }
+            
+            animateColorCircles() {
+                const circles = this.gameContainer.querySelectorAll('.color-circle');
+                circles.forEach((circle, index) => {
+                    circle.style.opacity = '0';
+                    circle.style.transform = 'scale(0)';
+                    
+                    setTimeout(() => {
+                        circle.style.transition = 'all 0.5s ease-out';
+                        circle.style.opacity = '1';
+                        circle.style.transform = 'scale(1)';
+                    }, index * 50); // 50ms間隔で順次表示
+                });
             }
             
             selectColor(color, circleElement) {
@@ -802,26 +818,41 @@
             }
             
             getCombinations(arr, size) {
+                // パフォーマンス最適化：小さいサイズの場合は直接計算
                 if (size === 1) return arr.map(item => [item]);
                 if (size === arr.length) return [arr];
                 if (size > arr.length) return [];
                 
+                // メモ化による最適化
+                const cache = new Map();
+                const key = `${arr.length}-${size}`;
+                
+                if (cache.has(key)) {
+                    return cache.get(key);
+                }
+                
                 const combinations = [];
                 
-                function combine(start, current) {
+                // 再帰の深さを制限してメモリ使用量を抑制
+                function combine(start, current, depth = 0) {
+                    if (depth > 10) return; // 再帰の深さ制限
+                    
                     if (current.length === size) {
                         combinations.push([...current]);
                         return;
                     }
                     
-                    for (let i = start; i < arr.length; i++) {
+                    for (let i = start; i < arr.length && combinations.length < 100; i++) {
                         current.push(arr[i]);
-                        combine(i + 1, current);
+                        combine(i + 1, current, depth + 1);
                         current.pop();
                     }
                 }
                 
                 combine(0, []);
+                
+                // 結果をキャッシュに保存
+                cache.set(key, combinations);
                 return combinations;
             }
             
@@ -1004,18 +1035,24 @@
                         circle.classList.remove('selected');
                     });
                     
-                    // ゲーム要素を段階的に再生成（重い処理を分散）
-                    setTimeout(() => {
+                    // パフォーマンス最適化：非同期処理で重い処理を分散
+                    requestAnimationFrame(() => {
                         this.generateColorCircles();
-                        setTimeout(() => {
+                        
+                        requestAnimationFrame(() => {
                             this.generateTargetColor();
-                            setTimeout(() => {
+                            
+                            requestAnimationFrame(() => {
                                 this.updateColorPreview();
                                 this.updateDifficultyIndicator();
-                                this.updateDebugAnswer();
-                            }, 50);
-                        }, 50);
-                    }, 50);
+                                
+                                // デバッグ情報は最後に実行（最も重い処理）
+                                setTimeout(() => {
+                                    this.updateDebugAnswer();
+                                }, 100);
+                            });
+                        });
+                    });
                     
                 } catch (error) {
                     console.error('ゲームリセットエラー:', error);
@@ -1038,45 +1075,71 @@
             }
         }
         
-        // ページ読み込み時にゲーム開始
+        // ページ読み込み時にゲーム開始（パフォーマンス最適化）
         document.addEventListener('DOMContentLoaded', () => {
-            try {
-                startNewGame();
-                console.log('✅ 色合わせゲームが正常に開始されました');
-            } catch (error) {
-                console.error('❌ ゲーム開始エラー:', error);
-                
-                // エラー表示
-                const errorDiv = document.createElement('div');
-                errorDiv.style.cssText = `
-                    position: fixed;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    background: rgba(255, 0, 0, 0.9);
-                    color: white;
-                    padding: 30px;
-                    border-radius: 15px;
-                    z-index: 10000;
-                    text-align: center;
-                    font-family: Arial, sans-serif;
-                `;
-                errorDiv.innerHTML = `
-                    <h2>⚠️ ゲームエラー</h2>
-                    <p>色合わせゲームでエラーが発生しました。</p>
-                    <p style="font-size: 12px; margin-top: 10px;">${error.message}</p>
-                    <button onclick="location.reload()" style="
-                        background: #3498db;
-                        color: white;
-                        border: none;
-                        padding: 10px 20px;
-                        border-radius: 5px;
-                        margin-top: 15px;
-                        cursor: pointer;
-                    ">ページを再読み込み</button>
-                `;
-                document.body.appendChild(errorDiv);
-            }
+            // ローディング表示
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = 'loading';
+            loadingDiv.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 30px;
+                border-radius: 15px;
+                z-index: 10000;
+                text-align: center;
+                font-family: Arial, sans-serif;
+            `;
+            loadingDiv.innerHTML = `
+                <h2>🎨 色合わせゲーム</h2>
+                <p>ゲームを読み込み中...</p>
+                <div style="width: 50px; height: 50px; border: 3px solid #fff; border-top: 3px solid transparent; border-radius: 50%; animation: spin 1s linear infinite; margin: 20px auto;"></div>
+            `;
+            
+            // CSSアニメーションを追加
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(style);
+            document.body.appendChild(loadingDiv);
+            
+            // 非同期でゲームを初期化
+            setTimeout(() => {
+                try {
+                    startNewGame();
+                    console.log('✅ 色合わせゲームが正常に開始されました');
+                    
+                    // ローディング表示を削除
+                    loadingDiv.remove();
+                    style.remove();
+                    
+                } catch (error) {
+                    console.error('❌ ゲーム開始エラー:', error);
+                    
+                    // エラー表示
+                    loadingDiv.innerHTML = `
+                        <h2>⚠️ ゲームエラー</h2>
+                        <p>色合わせゲームでエラーが発生しました。</p>
+                        <p style="font-size: 12px; margin-top: 10px;">${error.message}</p>
+                        <button onclick="location.reload()" style="
+                            background: #3498db;
+                            color: white;
+                            border: none;
+                            padding: 10px 20px;
+                            border-radius: 5px;
+                            margin-top: 15px;
+                            cursor: pointer;
+                        ">ページを再読み込み</button>
+                    `;
+                }
+            }, 500); // 500ms後にゲーム開始
         });
         
         // エラーハンドリング
