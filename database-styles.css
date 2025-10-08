@@ -303,9 +303,15 @@
 
 .overview-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.5rem;
     margin-bottom: 2rem;
+}
+
+.overview-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
 }
 
 .overview-card {
@@ -313,9 +319,10 @@
     border: 1px solid #e0e0e0;
     border-radius: 15px;
     padding: 1.5rem;
-    text-align: center;
     transition: all 0.3s ease;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
 }
 
 .overview-card:hover {
@@ -324,9 +331,19 @@
     border-color: #333333;
 }
 
+.overview-card:hover .card-arrow {
+    transform: translateX(5px);
+    color: #333333;
+}
+
 .card-icon {
     font-size: 3rem;
     margin-bottom: 1rem;
+    text-align: center;
+}
+
+.card-content {
+    text-align: center;
 }
 
 .card-content h3 {
@@ -334,11 +351,47 @@
     color: #000000;
     margin-bottom: 0.5rem;
     font-weight: 600;
+    font-family: 'Courier New', monospace;
 }
 
 .card-content p {
     color: #666666;
     line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.card-stats {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.field-count {
+    background: #e74c3c;
+    color: #ffffff;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.table-type {
+    background: #3498db;
+    color: #ffffff;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.card-arrow {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    color: #cccccc;
+    transition: all 0.3s ease;
 }
 
 /* ER図セクション */

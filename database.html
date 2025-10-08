@@ -125,34 +125,80 @@
         <section class="database-overview">
             <h2>📊 データベース概要</h2>
             <div class="overview-cards">
-                <div class="overview-card">
-                    <div class="card-icon">👥</div>
-                    <div class="card-content">
-                        <h3>参加者管理</h3>
-                        <p>NFCカードと連携した参加者情報とステータス管理</p>
+                <a href="table-participants.html" class="overview-card-link">
+                    <div class="overview-card">
+                        <div class="card-icon">👥</div>
+                        <div class="card-content">
+                            <h3>participants</h3>
+                            <p>参加者情報とステータス管理</p>
+                            <div class="card-stats">
+                                <span class="field-count">12フィールド</span>
+                                <span class="table-type">メインテーブル</span>
+                            </div>
+                        </div>
+                        <div class="card-arrow">→</div>
                     </div>
-                </div>
-                <div class="overview-card">
-                    <div class="card-icon">🎮</div>
-                    <div class="card-content">
-                        <h3>ブース管理</h3>
-                        <p>ゲームブースとショップブースの情報管理</p>
+                </a>
+                
+                <a href="table-booths.html" class="overview-card-link">
+                    <div class="overview-card">
+                        <div class="card-icon">🎮</div>
+                        <div class="card-content">
+                            <h3>booths</h3>
+                            <p>ブース情報管理</p>
+                            <div class="card-stats">
+                                <span class="field-count">4フィールド</span>
+                                <span class="table-type">マスターテーブル</span>
+                            </div>
+                        </div>
+                        <div class="card-arrow">→</div>
                     </div>
-                </div>
-                <div class="overview-card">
-                    <div class="card-icon">📈</div>
-                    <div class="card-content">
-                        <h3>活動ログ</h3>
-                        <p>参加者の活動履歴とステータス変動の記録</p>
+                </a>
+                
+                <a href="table-activity-logs.html" class="overview-card-link">
+                    <div class="overview-card">
+                        <div class="card-icon">📈</div>
+                        <div class="card-content">
+                            <h3>activity_logs</h3>
+                            <p>活動履歴とステータス変動</p>
+                            <div class="card-stats">
+                                <span class="field-count">10フィールド</span>
+                                <span class="table-type">ログテーブル</span>
+                            </div>
+                        </div>
+                        <div class="card-arrow">→</div>
                     </div>
-                </div>
-                <div class="overview-card">
-                    <div class="card-icon">🛒</div>
-                    <div class="card-content">
-                        <h3>ショップ機能</h3>
-                        <p>アイテム購入とステータスアップシステム</p>
+                </a>
+                
+                <a href="table-shop-items.html" class="overview-card-link">
+                    <div class="overview-card">
+                        <div class="card-icon">🛍️</div>
+                        <div class="card-content">
+                            <h3>shop_items</h3>
+                            <p>ショップアイテム管理</p>
+                            <div class="card-stats">
+                                <span class="field-count">6フィールド</span>
+                                <span class="table-type">マスターテーブル</span>
+                            </div>
+                        </div>
+                        <div class="card-arrow">→</div>
                     </div>
-                </div>
+                </a>
+                
+                <a href="table-purchase-logs.html" class="overview-card-link">
+                    <div class="overview-card">
+                        <div class="card-icon">🛒</div>
+                        <div class="card-content">
+                            <h3>purchase_logs</h3>
+                            <p>購入履歴管理</p>
+                            <div class="card-stats">
+                                <span class="field-count">6フィールド</span>
+                                <span class="table-type">ログテーブル</span>
+                            </div>
+                        </div>
+                        <div class="card-arrow">→</div>
+                    </div>
+                </a>
             </div>
         </section>
 
