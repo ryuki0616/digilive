@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <!-- メタデータ設定 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="デジタライブ・アドベンチャーのデータベース構造を視覚的に表示">
+    <meta name="keywords" content="データベース, ER図, テーブル設計, デジタライブ">
+    <meta name="author" content="Digital Live Adventure Team">
+    
+    <!-- ページタイトル -->
+    <title>データベース表示 | ディジタライブ・アドベンチャー</title>
+    
+    <!-- 外部スタイルシート -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="database-styles.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- メインコンテナ -->
+    <div class="container">
+        <!-- ヘッダーセクション -->
+        <header class="page-header">
+            <h1>🗄️ データベース構造</h1>
+            <p class="page-subtitle">デジタライブ・アドベンチャーのデータベース設計</p>
+            
+            <!-- 戻るボタン -->
+            <a href="index.html" class="back-button">
+                <span class="back-icon">←</span>
+                <span class="back-text">ホームに戻る</span>
+            </a>
+        </header>
+
+        <!-- データベース概要セクション -->
+        <section class="database-overview">
+            <h2>📊 データベース概要</h2>
+            <div class="overview-cards">
+                <div class="overview-card">
+                    <div class="card-icon">👥</div>
+                    <div class="card-content">
+                        <h3>参加者管理</h3>
+                        <p>NFCカードと連携した参加者情報とステータス管理</p>
+                    </div>
+                </div>
+                <div class="overview-card">
+                    <div class="card-icon">🎮</div>
+                    <div class="card-content">
+                        <h3>ブース管理</h3>
+                        <p>ゲームブースとショップブースの情報管理</p>
+                    </div>
+                </div>
+                <div class="overview-card">
+                    <div class="card-icon">📈</div>
+                    <div class="card-content">
+                        <h3>活動ログ</h3>
+                        <p>参加者の活動履歴とステータス変動の記録</p>
+                    </div>
+                </div>
+                <div class="overview-card">
+                    <div class="card-icon">🛒</div>
+                    <div class="card-content">
+                        <h3>ショップ機能</h3>
+                        <p>アイテム購入とステータスアップシステム</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ER図表示セクション -->
+        <section class="er-diagram-section">
+            <h2>🔗 エンティティ関係図 (ER Diagram)</h2>
+            <div class="diagram-container">
+                <div class="er-diagram" id="erDiagram">
+                    <!-- ER図はJavaScriptで動的に生成 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- テーブル詳細セクション -->
+        <section class="table-details">
+            <h2>📋 テーブル詳細</h2>
+            <div class="table-tabs">
+                <button class="tab-button active" data-table="participants">参加者</button>
+                <button class="tab-button" data-table="booths">ブース</button>
+                <button class="tab-button" data-table="activity_logs">活動ログ</button>
+                <button class="tab-button" data-table="shop_items">ショップアイテム</button>
+                <button class="tab-button" data-table="purchase_logs">購入ログ</button>
+            </div>
+            
+            <div class="table-content">
+                <!-- テーブル詳細はJavaScriptで動的に生成 -->
+            </div>
+        </section>
+
+        <!-- データフローセクション -->
+        <section class="data-flow">
+            <h2>🔄 データフロー</h2>
+            <div class="flow-container">
+                <div class="flow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>参加者登録</h3>
+                        <p>NFCカードと参加者情報を紐づけ</p>
+                    </div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>ブース体験</h3>
+                        <p>ゲームでステータスと所持金を獲得</p>
+                    </div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>ショップ利用</h3>
+                        <p>所持金でアイテムを購入</p>
+                    </div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>ランキング生成</h3>
+                        <p>リアルタイムでランキングを表示</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 統計情報セクション -->
+        <section class="statistics">
+            <h2>📊 データベース統計</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalTables">5</div>
+                    <div class="stat-label">テーブル数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalFields">25</div>
+                    <div class="stat-label">フィールド数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalRelations">4</div>
+                    <div class="stat-label">関係数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalIndexes">8</div>
+                    <div class="stat-label">インデックス数</div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- JavaScriptファイル -->
+    <script src="script.js"></script>
+    <script src="database-script.js"></script>
+</body>
+</html>

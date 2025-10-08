@@ -1,119 +1,102 @@
-# SHOW TABLE STATUS の結果の見方
+erDiagram
+    participants {
+        INT participant_id PK "参加者ID"
+        VARCHAR nfc_card_id "NFCカードID"
+        VARCHAR nickname "ニックネーム"
+        INT age "年齢"
+        INT power "パワー"
+        INT stamina "スタミナ"
+        INT speed "スピード"
+        INT technique "テクニック"
+        INT luck "ラック"
+        INT money "所持金"
+        DATETIME created_at "登録日時"
+        DATETIME updated_at "更新日時"
+    }
 
-## 表示されたテーブル情報の解説
+    booths {
+        INT booth_id PK "ブースID"
+        VARCHAR booth_name "ブース名"
+        TEXT description "説明"
+        VARCHAR booth_type "ブースタイプ"
+    }
 
-### 基本情報
-- **Name**: テーブル名
-  - `booths`: ブース情報テーブル
-  - `participants`: 参加者情報テーブル  
-  - `status_logs`: ステータスログテーブル
+    activity_logs {
+        INT log_id PK "ログID"
+        INT participant_id FK "参加者ID"
+        INT booth_id FK "ブースID"
+        INT money_change "所持金変動"
+        INT power_change "パワー変動"
+        INT stamina_change "スタミナ変動"
+        INT speed_change "スピード変動"
+        INT technique_change "テクニック変動"
+        INT luck_change "ラック変動"
+        DATETIME created_at "記録日時"
+    }
 
-### エンジン・バージョン情報
-- **Engine**: ストレージエンジン（全てInnoDB）
-- **Version**: テーブルフォーマットのバージョン（10）
-- **Row_format**: 行フォーマット（Dynamic）
+    shop_items {
+        INT item_id PK "アイテムID"
+        VARCHAR item_name "アイテム名"
+        INT price "価格"
+        VARCHAR effect_type "効果タイプ"
+        INT effect_value "効果値"
+        TEXT description "説明"
+    }
 
-### データ量情報
-- **Rows**: テーブル内の推定行数
-  - `booths`: 5行
-  - `participants`: 0行（空のテーブル）
-  - `status_logs`: 0行（空のテーブル）
+    purchase_logs {
+        INT purchase_id PK "購入ID"
+        INT participant_id FK "参加者ID"
+        INT item_id FK "アイテムID"
+        INT quantity "数量"
+        INT total_price "合計価格"
+        DATETIME created_at "購入日時"
+    }
 
-- **Avg_row_length**: 平均行長（バイト）
-  - `booths`: 3,276バイト（約3.2KB）
-
-- **Data_length**: データ部分のサイズ（バイト）
-  - 全て16,384バイト（16KB）- 最小サイズ
-
-- **Index_length**: インデックス部分のサイズ（バイト）
-  - `booths`: 0バイト（インデックスなし）
-  - `participants`: 16,384バイト（16KB）
-  - `status_logs`: 32,768バイト（32KB）
-
-### その他の情報
-- **Auto_increment**: 次のAUTO_INCREMENT値
-  - `booths`: 6（現在5行なので次は6）
-  - 他は1（空のテーブル）
-
-- **Create_time**: テーブル作成日時
-  - 全て2025-09-17 05:31:39に作成
-
-- **Collation**: 文字セット照合順序
-  - 全て`utf8mb4_unicode_ci`
-
-## この結果から読み取れること
-
-### 1. テーブルの使用状況
-```sql
--- 実際の行数を確認（推定値ではない）
-SELECT COUNT(*) FROM booths;
-SELECT COUNT(*) FROM participants;
-SELECT COUNT(*) FROM status_logs;
+    participants ||--o{ activity_logs : "has"
+    booths ||--o{ activity_logs : "is related to"
+    participants ||--o{ purchase_logs : "buys"
+    shop_items ||--o{ purchase_logs : "is purchased"
 ```
 
-### 2. データサイズの確認
-```sql
--- より詳細なサイズ情報
-SELECT 
-    table_name,
-    ROUND(((data_length + index_length) / 1024), 2) AS 'Total Size (KB)',
-    ROUND((data_length / 1024), 2) AS 'Data Size (KB)',
-    ROUND((index_length / 1024), 2) AS 'Index Size (KB)',
-    table_rows
-FROM information_schema.tables 
-WHERE table_schema = DATABASE()
-ORDER BY (data_length + index_length) DESC;
-```
+## テーブル設計の詳細
 
-### 3. テーブル構造の確認
-```sql
--- 各テーブルの構造を確認
-DESCRIBE booths;
-DESCRIBE participants;
-DESCRIBE status_logs;
+### 1. participants（参加者テーブル）
+- **主キー**: participant_id
+- **NFCカード管理**: nfc_card_idでNFCカードと紐づけ
+- **ステータス管理**: 5つのステータス（パワー、スタミナ、スピード、テクニック、ラック）
+- **所持金管理**: moneyでゲーム内通貨を管理
 
--- または
-SHOW CREATE TABLE booths;
-SHOW CREATE TABLE participants;
-SHOW CREATE TABLE status_logs;
-```
+### 2. booths（ブーステーブル）
+- **主キー**: booth_id
+- **ブース情報**: 名前、説明、タイプを管理
+- **ブースタイプ**: ゲームブース、ショップブースなど
 
-## 分析結果
+### 3. activity_logs（活動ログテーブル）
+- **主キー**: log_id
+- **外部キー**: participant_id, booth_id
+- **変動記録**: 各ステータスと所持金の変動を記録
+- **履歴管理**: 全ての活動履歴を保持
 
-### 現在の状況
-- **boothsテーブル**: 5行のデータがあり、実際に使用されている
-- **participantsテーブル**: 空のテーブル（インデックスは設定済み）
-- **status_logsテーブル**: 空のテーブル（インデックスは設定済み）
+### 4. shop_items（ショップアイテムテーブル）
+- **主キー**: item_id
+- **アイテム情報**: 名前、価格、効果を管理
+- **効果システム**: ステータスアップアイテムを提供
 
-### 推奨アクション
-1. **participants**と**status_logs**テーブルが空なので、用途を確認
-2. **booths**テーブルは使用中なので、定期的なメンテナンスを検討
-3. インデックスの使用状況を確認
+### 5. purchase_logs（購入ログテーブル）
+- **主キー**: purchase_id
+- **外部キー**: participant_id, item_id
+- **購入履歴**: ショップでの購入記録を管理
 
-```sql
--- インデックスの確認
-SHOW INDEX FROM booths;
-SHOW INDEX FROM participants;
-SHOW INDEX FROM status_logs;
-```
+## データベースの関係性
 
-## 定期的な監視コマンド
+### 主要な関係
+1. **participants ↔ activity_logs**: 1対多（1人の参加者が複数の活動ログを持つ）
+2. **booths ↔ activity_logs**: 1対多（1つのブースが複数の活動ログを持つ）
+3. **participants ↔ purchase_logs**: 1対多（1人の参加者が複数の購入記録を持つ）
+4. **shop_items ↔ purchase_logs**: 1対多（1つのアイテムが複数の購入記録を持つ）
 
-```sql
--- テーブルサイズの推移を監視
-SELECT 
-    table_name,
-    table_rows,
-    ROUND(((data_length + index_length) / 1024 / 1024), 2) AS 'Size (MB)',
-    create_time,
-    update_time
-FROM information_schema.tables 
-WHERE table_schema = DATABASE()
-ORDER BY (data_length + index_length) DESC;
-
--- 空のテーブルの確認
-SELECT table_name, table_rows 
-FROM information_schema.tables 
-WHERE table_schema = DATABASE() 
-AND table_rows = 0;
-```
+### データフロー
+1. **参加者登録**: participantsテーブルに新規参加者を追加
+2. **ブース体験**: activity_logsテーブルに活動記録を追加
+3. **ショップ利用**: purchase_logsテーブルに購入記録を追加
+4. **ランキング生成**: 各テーブルからデータを集計してランキングを作成

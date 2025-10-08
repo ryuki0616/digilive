@@ -61,6 +61,61 @@ p {
 }
 
 /* ========================================
+   ナビゲーションリンク
+   ======================================== */
+
+/* ナビゲーションリンクコンテナ */
+.nav-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+/* ナビゲーションボタン */
+.nav-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 50px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    font-weight: 600;
+    font-size: 1.1rem;
+    backdrop-filter: blur(10px);
+    animation: fadeInUp 1s ease-out 0.4s both;
+}
+
+/* ナビゲーションボタンのホバー効果 */
+.nav-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
+}
+
+/* ボタンアイコン */
+.button-icon {
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+/* ホバー時のアイコンアニメーション */
+.nav-button:hover .button-icon {
+    transform: scale(1.1);
+}
+
+/* ボタンテキスト */
+.button-text {
+    font-weight: 600;
+}
+
+/* ========================================
    ボタンスタイル（将来使用予定）
    ======================================== */
 
@@ -166,6 +221,18 @@ p {
     /* 本文サイズの調整 */
     p {
         font-size: 1rem;                  /* フォントサイズを縮小 */
+    }
+    
+    /* ナビゲーションリンクの調整 */
+    .nav-links {
+        flex-direction: column;           /* 縦並び */
+        align-items: center;              /* 中央揃え */
+    }
+    
+    .nav-button {
+        width: 100%;                      /* 全幅使用 */
+        max-width: 300px;                 /* 最大幅制限 */
+        justify-content: center;          /* 中央揃え */
     }
     
     /* ボタンの調整 */
