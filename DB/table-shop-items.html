@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <!-- メタデータ設定 -->
+    <!-- メタチE�Eタ設宁E-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="shop_itemsテーブルの詳細情報 - デジタライブ・アドベンチャー">
-    <meta name="keywords" content="shop_items, ショップアイテム, データベース, テーブル">
+    <meta name="description" content="shop_itemsチE�Eブルの詳細惁E�� - チE��タライブ�Eアド�Eンチャー">
+    <meta name="keywords" content="shop_items, ショチE�EアイチE��, チE�Eタベ�Eス, チE�Eブル">
     <meta name="author" content="Digital Live Adventure Team">
     
-    <!-- ページタイトル -->
-    <title>shop_items テーブル | ディジタライブ・アドベンチャー</title>
+    <!-- ペ�Eジタイトル -->
+    <title>shop_items チE�Eブル | チE��ジタライブ�Eアド�Eンチャー</title>
     
-    <!-- 外部スタイルシート -->
-    <link rel="stylesheet" href="styles.css">
+    <!-- 外部スタイルシーチE-->
+    <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="table-styles.css">
     
     <!-- Google Fonts -->
@@ -21,34 +21,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- メインコンテナ -->
+    <!-- メインコンチE�� -->
     <div class="container">
         <!-- ヘッダーセクション -->
         <header class="page-header">
             <div class="header-top">
                 <a href="database.html" class="back-button">
-                    <span class="back-icon">←</span>
-                    <span class="back-text">データベース一覧</span>
+                    <span class="back-icon">ↁE/span>
+                    <span class="back-text">チE�Eタベ�Eス一覧</span>
                 </a>
-                <h1>🛍️ shop_items テーブル</h1>
+                <h1>🛍�E�Eshop_items チE�Eブル</h1>
                 <div class="header-actions">
-                    <a href="index.html" class="home-button">
+                    <a href="../index.html" class="home-button">
                         <span class="home-icon">🏠</span>
-                        <span class="home-text">ホーム</span>
+                        <span class="home-text">ホ�Eム</span>
                     </a>
                 </div>
             </div>
-            <p class="page-subtitle">ショップアイテムの情報管理</p>
+            <p class="page-subtitle">ショチE�EアイチE��の惁E��管琁E/p>
         </header>
 
-        <!-- テーブル概要セクション -->
+        <!-- チE�Eブル概要セクション -->
         <section class="table-overview">
             <div class="overview-card">
                 <div class="card-header">
-                    <div class="table-icon">🛍️</div>
+                    <div class="table-icon">🛍�E�E/div>
                     <div class="table-info">
                         <h2>shop_items</h2>
-                        <p>ステータスアップアイテムの情報を管理するマスターテーブル</p>
+                        <p>スチE�EタスアチE�EアイチE��の惁E��を管琁E��る�EスターチE�Eブル</p>
                     </div>
                 </div>
                 <div class="table-stats">
@@ -62,15 +62,15 @@
                     </div>
                     <div class="stat-item">
                         <span class="stat-label">外部キー</span>
-                        <span class="stat-value">なし</span>
+                        <span class="stat-value">なぁE/span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- テーブル構造セクション -->
+        <!-- チE�Eブル構造セクション -->
         <section class="table-structure">
-            <h2>📋 テーブル構造</h2>
+            <h2>📋 チE�Eブル構造</h2>
             <div class="structure-content">
                 <div class="field-list">
                     <div class="field-item primary-key">
@@ -82,7 +82,7 @@
                             <span class="constraint pk">PRIMARY KEY</span>
                             <span class="constraint auto">AUTO_INCREMENT</span>
                         </div>
-                        <div class="field-description">アイテムを一意に識別するID</div>
+                        <div class="field-description">アイチE��を一意に識別するID</div>
                     </div>
 
                     <div class="field-item required">
@@ -93,7 +93,7 @@
                         <div class="field-constraints">
                             <span class="constraint not-null">NOT NULL</span>
                         </div>
-                        <div class="field-description">アイテムの名前</div>
+                        <div class="field-description">アイチE��の名前</div>
                     </div>
 
                     <div class="field-item required">
@@ -104,7 +104,7 @@
                         <div class="field-constraints">
                             <span class="constraint not-null">NOT NULL</span>
                         </div>
-                        <div class="field-description">アイテムの価格（所持金）</div>
+                        <div class="field-description">アイチE��の価格�E�所持E�߁E�E/div>
                     </div>
 
                     <div class="field-item required">
@@ -115,7 +115,7 @@
                         <div class="field-constraints">
                             <span class="constraint not-null">NOT NULL</span>
                         </div>
-                        <div class="field-description">効果のタイプ（power, stamina, speed, technique, luck）</div>
+                        <div class="field-description">効果�Eタイプ！Eower, stamina, speed, technique, luck�E�E/div>
                     </div>
 
                     <div class="field-item required">
@@ -126,7 +126,7 @@
                         <div class="field-constraints">
                             <span class="constraint not-null">NOT NULL</span>
                         </div>
-                        <div class="field-description">効果の値（ステータス上昇量）</div>
+                        <div class="field-description">効果�E値�E�スチE�Eタス上�E量！E/div>
                     </div>
 
                     <div class="field-item optional">
@@ -137,27 +137,27 @@
                         <div class="field-constraints">
                             <span class="constraint nullable">NULLABLE</span>
                         </div>
-                        <div class="field-description">アイテムの詳細説明</div>
+                        <div class="field-description">アイチE��の詳細説昁E/div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- アイテムカテゴリセクション -->
+        <!-- アイチE��カチE��リセクション -->
         <section class="item-categories">
-            <h2>🎯 アイテムカテゴリ</h2>
+            <h2>🎯 アイチE��カチE��リ</h2>
             <div class="categories-content">
                 <div class="category-card power-items">
                     <div class="category-header">
                         <span class="category-icon">💪</span>
-                        <h3>パワー系アイテム</h3>
+                        <h3>パワー系アイチE��</h3>
                     </div>
                     <div class="category-description">
-                        <p>パワーステータスを上昇させるアイテム</p>
+                        <p>パワースチE�Eタスを上�EさせるアイチE��</p>
                         <ul>
-                            <li><strong>パワードリンク</strong>: 価格 100, 効果 +10</li>
-                            <li><strong>筋力強化剤</strong>: 価格 150, 効果 +15</li>
-                            <li><strong>超パワーエリクサー</strong>: 価格 200, 効果 +20</li>
+                            <li><strong>パワードリンク</strong>: 価格 100, 効极E+10</li>
+                            <li><strong>筋力強化剤</strong>: 価格 150, 効极E+15</li>
+                            <li><strong>趁E��ワーエリクサー</strong>: 価格 200, 効极E+20</li>
                         </ul>
                     </div>
                 </div>
@@ -165,14 +165,14 @@
                 <div class="category-card stamina-items">
                     <div class="category-header">
                         <span class="category-icon">🏃</span>
-                        <h3>スタミナ系アイテム</h3>
+                        <h3>スタミナ系アイチE��</h3>
                     </div>
                     <div class="category-description">
-                        <p>スタミナステータスを回復・上昇させるアイテム</p>
+                        <p>スタミナスチE�Eタスを回復・上�EさせるアイチE��</p>
                         <ul>
-                            <li><strong>スタミナドリンク</strong>: 価格 80, 効果 +8</li>
-                            <li><strong>持久力強化剤</strong>: 価格 120, 効果 +12</li>
-                            <li><strong>無限スタミナエリクサー</strong>: 価格 180, 効果 +18</li>
+                            <li><strong>スタミナドリンク</strong>: 価格 80, 効极E+8</li>
+                            <li><strong>持乁E��強化剤</strong>: 価格 120, 効极E+12</li>
+                            <li><strong>無限スタミナエリクサー</strong>: 価格 180, 効极E+18</li>
                         </ul>
                     </div>
                 </div>
@@ -180,14 +180,14 @@
                 <div class="category-card speed-items">
                     <div class="category-header">
                         <span class="category-icon">⚡</span>
-                        <h3>スピード系アイテム</h3>
+                        <h3>スピ�Eド系アイチE��</h3>
                     </div>
                     <div class="category-description">
-                        <p>スピードステータスを上昇させるアイテム</p>
+                        <p>スピ�EドスチE�Eタスを上�EさせるアイチE��</p>
                         <ul>
-                            <li><strong>スピードブースト</strong>: 価格 120, 効果 +12</li>
-                            <li><strong>疾風の薬</strong>: 価格 180, 効果 +18</li>
-                            <li><strong>光速エリクサー</strong>: 価格 250, 効果 +25</li>
+                            <li><strong>スピ�EドブースチE/strong>: 価格 120, 効极E+12</li>
+                            <li><strong>疾風の薬</strong>: 価格 180, 効极E+18</li>
+                            <li><strong>光速エリクサー</strong>: 価格 250, 効极E+25</li>
                         </ul>
                     </div>
                 </div>
@@ -195,14 +195,14 @@
                 <div class="category-card technique-items">
                     <div class="category-header">
                         <span class="category-icon">🎯</span>
-                        <h3>テクニック系アイテム</h3>
+                        <h3>チE��ニック系アイチE��</h3>
                     </div>
                     <div class="category-description">
-                        <p>テクニックステータスを上昇させるアイテム</p>
+                        <p>チE��ニックスチE�Eタスを上�EさせるアイチE��</p>
                         <ul>
-                            <li><strong>テクニックブック</strong>: 価格 90, 効果 +9</li>
-                            <li><strong>名人の教え</strong>: 価格 140, 効果 +14</li>
-                            <li><strong>究極の技書</strong>: 価格 200, 効果 +20</li>
+                            <li><strong>チE��ニックブック</strong>: 価格 90, 効极E+9</li>
+                            <li><strong>名人の教え</strong>: 価格 140, 効极E+14</li>
+                            <li><strong>究極の技書</strong>: 価格 200, 効极E+20</li>
                         </ul>
                     </div>
                 </div>
@@ -210,28 +210,28 @@
                 <div class="category-card luck-items">
                     <div class="category-header">
                         <span class="category-icon">🍀</span>
-                        <h3>ラック系アイテム</h3>
+                        <h3>ラチE��系アイチE��</h3>
                     </div>
                     <div class="category-description">
-                        <p>ラックステータスを上昇させるアイテム</p>
+                        <p>ラチE��スチE�Eタスを上�EさせるアイチE��</p>
                         <ul>
-                            <li><strong>幸運の四つ葉</strong>: 価格 150, 効果 +15</li>
-                            <li><strong>ラッキーチャーム</strong>: 価格 200, 効果 +20</li>
-                            <li><strong>究極の幸運石</strong>: 価格 300, 効果 +30</li>
+                            <li><strong>幸運�E四つ葁E/strong>: 価格 150, 効极E+15</li>
+                            <li><strong>ラチE��ーチャーム</strong>: 価格 200, 効极E+20</li>
+                            <li><strong>究極の幸運石</strong>: 価格 300, 効极E+30</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- テーブル関係セクション -->
+        <!-- チE�Eブル関係セクション -->
         <section class="table-relationships">
-            <h2>🔗 テーブル関係</h2>
+            <h2>🔗 チE�Eブル関俁E/h2>
             <div class="relationships-content">
                 <div class="relationship-card">
                     <div class="relationship-header">
-                        <span class="relationship-type">1対多</span>
-                        <span class="relationship-direction">→</span>
+                        <span class="relationship-type">1対夁E/span>
+                        <span class="relationship-direction">ↁE/span>
                     </div>
                     <div class="relationship-details">
                         <div class="related-table">
@@ -239,7 +239,7 @@
                             <span class="table-name">purchase_logs</span>
                         </div>
                         <div class="relationship-description">
-                            1つのアイテムが複数の購入記録を持つ
+                            1つのアイチE��が褁E��の購入記録を持つ
                         </div>
                     </div>
                 </div>
@@ -248,19 +248,19 @@
 
         <!-- 使用例セクション -->
         <section class="usage-examples">
-            <h2>💡 使用例</h2>
+            <h2>💡 使用侁E/h2>
             <div class="examples-content">
                 <div class="example-card">
-                    <h3>アイテム登録</h3>
+                    <h3>アイチE��登録</h3>
                     <div class="sql-example">
                         <pre><code>INSERT INTO shop_items 
 (item_name, price, effect_type, effect_value, description) 
-VALUES ('パワードリンク', 100, 'power', 10, 'パワーを10上昇させるドリンク');</code></pre>
+VALUES ('パワードリンク', 100, 'power', 10, 'パワーめE0上�Eさせるドリンク');</code></pre>
                     </div>
                 </div>
 
                 <div class="example-card">
-                    <h3>アイテム一覧取得</h3>
+                    <h3>アイチE��一覧取征E/h3>
                     <div class="sql-example">
                         <pre><code>SELECT item_name, price, effect_type, effect_value 
 FROM shop_items 
@@ -269,7 +269,7 @@ ORDER BY effect_type, price;</code></pre>
                 </div>
 
                 <div class="example-card">
-                    <h3>カテゴリ別アイテム取得</h3>
+                    <h3>カチE��リ別アイチE��取征E/h3>
                     <div class="sql-example">
                         <pre><code>SELECT * FROM shop_items 
 WHERE effect_type = 'power' 
@@ -278,7 +278,7 @@ ORDER BY effect_value DESC;</code></pre>
                 </div>
 
                 <div class="example-card">
-                    <h3>価格帯別アイテム取得</h3>
+                    <h3>価格帯別アイチE��取征E/h3>
                     <div class="sql-example">
                         <pre><code>SELECT * FROM shop_items 
 WHERE price BETWEEN 100 AND 200 
@@ -287,7 +287,7 @@ ORDER BY price;</code></pre>
                 </div>
 
                 <div class="example-card">
-                    <h3>アイテム統計</h3>
+                    <h3>アイチE��統訁E/h3>
                     <div class="sql-example">
                         <pre><code>SELECT effect_type, 
        COUNT(*) as item_count,
@@ -299,7 +299,7 @@ GROUP BY effect_type;</code></pre>
                 </div>
 
                 <div class="example-card">
-                    <h3>コストパフォーマンス順</h3>
+                    <h3>コストパフォーマンス頁E/h3>
                     <div class="sql-example">
                         <pre><code>SELECT item_name, price, effect_value,
        (effect_value / price) as cost_performance
@@ -312,7 +312,7 @@ ORDER BY cost_performance DESC;</code></pre>
     </div>
     
     <!-- JavaScriptファイル -->
-    <script src="script.js"></script>
+    <script src="../script.js"></script>
     <script src="table-script.js"></script>
 </body>
 </html>

@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <!-- メタデータ設定 -->
+    <!-- メタチE�Eタ設宁E-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="activity_logsテーブルの詳細情報 - デジタライブ・アドベンチャー">
-    <meta name="keywords" content="activity_logs, 活動ログ, データベース, テーブル">
+    <meta name="description" content="activity_logsチE�Eブルの詳細惁E�� - チE��タライブ�Eアド�Eンチャー">
+    <meta name="keywords" content="activity_logs, 活動ログ, チE�Eタベ�Eス, チE�Eブル">
     <meta name="author" content="Digital Live Adventure Team">
     
-    <!-- ページタイトル -->
-    <title>activity_logs テーブル | ディジタライブ・アドベンチャー</title>
+    <!-- ペ�Eジタイトル -->
+    <title>activity_logs チE�Eブル | チE��ジタライブ�Eアド�Eンチャー</title>
     
-    <!-- 外部スタイルシート -->
-    <link rel="stylesheet" href="styles.css">
+    <!-- 外部スタイルシーチE-->
+    <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="table-styles.css">
     
     <!-- Google Fonts -->
@@ -21,34 +21,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- メインコンテナ -->
+    <!-- メインコンチE�� -->
     <div class="container">
         <!-- ヘッダーセクション -->
         <header class="page-header">
             <div class="header-top">
                 <a href="database.html" class="back-button">
-                    <span class="back-icon">←</span>
-                    <span class="back-text">データベース一覧</span>
+                    <span class="back-icon">ↁE/span>
+                    <span class="back-text">チE�Eタベ�Eス一覧</span>
                 </a>
-                <h1>📈 activity_logs テーブル</h1>
+                <h1>📈 activity_logs チE�Eブル</h1>
                 <div class="header-actions">
-                    <a href="index.html" class="home-button">
+                    <a href="../index.html" class="home-button">
                         <span class="home-icon">🏠</span>
-                        <span class="home-text">ホーム</span>
+                        <span class="home-text">ホ�Eム</span>
                     </a>
                 </div>
             </div>
-            <p class="page-subtitle">参加者の活動履歴とステータス変動記録</p>
+            <p class="page-subtitle">参加老E�E活動履歴とスチE�Eタス変動記録</p>
         </header>
 
-        <!-- テーブル概要セクション -->
+        <!-- チE�Eブル概要セクション -->
         <section class="table-overview">
             <div class="overview-card">
                 <div class="card-header">
                     <div class="table-icon">📈</div>
                     <div class="table-info">
                         <h2>activity_logs</h2>
-                        <p>参加者の活動履歴とステータス変動を記録するログテーブル</p>
+                        <p>参加老E�E活動履歴とスチE�Eタス変動を記録するログチE�Eブル</p>
                     </div>
                 </div>
                 <div class="table-stats">
@@ -62,15 +62,15 @@
                     </div>
                     <div class="stat-item">
                         <span class="stat-label">外部キー</span>
-                        <span class="stat-value">2個</span>
+                        <span class="stat-value">2倁E/span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- テーブル構造セクション -->
+        <!-- チE�Eブル構造セクション -->
         <section class="table-structure">
-            <h2>📋 テーブル構造</h2>
+            <h2>📋 チE�Eブル構造</h2>
             <div class="structure-content">
                 <div class="field-list">
                     <div class="field-item primary-key">
@@ -94,7 +94,7 @@
                             <span class="constraint fk">FOREIGN KEY</span>
                             <span class="constraint not-null">NOT NULL</span>
                         </div>
-                        <div class="field-description">参加者ID（participantsテーブル参照）</div>
+                        <div class="field-description">参加老ED�E�EarticipantsチE�Eブル参�E�E�E/div>
                     </div>
 
                     <div class="field-item foreign-key">
@@ -106,7 +106,7 @@
                             <span class="constraint fk">FOREIGN KEY</span>
                             <span class="constraint not-null">NOT NULL</span>
                         </div>
-                        <div class="field-description">ブースID（boothsテーブル参照）</div>
+                        <div class="field-description">ブ�EスID�E�EoothsチE�Eブル参�E�E�E/div>
                     </div>
 
                     <div class="field-item change-field">
@@ -117,7 +117,7 @@
                         <div class="field-constraints">
                             <span class="constraint default">DEFAULT 0</span>
                         </div>
-                        <div class="field-description">所持金の変動量（正の値：獲得、負の値：消費）</div>
+                        <div class="field-description">所持E��の変動量（正の値�E�獲得、負の値�E�消費�E�E/div>
                     </div>
 
                     <div class="field-item change-field">
@@ -128,7 +128,7 @@
                         <div class="field-constraints">
                             <span class="constraint default">DEFAULT 0</span>
                         </div>
-                        <div class="field-description">パワーの変動量</div>
+                        <div class="field-description">パワーの変動釁E/div>
                     </div>
 
                     <div class="field-item change-field">
@@ -139,7 +139,7 @@
                         <div class="field-constraints">
                             <span class="constraint default">DEFAULT 0</span>
                         </div>
-                        <div class="field-description">スタミナの変動量</div>
+                        <div class="field-description">スタミナの変動釁E/div>
                     </div>
 
                     <div class="field-item change-field">
@@ -150,7 +150,7 @@
                         <div class="field-constraints">
                             <span class="constraint default">DEFAULT 0</span>
                         </div>
-                        <div class="field-description">スピードの変動量</div>
+                        <div class="field-description">スピ�Eド�E変動釁E/div>
                     </div>
 
                     <div class="field-item change-field">
@@ -161,7 +161,7 @@
                         <div class="field-constraints">
                             <span class="constraint default">DEFAULT 0</span>
                         </div>
-                        <div class="field-description">テクニックの変動量</div>
+                        <div class="field-description">チE��ニックの変動釁E/div>
                     </div>
 
                     <div class="field-item change-field">
@@ -172,7 +172,7 @@
                         <div class="field-constraints">
                             <span class="constraint default">DEFAULT 0</span>
                         </div>
-                        <div class="field-description">ラックの変動量</div>
+                        <div class="field-description">ラチE��の変動釁E/div>
                     </div>
 
                     <div class="field-item timestamp">
@@ -183,29 +183,29 @@
                         <div class="field-constraints">
                             <span class="constraint default">DEFAULT CURRENT_TIMESTAMP</span>
                         </div>
-                        <div class="field-description">活動記録日時</div>
+                        <div class="field-description">活動記録日晁E/div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ステータス変動セクション -->
+        <!-- スチE�Eタス変動セクション -->
         <section class="status-changes">
-            <h2>📊 ステータス変動の仕組み</h2>
+            <h2>📊 スチE�Eタス変動の仕絁E��</h2>
             <div class="changes-content">
                 <div class="change-type positive">
                     <div class="change-header">
                         <span class="change-icon">📈</span>
-                        <h3>ステータス上昇</h3>
+                        <h3>スチE�Eタス上�E</h3>
                     </div>
                     <div class="change-description">
-                        <p>ゲームブースでの活動により、各ステータスが上昇します</p>
+                        <p>ゲームブ�Eスでの活動により、各スチE�Eタスが上�EしまぁE/p>
                         <ul>
-                            <li><strong>パワーチャージ・ステーション</strong>: パワー +5, スタミナ +3</li>
-                            <li><strong>リアクション・スプリンター</strong>: スピード +4, テクニック +2</li>
-                            <li><strong>トレジャー・ハント</strong>: テクニック +6</li>
-                            <li><strong>バーチャル・ランナー</strong>: スタミナ +5, スピード +3</li>
-                            <li><strong>ミラクル・タッチ</strong>: ランダムなステータス上昇</li>
+                            <li><strong>パワーチャージ・スチE�Eション</strong>: パワー +5, スタミナ +3</li>
+                            <li><strong>リアクション・スプリンター</strong>: スピ�EチE+4, チE��ニック +2</li>
+                            <li><strong>トレジャー・ハンチE/strong>: チE��ニック +6</li>
+                            <li><strong>バ�Eチャル・ランナ�E</strong>: スタミナ +5, スピ�EチE+3</li>
+                            <li><strong>ミラクル・タチE��</strong>: ランダムなスチE�Eタス上�E</li>
                         </ul>
                     </div>
                 </div>
@@ -213,30 +213,30 @@
                 <div class="change-type negative">
                     <div class="change-header">
                         <span class="change-icon">📉</span>
-                        <h3>所持金消費</h3>
+                        <h3>所持E��消費</h3>
                     </div>
                     <div class="change-description">
-                        <p>ショップブースでのアイテム購入により、所持金が消費されます</p>
+                        <p>ショチE�Eブ�EスでのアイチE��購入により、所持E��が消費されまぁE/p>
                         <ul>
-                            <li><strong>パワーアップアイテム</strong>: 所持金 -100, パワー +10</li>
-                            <li><strong>スタミナ回復アイテム</strong>: 所持金 -80, スタミナ +8</li>
-                            <li><strong>スピードブーストアイテム</strong>: 所持金 -120, スピード +12</li>
-                            <li><strong>テクニック向上アイテム</strong>: 所持金 -90, テクニック +9</li>
-                            <li><strong>ラックアップアイテム</strong>: 所持金 -150, ラック +15</li>
+                            <li><strong>パワーアチE�EアイチE��</strong>: 所持E�� -100, パワー +10</li>
+                            <li><strong>スタミナ回復アイチE��</strong>: 所持E�� -80, スタミナ +8</li>
+                            <li><strong>スピ�EドブーストアイチE��</strong>: 所持E�� -120, スピ�EチE+12</li>
+                            <li><strong>チE��ニック向上アイチE��</strong>: 所持E�� -90, チE��ニック +9</li>
+                            <li><strong>ラチE��アチE�EアイチE��</strong>: 所持E�� -150, ラチE�� +15</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- テーブル関係セクション -->
+        <!-- チE�Eブル関係セクション -->
         <section class="table-relationships">
-            <h2>🔗 テーブル関係</h2>
+            <h2>🔗 チE�Eブル関俁E/h2>
             <div class="relationships-content">
                 <div class="relationship-card">
                     <div class="relationship-header">
                         <span class="relationship-type">多対1</span>
-                        <span class="relationship-direction">←</span>
+                        <span class="relationship-direction">ↁE/span>
                     </div>
                     <div class="relationship-details">
                         <div class="related-table">
@@ -244,7 +244,7 @@
                             <span class="table-name">participants</span>
                         </div>
                         <div class="relationship-description">
-                            複数の活動ログが1人の参加者に属する
+                            褁E��の活動ログぁE人の参加老E��属すめE
                         </div>
                     </div>
                 </div>
@@ -252,7 +252,7 @@
                 <div class="relationship-card">
                     <div class="relationship-header">
                         <span class="relationship-type">多対1</span>
-                        <span class="relationship-direction">←</span>
+                        <span class="relationship-direction">ↁE/span>
                     </div>
                     <div class="relationship-details">
                         <div class="related-table">
@@ -260,7 +260,7 @@
                             <span class="table-name">booths</span>
                         </div>
                         <div class="relationship-description">
-                            複数の活動ログが1つのブースに属する
+                            褁E��の活動ログぁEつのブ�Eスに属すめE
                         </div>
                     </div>
                 </div>
@@ -269,7 +269,7 @@
 
         <!-- 使用例セクション -->
         <section class="usage-examples">
-            <h2>💡 使用例</h2>
+            <h2>💡 使用侁E/h2>
             <div class="examples-content">
                 <div class="example-card">
                     <h3>活動ログ記録</h3>
@@ -281,7 +281,7 @@ VALUES (1, 1, 5, 3, 50);</code></pre>
                 </div>
 
                 <div class="example-card">
-                    <h3>参加者の活動履歴</h3>
+                    <h3>参加老E�E活動履歴</h3>
                     <div class="sql-example">
                         <pre><code>SELECT al.*, p.nickname, b.booth_name 
 FROM activity_logs al
@@ -293,7 +293,7 @@ ORDER BY al.created_at DESC;</code></pre>
                 </div>
 
                 <div class="example-card">
-                    <h3>ブース別活動統計</h3>
+                    <h3>ブ�Eス別活動統訁E/h3>
                     <div class="sql-example">
                         <pre><code>SELECT b.booth_name, COUNT(*) as activity_count,
        AVG(al.power_change) as avg_power_change
@@ -304,7 +304,7 @@ GROUP BY b.booth_id, b.booth_name;</code></pre>
                 </div>
 
                 <div class="example-card">
-                    <h3>ステータス変動合計</h3>
+                    <h3>スチE�Eタス変動合訁E/h3>
                     <div class="sql-example">
                         <pre><code>SELECT participant_id,
        SUM(power_change) as total_power,
@@ -319,7 +319,7 @@ GROUP BY participant_id;</code></pre>
     </div>
     
     <!-- JavaScriptファイル -->
-    <script src="script.js"></script>
+    <script src="../script.js"></script>
     <script src="table-script.js"></script>
 </body>
 </html>

@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <!-- メタデータ設定 -->
+    <!-- メタチE�Eタ設宁E-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="participantsテーブルの詳細情報 - デジタライブ・アドベンチャー">
-    <meta name="keywords" content="participants, 参加者, データベース, テーブル">
+    <meta name="description" content="participantsチE�Eブルの詳細惁E�� - チE��タライブ�Eアド�Eンチャー">
+    <meta name="keywords" content="participants, 参加老E チE�Eタベ�Eス, チE�Eブル">
     <meta name="author" content="Digital Live Adventure Team">
     
-    <!-- ページタイトル -->
-    <title>participants テーブル | ディジタライブ・アドベンチャー</title>
+    <!-- ペ�Eジタイトル -->
+    <title>participants チE�Eブル | チE��ジタライブ�Eアド�Eンチャー</title>
     
-    <!-- 外部スタイルシート -->
-    <link rel="stylesheet" href="styles.css">
+    <!-- 外部スタイルシーチE-->
+    <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="table-styles.css">
     
     <!-- Google Fonts -->
@@ -21,34 +21,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- メインコンテナ -->
+    <!-- メインコンチE�� -->
     <div class="container">
         <!-- ヘッダーセクション -->
         <header class="page-header">
             <div class="header-top">
                 <a href="database.html" class="back-button">
-                    <span class="back-icon">←</span>
-                    <span class="back-text">データベース一覧</span>
+                    <span class="back-icon">ↁE/span>
+                    <span class="back-text">チE�Eタベ�Eス一覧</span>
                 </a>
-                <h1>👥 participants テーブル</h1>
+                <h1>👥 participants チE�Eブル</h1>
                 <div class="header-actions">
-                    <a href="index.html" class="home-button">
+                    <a href="../index.html" class="home-button">
                         <span class="home-icon">🏠</span>
-                        <span class="home-text">ホーム</span>
+                        <span class="home-text">ホ�Eム</span>
                     </a>
                 </div>
             </div>
-            <p class="page-subtitle">参加者情報とステータス管理</p>
+            <p class="page-subtitle">参加老E��報とスチE�Eタス管琁E/p>
         </header>
 
-        <!-- テーブル概要セクション -->
+        <!-- チE�Eブル概要セクション -->
         <section class="table-overview">
             <div class="overview-card">
                 <div class="card-header">
                     <div class="table-icon">👥</div>
                     <div class="table-info">
                         <h2>participants</h2>
-                        <p>参加者情報とステータス管理テーブル</p>
+                        <p>参加老E��報とスチE�Eタス管琁E��ーブル</p>
                     </div>
                 </div>
                 <div class="table-stats">
@@ -62,15 +62,15 @@
                     </div>
                     <div class="stat-item">
                         <span class="stat-label">外部キー</span>
-                        <span class="stat-value">なし</span>
+                        <span class="stat-value">なぁE/span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- テーブル構造セクション -->
+        <!-- チE�Eブル構造セクション -->
         <section class="table-structure">
-            <h2>📋 テーブル構造</h2>
+            <h2>📋 チE�Eブル構造</h2>
             <div class="structure-content">
                 <div class="field-list">
                     <div class="field-item primary-key">
@@ -82,7 +82,7 @@
                             <span class="constraint pk">PRIMARY KEY</span>
                             <span class="constraint auto">AUTO_INCREMENT</span>
                         </div>
-                        <div class="field-description">参加者を一意に識別するID</div>
+                        <div class="field-description">参加老E��一意に識別するID</div>
                     </div>
 
                     <div class="field-item unique">
@@ -93,7 +93,7 @@
                         <div class="field-constraints">
                             <span class="constraint unique">UNIQUE</span>
                         </div>
-                        <div class="field-description">NFCカードの一意識別子</div>
+                        <div class="field-description">NFCカード�E一意識別孁E/div>
                     </div>
 
                     <div class="field-item required">
@@ -104,7 +104,7 @@
                         <div class="field-constraints">
                             <span class="constraint not-null">NOT NULL</span>
                         </div>
-                        <div class="field-description">参加者のニックネーム</div>
+                        <div class="field-description">参加老E�Eニックネ�Eム</div>
                     </div>
 
                     <div class="field-item required">
@@ -115,7 +115,7 @@
                         <div class="field-constraints">
                             <span class="constraint not-null">NOT NULL</span>
                         </div>
-                        <div class="field-description">参加者の年齢</div>
+                        <div class="field-description">参加老E�E年齢</div>
                     </div>
 
                     <div class="field-item default">
@@ -126,7 +126,7 @@
                         <div class="field-constraints">
                             <span class="constraint default">DEFAULT 0</span>
                         </div>
-                        <div class="field-description">パワーステータス</div>
+                        <div class="field-description">パワースチE�Eタス</div>
                     </div>
 
                     <div class="field-item default">
@@ -137,7 +137,7 @@
                         <div class="field-constraints">
                             <span class="constraint default">DEFAULT 0</span>
                         </div>
-                        <div class="field-description">スタミナステータス</div>
+                        <div class="field-description">スタミナスチE�Eタス</div>
                     </div>
 
                     <div class="field-item default">
@@ -148,7 +148,7 @@
                         <div class="field-constraints">
                             <span class="constraint default">DEFAULT 0</span>
                         </div>
-                        <div class="field-description">スピードステータス</div>
+                        <div class="field-description">スピ�EドスチE�Eタス</div>
                     </div>
 
                     <div class="field-item default">
@@ -159,7 +159,7 @@
                         <div class="field-constraints">
                             <span class="constraint default">DEFAULT 0</span>
                         </div>
-                        <div class="field-description">テクニックステータス</div>
+                        <div class="field-description">チE��ニックスチE�Eタス</div>
                     </div>
 
                     <div class="field-item default">
@@ -170,7 +170,7 @@
                         <div class="field-constraints">
                             <span class="constraint default">DEFAULT 0</span>
                         </div>
-                        <div class="field-description">ラックステータス</div>
+                        <div class="field-description">ラチE��スチE�Eタス</div>
                     </div>
 
                     <div class="field-item default">
@@ -181,7 +181,7 @@
                         <div class="field-constraints">
                             <span class="constraint default">DEFAULT 0</span>
                         </div>
-                        <div class="field-description">所持金（ゲーム内通貨）</div>
+                        <div class="field-description">所持E�߁E�ゲーム冁E��貨�E�E/div>
                     </div>
 
                     <div class="field-item timestamp">
@@ -192,7 +192,7 @@
                         <div class="field-constraints">
                             <span class="constraint default">DEFAULT CURRENT_TIMESTAMP</span>
                         </div>
-                        <div class="field-description">登録日時</div>
+                        <div class="field-description">登録日晁E/div>
                     </div>
 
                     <div class="field-item timestamp">
@@ -203,20 +203,20 @@
                         <div class="field-constraints">
                             <span class="constraint default">DEFAULT CURRENT_TIMESTAMP ON UPDATE</span>
                         </div>
-                        <div class="field-description">更新日時</div>
+                        <div class="field-description">更新日晁E/div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- テーブル関係セクション -->
+        <!-- チE�Eブル関係セクション -->
         <section class="table-relationships">
-            <h2>🔗 テーブル関係</h2>
+            <h2>🔗 チE�Eブル関俁E/h2>
             <div class="relationships-content">
                 <div class="relationship-card">
                     <div class="relationship-header">
-                        <span class="relationship-type">1対多</span>
-                        <span class="relationship-direction">→</span>
+                        <span class="relationship-type">1対夁E/span>
+                        <span class="relationship-direction">ↁE/span>
                     </div>
                     <div class="relationship-details">
                         <div class="related-table">
@@ -224,15 +224,15 @@
                             <span class="table-name">activity_logs</span>
                         </div>
                         <div class="relationship-description">
-                            1人の参加者が複数の活動ログを持つ
+                            1人の参加老E��褁E��の活動ログを持つ
                         </div>
                     </div>
                 </div>
 
                 <div class="relationship-card">
                     <div class="relationship-header">
-                        <span class="relationship-type">1対多</span>
-                        <span class="relationship-direction">→</span>
+                        <span class="relationship-type">1対夁E/span>
+                        <span class="relationship-direction">ↁE/span>
                     </div>
                     <div class="relationship-details">
                         <div class="related-table">
@@ -240,7 +240,7 @@
                             <span class="table-name">purchase_logs</span>
                         </div>
                         <div class="relationship-description">
-                            1人の参加者が複数の購入記録を持つ
+                            1人の参加老E��褁E��の購入記録を持つ
                         </div>
                     </div>
                 </div>
@@ -249,18 +249,18 @@
 
         <!-- 使用例セクション -->
         <section class="usage-examples">
-            <h2>💡 使用例</h2>
+            <h2>💡 使用侁E/h2>
             <div class="examples-content">
                 <div class="example-card">
-                    <h3>参加者登録</h3>
+                    <h3>参加老E��録</h3>
                     <div class="sql-example">
                         <pre><code>INSERT INTO participants (nfc_card_id, nickname, age) 
-VALUES ('NFC001', 'たろう', 10);</code></pre>
+VALUES ('NFC001', 'たろぁE, 10);</code></pre>
                     </div>
                 </div>
 
                 <div class="example-card">
-                    <h3>ステータス更新</h3>
+                    <h3>スチE�Eタス更新</h3>
                     <div class="sql-example">
                         <pre><code>UPDATE participants 
 SET power = power + 5, money = money + 100 
@@ -269,7 +269,7 @@ WHERE participant_id = 1;</code></pre>
                 </div>
 
                 <div class="example-card">
-                    <h3>参加者一覧取得</h3>
+                    <h3>参加老E��覧取征E/h3>
                     <div class="sql-example">
                         <pre><code>SELECT nickname, power, stamina, speed, technique, luck, money 
 FROM participants 
@@ -281,7 +281,7 @@ ORDER BY (power + stamina + speed + technique + luck) DESC;</code></pre>
     </div>
     
     <!-- JavaScriptファイル -->
-    <script src="script.js"></script>
+    <script src="../script.js"></script>
     <script src="table-script.js"></script>
 </body>
 </html>
