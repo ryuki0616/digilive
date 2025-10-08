@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <!-- メタデータ設定 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="purchase_logsテーブルの詳細情報 - デジタライブ・アドベンチャー">
+    <meta name="keywords" content="purchase_logs, 購入ログ, データベース, テーブル">
+    <meta name="author" content="Digital Live Adventure Team">
+    
+    <!-- ページタイトル -->
+    <title>purchase_logs テーブル | ディジタライブ・アドベンチャー</title>
+    
+    <!-- 外部スタイルシート -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="table-styles.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- メインコンテナ -->
+    <div class="container">
+        <!-- ヘッダーセクション -->
+        <header class="page-header">
+            <div class="header-top">
+                <a href="database.html" class="back-button">
+                    <span class="back-icon">←</span>
+                    <span class="back-text">データベース一覧</span>
+                </a>
+                <h1>🛒 purchase_logs テーブル</h1>
+                <div class="header-actions">
+                    <a href="index.html" class="home-button">
+                        <span class="home-icon">🏠</span>
+                        <span class="home-text">ホーム</span>
+                    </a>
+                </div>
+            </div>
+            <p class="page-subtitle">ショップでの購入履歴管理</p>
+        </header>
+
+        <!-- テーブル概要セクション -->
+        <section class="table-overview">
+            <div class="overview-card">
+                <div class="card-header">
+                    <div class="table-icon">🛒</div>
+                    <div class="table-info">
+                        <h2>purchase_logs</h2>
+                        <p>ショップでのアイテム購入履歴を記録するログテーブル</p>
+                    </div>
+                </div>
+                <div class="table-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">フィールド数</span>
+                        <span class="stat-value">6</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">主キー</span>
+                        <span class="stat-value">purchase_id</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">外部キー</span>
+                        <span class="stat-value">2個</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- テーブル構造セクション -->
+        <section class="table-structure">
+            <h2>📋 テーブル構造</h2>
+            <div class="structure-content">
+                <div class="field-list">
+                    <div class="field-item primary-key">
+                        <div class="field-info">
+                            <span class="field-name">purchase_id</span>
+                            <span class="field-type">INT</span>
+                        </div>
+                        <div class="field-constraints">
+                            <span class="constraint pk">PRIMARY KEY</span>
+                            <span class="constraint auto">AUTO_INCREMENT</span>
+                        </div>
+                        <div class="field-description">購入記録を一意に識別するID</div>
+                    </div>
+
+                    <div class="field-item foreign-key">
+                        <div class="field-info">
+                            <span class="field-name">participant_id</span>
+                            <span class="field-type">INT</span>
+                        </div>
+                        <div class="field-constraints">
+                            <span class="constraint fk">FOREIGN KEY</span>
+                            <span class="constraint not-null">NOT NULL</span>
+                        </div>
+                        <div class="field-description">購入者ID（participantsテーブル参照）</div>
+                    </div>
+
+                    <div class="field-item foreign-key">
+                        <div class="field-info">
+                            <span class="field-name">item_id</span>
+                            <span class="field-type">INT</span>
+                        </div>
+                        <div class="field-constraints">
+                            <span class="constraint fk">FOREIGN KEY</span>
+                            <span class="constraint not-null">NOT NULL</span>
+                        </div>
+                        <div class="field-description">購入アイテムID（shop_itemsテーブル参照）</div>
+                    </div>
+
+                    <div class="field-item quantity">
+                        <div class="field-info">
+                            <span class="field-name">quantity</span>
+                            <span class="field-type">INT</span>
+                        </div>
+                        <div class="field-constraints">
+                            <span class="constraint default">DEFAULT 1</span>
+                        </div>
+                        <div class="field-description">購入数量（複数購入対応）</div>
+                    </div>
+
+                    <div class="field-item required">
+                        <div class="field-info">
+                            <span class="field-name">total_price</span>
+                            <span class="field-type">INT</span>
+                        </div>
+                        <div class="field-constraints">
+                            <span class="constraint not-null">NOT NULL</span>
+                        </div>
+                        <div class="field-description">合計価格（単価 × 数量）</div>
+                    </div>
+
+                    <div class="field-item timestamp">
+                        <div class="field-info">
+                            <span class="field-name">created_at</span>
+                            <span class="field-type">DATETIME</span>
+                        </div>
+                        <div class="field-constraints">
+                            <span class="constraint default">DEFAULT CURRENT_TIMESTAMP</span>
+                        </div>
+                        <div class="field-description">購入日時</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 購入フローセクション -->
+        <section class="purchase-flow">
+            <h2>🔄 購入フロー</h2>
+            <div class="flow-content">
+                <div class="flow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>ショップブース訪問</h3>
+                        <p>参加者がショップブースにNFCカードをかざす</p>
+                    </div>
+                </div>
+                
+                <div class="flow-arrow">→</div>
+                
+                <div class="flow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>アイテム選択</h3>
+                        <p>利用可能なアイテムから購入したいアイテムを選択</p>
+                    </div>
+                </div>
+                
+                <div class="flow-arrow">→</div>
+                
+                <div class="flow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>所持金確認</h3>
+                        <p>参加者の所持金がアイテム価格以上かチェック</p>
+                    </div>
+                </div>
+                
+                <div class="flow-arrow">→</div>
+                
+                <div class="flow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>購入処理</h3>
+                        <p>所持金を減算し、ステータスを上昇させる</p>
+                    </div>
+                </div>
+                
+                <div class="flow-arrow">→</div>
+                
+                <div class="flow-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3>ログ記録</h3>
+                        <p>purchase_logsテーブルに購入履歴を記録</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- テーブル関係セクション -->
+        <section class="table-relationships">
+            <h2>🔗 テーブル関係</h2>
+            <div class="relationships-content">
+                <div class="relationship-card">
+                    <div class="relationship-header">
+                        <span class="relationship-type">多対1</span>
+                        <span class="relationship-direction">←</span>
+                    </div>
+                    <div class="relationship-details">
+                        <div class="related-table">
+                            <span class="table-icon">👥</span>
+                            <span class="table-name">participants</span>
+                        </div>
+                        <div class="relationship-description">
+                            複数の購入記録が1人の参加者に属する
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relationship-card">
+                    <div class="relationship-header">
+                        <span class="relationship-type">多対1</span>
+                        <span class="relationship-direction">←</span>
+                    </div>
+                    <div class="relationship-details">
+                        <div class="related-table">
+                            <span class="table-icon">🛍️</span>
+                            <span class="table-name">shop_items</span>
+                        </div>
+                        <div class="relationship-description">
+                            複数の購入記録が1つのアイテムに属する
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 使用例セクション -->
+        <section class="usage-examples">
+            <h2>💡 使用例</h2>
+            <div class="examples-content">
+                <div class="example-card">
+                    <h3>購入記録</h3>
+                    <div class="sql-example">
+                        <pre><code>INSERT INTO purchase_logs 
+(participant_id, item_id, quantity, total_price) 
+VALUES (1, 3, 2, 200);</code></pre>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h3>参加者の購入履歴</h3>
+                    <div class="sql-example">
+                        <pre><code>SELECT pl.*, p.nickname, si.item_name, si.effect_type
+FROM purchase_logs pl
+JOIN participants p ON pl.participant_id = p.participant_id
+JOIN shop_items si ON pl.item_id = si.item_id
+WHERE pl.participant_id = 1
+ORDER BY pl.created_at DESC;</code></pre>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h3>人気アイテムランキング</h3>
+                    <div class="sql-example">
+                        <pre><code>SELECT si.item_name, 
+       COUNT(*) as purchase_count,
+       SUM(pl.quantity) as total_quantity,
+       SUM(pl.total_price) as total_revenue
+FROM purchase_logs pl
+JOIN shop_items si ON pl.item_id = si.item_id
+GROUP BY si.item_id, si.item_name
+ORDER BY purchase_count DESC;</code></pre>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h3>参加者別購入統計</h3>
+                    <div class="sql-example">
+                        <pre><code>SELECT p.nickname,
+       COUNT(*) as purchase_count,
+       SUM(pl.total_price) as total_spent,
+       AVG(pl.total_price) as avg_purchase
+FROM purchase_logs pl
+JOIN participants p ON pl.participant_id = p.participant_id
+GROUP BY p.participant_id, p.nickname
+ORDER BY total_spent DESC;</code></pre>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h3>時間別購入分析</h3>
+                    <div class="sql-example">
+                        <pre><code>SELECT DATE(created_at) as purchase_date,
+       HOUR(created_at) as purchase_hour,
+       COUNT(*) as purchase_count,
+       SUM(total_price) as total_revenue
+FROM purchase_logs
+GROUP BY DATE(created_at), HOUR(created_at)
+ORDER BY purchase_date, purchase_hour;</code></pre>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h3>カテゴリ別売上分析</h3>
+                    <div class="sql-example">
+                        <pre><code>SELECT si.effect_type,
+       COUNT(*) as purchase_count,
+       SUM(pl.quantity) as total_quantity,
+       SUM(pl.total_price) as total_revenue,
+       AVG(pl.total_price) as avg_price
+FROM purchase_logs pl
+JOIN shop_items si ON pl.item_id = si.item_id
+GROUP BY si.effect_type
+ORDER BY total_revenue DESC;</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- JavaScriptファイル -->
+    <script src="script.js"></script>
+    <script src="table-script.js"></script>
+</body>
+</html>
