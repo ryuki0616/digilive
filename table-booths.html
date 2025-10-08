@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <!-- メタデータ設定 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="boothsテーブルの詳細情報 - デジタライブ・アドベンチャー">
+    <meta name="keywords" content="booths, ブース, データベース, テーブル">
+    <meta name="author" content="Digital Live Adventure Team">
+    
+    <!-- ページタイトル -->
+    <title>booths テーブル | ディジタライブ・アドベンチャー</title>
+    
+    <!-- 外部スタイルシート -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="table-styles.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- メインコンテナ -->
+    <div class="container">
+        <!-- ヘッダーセクション -->
+        <header class="page-header">
+            <div class="header-top">
+                <a href="database.html" class="back-button">
+                    <span class="back-icon">←</span>
+                    <span class="back-text">データベース一覧</span>
+                </a>
+                <h1>🎮 booths テーブル</h1>
+                <div class="header-actions">
+                    <a href="index.html" class="home-button">
+                        <span class="home-icon">🏠</span>
+                        <span class="home-text">ホーム</span>
+                    </a>
+                </div>
+            </div>
+            <p class="page-subtitle">ブース情報管理</p>
+        </header>
+
+        <!-- テーブル概要セクション -->
+        <section class="table-overview">
+            <div class="overview-card">
+                <div class="card-header">
+                    <div class="table-icon">🎮</div>
+                    <div class="table-info">
+                        <h2>booths</h2>
+                        <p>ゲームブースとショップブースの情報管理テーブル</p>
+                    </div>
+                </div>
+                <div class="table-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">フィールド数</span>
+                        <span class="stat-value">4</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">主キー</span>
+                        <span class="stat-value">booth_id</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">外部キー</span>
+                        <span class="stat-value">なし</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- テーブル構造セクション -->
+        <section class="table-structure">
+            <h2>📋 テーブル構造</h2>
+            <div class="structure-content">
+                <div class="field-list">
+                    <div class="field-item primary-key">
+                        <div class="field-info">
+                            <span class="field-name">booth_id</span>
+                            <span class="field-type">INT</span>
+                        </div>
+                        <div class="field-constraints">
+                            <span class="constraint pk">PRIMARY KEY</span>
+                            <span class="constraint auto">AUTO_INCREMENT</span>
+                        </div>
+                        <div class="field-description">ブースを一意に識別するID</div>
+                    </div>
+
+                    <div class="field-item required">
+                        <div class="field-info">
+                            <span class="field-name">booth_name</span>
+                            <span class="field-type">VARCHAR</span>
+                        </div>
+                        <div class="field-constraints">
+                            <span class="constraint not-null">NOT NULL</span>
+                        </div>
+                        <div class="field-description">ブースの名前</div>
+                    </div>
+
+                    <div class="field-item optional">
+                        <div class="field-info">
+                            <span class="field-name">description</span>
+                            <span class="field-type">TEXT</span>
+                        </div>
+                        <div class="field-constraints">
+                            <span class="constraint nullable">NULLABLE</span>
+                        </div>
+                        <div class="field-description">ブースの詳細説明</div>
+                    </div>
+
+                    <div class="field-item required">
+                        <div class="field-info">
+                            <span class="field-name">booth_type</span>
+                            <span class="field-type">VARCHAR</span>
+                        </div>
+                        <div class="field-constraints">
+                            <span class="constraint not-null">NOT NULL</span>
+                        </div>
+                        <div class="field-description">ブースのタイプ（game, shop）</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ブースタイプセクション -->
+        <section class="booth-types">
+            <h2>🎯 ブースタイプ</h2>
+            <div class="types-content">
+                <div class="type-card game-booth">
+                    <div class="type-header">
+                        <span class="type-icon">🎮</span>
+                        <h3>ゲームブース</h3>
+                    </div>
+                    <div class="type-description">
+                        <p>参加者がゲームを体験してステータスと所持金を獲得するブース</p>
+                        <ul>
+                            <li>パワーチャージ・ステーション</li>
+                            <li>リアクション・スプリンター</li>
+                            <li>トレジャー・ハント</li>
+                            <li>バーチャル・ランナー</li>
+                            <li>ミラクル・タッチ</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="type-card shop-booth">
+                    <div class="type-header">
+                        <span class="type-icon">🛒</span>
+                        <h3>ショップブース</h3>
+                    </div>
+                    <div class="type-description">
+                        <p>参加者が所持金を使ってステータスアップアイテムを購入するブース</p>
+                        <ul>
+                            <li>パワーアップアイテム</li>
+                            <li>スタミナ回復アイテム</li>
+                            <li>スピードブーストアイテム</li>
+                            <li>テクニック向上アイテム</li>
+                            <li>ラックアップアイテム</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- テーブル関係セクション -->
+        <section class="table-relationships">
+            <h2>🔗 テーブル関係</h2>
+            <div class="relationships-content">
+                <div class="relationship-card">
+                    <div class="relationship-header">
+                        <span class="relationship-type">1対多</span>
+                        <span class="relationship-direction">→</span>
+                    </div>
+                    <div class="relationship-details">
+                        <div class="related-table">
+                            <span class="table-icon">📈</span>
+                            <span class="table-name">activity_logs</span>
+                        </div>
+                        <div class="relationship-description">
+                            1つのブースが複数の活動ログを持つ
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 使用例セクション -->
+        <section class="usage-examples">
+            <h2>💡 使用例</h2>
+            <div class="examples-content">
+                <div class="example-card">
+                    <h3>ブース登録</h3>
+                    <div class="sql-example">
+                        <pre><code>INSERT INTO booths (booth_name, description, booth_type) 
+VALUES ('パワーチャージ・ステーション', 'ボタン連打でパワーとスタミナを獲得', 'game');</code></pre>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h3>ブース一覧取得</h3>
+                    <div class="sql-example">
+                        <pre><code>SELECT booth_id, booth_name, booth_type 
+FROM booths 
+ORDER BY booth_type, booth_name;</code></pre>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h3>ゲームブースのみ取得</h3>
+                    <div class="sql-example">
+                        <pre><code>SELECT * FROM booths 
+WHERE booth_type = 'game' 
+ORDER BY booth_name;</code></pre>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h3>ブース統計</h3>
+                    <div class="sql-example">
+                        <pre><code>SELECT booth_type, COUNT(*) as booth_count 
+FROM booths 
+GROUP BY booth_type;</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- JavaScriptファイル -->
+    <script src="script.js"></script>
+    <script src="table-script.js"></script>
+</body>
+</html>
