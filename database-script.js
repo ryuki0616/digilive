@@ -81,6 +81,9 @@ const databaseSchema = {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('データベース表示ページを初期化中...');
     
+    // サイドバーの初期化
+    initializeSidebar();
+    
     // ER図の生成
     generateERDiagram();
     
@@ -95,6 +98,118 @@ document.addEventListener('DOMContentLoaded', function() {
     
     console.log('データベース表示ページの初期化が完了しました');
 });
+
+/**
+ * サイドバーの初期化処理
+ * @description サイドバーの開閉機能とテーブル選択機能を設定
+ */
+function initializeSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebarOpenBtn = document.getElementById('sidebarOpenBtn');
+    const tableItems = document.querySelectorAll('.table-item');
+    
+    // サイドバーオーバーレイを作成
+    const overlay = document.createElement('div');
+    overlay.className = 'sidebar-overlay';
+    document.body.appendChild(overlay);
+    
+    // サイドバーを開くボタンのイベントリスナー
+    if (sidebarOpenBtn) {
+        sidebarOpenBtn.addEventListener('click', function() {
+            openSidebar();
+        });
+    }
+    
+    // サイドバーを閉じるボタンのイベントリスナー
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', function() {
+            closeSidebar();
+        });
+    }
+    
+    // オーバーレイクリックでサイドバーを閉じる
+    overlay.addEventListener('click', function() {
+        closeSidebar();
+    });
+    
+    // テーブルアイテムのクリックイベント
+    tableItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const tableName = this.getAttribute('data-table');
+            
+            // アクティブなアイテムを更新
+            tableItems.forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+            
+            // テーブル詳細を表示
+            showTableDetail(tableName);
+            
+            // タブボタンも更新
+            updateTabButtons(tableName);
+            
+            // モバイルの場合はサイドバーを閉じる
+            if (window.innerWidth <= 768) {
+                closeSidebar();
+            }
+        });
+    });
+    
+    // ESCキーでサイドバーを閉じる
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && sidebar.classList.contains('open')) {
+            closeSidebar();
+        }
+    });
+    
+    console.log('サイドバーの初期化が完了しました');
+}
+
+/**
+ * サイドバーを開く関数
+ * @description サイドバーとオーバーレイを表示
+ */
+function openSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    
+    sidebar.classList.add('open');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden'; // スクロールを無効化
+    
+    console.log('サイドバーを開きました');
+}
+
+/**
+ * サイドバーを閉じる関数
+ * @description サイドバーとオーバーレイを非表示
+ */
+function closeSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    
+    sidebar.classList.remove('open');
+    overlay.classList.remove('active');
+    document.body.style.overflow = ''; // スクロールを有効化
+    
+    console.log('サイドバーを閉じました');
+}
+
+/**
+ * タブボタンを更新する関数
+ * @param {string} tableName - アクティブにするテーブル名
+ * @description サイドバーでテーブルを選択したときにタブボタンも同期
+ */
+function updateTabButtons(tableName) {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    
+    tabButtons.forEach(button => {
+        button.classList.remove('active');
+        if (button.getAttribute('data-table') === tableName) {
+            button.classList.add('active');
+        }
+    });
+}
 
 /**
  * ER図を動的に生成する関数
@@ -316,7 +431,26 @@ function setupTabButtons() {
             
             // テーブル詳細を表示
             showTableDetail(tableName);
+            
+            // サイドバーのアクティブアイテムも更新
+            updateSidebarActiveItem(tableName);
         });
+    });
+}
+
+/**
+ * サイドバーのアクティブアイテムを更新する関数
+ * @param {string} tableName - アクティブにするテーブル名
+ * @description タブボタンでテーブルを選択したときにサイドバーも同期
+ */
+function updateSidebarActiveItem(tableName) {
+    const tableItems = document.querySelectorAll('.table-item');
+    
+    tableItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.getAttribute('data-table') === tableName) {
+            item.classList.add('active');
+        }
     });
 }
 
