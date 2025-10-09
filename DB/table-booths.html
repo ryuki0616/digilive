@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <!-- メタチE�Eタ設宁E-->
+    <!-- メタデータ設定 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="boothsチE�Eブルの詳細惁E�� - チE��タライブ�Eアド�Eンチャー">
-    <meta name="keywords" content="booths, ブ�Eス, チE�Eタベ�Eス, チE�Eブル">
+    <meta name="description" content="boothsテーブルの詳細情報 - デジタライブ・アドベンチャー">
+    <meta name="keywords" content="booths, ブース, データベース, テーブル">
     <meta name="author" content="Digital Live Adventure Team">
     
-    <!-- ペ�Eジタイトル -->
-    <title>booths チE�Eブル | チE��ジタライブ�Eアド�Eンチャー</title>
+    <!-- ページタイトル -->
+    <title>booths テーブル | デジタライブ・アドベンチャー</title>
     
-    <!-- 外部スタイルシーチE-->
+    <!-- 外部スタイルシート -->
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="table-styles.css">
     
@@ -21,34 +21,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- メインコンチE�� -->
+    <!-- メインコンテナ -->
     <div class="container">
         <!-- ヘッダーセクション -->
         <header class="page-header">
             <div class="header-top">
                 <a href="database.html" class="back-button">
-                    <span class="back-icon">ↁE/span>
-                    <span class="back-text">チE�Eタベ�Eス一覧</span>
+                    <span class="back-icon">←</span>
+                    <span class="back-text">データベース一覧</span>
                 </a>
-                <h1>🎮 booths チE�Eブル</h1>
+                <h1>🎮 booths テーブル</h1>
                 <div class="header-actions">
                     <a href="../index.html" class="home-button">
                         <span class="home-icon">🏠</span>
-                        <span class="home-text">ホ�Eム</span>
+                        <span class="home-text">ホーム</span>
                     </a>
                 </div>
             </div>
-            <p class="page-subtitle">ブ�Eス惁E��管琁E/p>
+            <p class="page-subtitle">ブース情報管理</p>
         </header>
 
-        <!-- チE�Eブル概要セクション -->
+        <!-- テーブル概要セクション -->
         <section class="table-overview">
             <div class="overview-card">
                 <div class="card-header">
                     <div class="table-icon">🎮</div>
                     <div class="table-info">
                         <h2>booths</h2>
-                        <p>ゲームブ�EスとショチE�Eブ�Eスの惁E��管琁E��ーブル</p>
+                        <p>ゲームブースとショップブースの情報管理テーブル</p>
                     </div>
                 </div>
                 <div class="table-stats">
@@ -62,15 +62,15 @@
                     </div>
                     <div class="stat-item">
                         <span class="stat-label">外部キー</span>
-                        <span class="stat-value">なぁE/span>
+                        <span class="stat-value">なし</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- チE�Eブル構造セクション -->
+        <!-- テーブル構造セクション -->
         <section class="table-structure">
-            <h2>📋 チE�Eブル構造</h2>
+            <h2>📋 テーブル構造</h2>
             <div class="structure-content">
                 <div class="field-list">
                     <div class="field-item primary-key">
@@ -82,7 +82,7 @@
                             <span class="constraint pk">PRIMARY KEY</span>
                             <span class="constraint auto">AUTO_INCREMENT</span>
                         </div>
-                        <div class="field-description">ブ�Eスを一意に識別するID</div>
+                        <div class="field-description">ブースを一意に識別するID</div>
                     </div>
 
                     <div class="field-item required">
@@ -93,7 +93,7 @@
                         <div class="field-constraints">
                             <span class="constraint not-null">NOT NULL</span>
                         </div>
-                        <div class="field-description">ブ�Eスの名前</div>
+                        <div class="field-description">ブースの名前</div>
                     </div>
 
                     <div class="field-item optional">
@@ -104,7 +104,7 @@
                         <div class="field-constraints">
                             <span class="constraint nullable">NULLABLE</span>
                         </div>
-                        <div class="field-description">ブ�Eスの詳細説昁E/div>
+                        <div class="field-description">ブースの詳細説明</div>
                     </div>
 
                     <div class="field-item required">
@@ -115,29 +115,29 @@
                         <div class="field-constraints">
                             <span class="constraint not-null">NOT NULL</span>
                         </div>
-                        <div class="field-description">ブ�Eスのタイプ！Eame, shop�E�E/div>
+                        <div class="field-description">ブースのタイプ（game, shop）</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ブ�Eスタイプセクション -->
+        <!-- ブースタイプセクション -->
         <section class="booth-types">
-            <h2>🎯 ブ�EスタイチE/h2>
+            <h2>🎯 ブースタイプ</h2>
             <div class="types-content">
                 <div class="type-card game-booth">
                     <div class="type-header">
                         <span class="type-icon">🎮</span>
-                        <h3>ゲームブ�Eス</h3>
+                        <h3>ゲームブース</h3>
                     </div>
                     <div class="type-description">
-                        <p>参加老E��ゲームを体験してスチE�Eタスと所持E��を獲得するブース</p>
+                        <p>参加者がゲームを体験してステータスと所持金を獲得するブース</p>
                         <ul>
-                            <li>パワーチャージ・スチE�Eション</li>
+                            <li>パワーチャージ・ステーション</li>
                             <li>リアクション・スプリンター</li>
-                            <li>トレジャー・ハンチE/li>
-                            <li>バ�Eチャル・ランナ�E</li>
-                            <li>ミラクル・タチE��</li>
+                            <li>トレジャー・ハント</li>
+                            <li>バーチャル・ランナー</li>
+                            <li>ミラクル・タッチ</li>
                         </ul>
                     </div>
                 </div>
@@ -145,30 +145,30 @@
                 <div class="type-card shop-booth">
                     <div class="type-header">
                         <span class="type-icon">🛒</span>
-                        <h3>ショチE�Eブ�Eス</h3>
+                        <h3>ショップブース</h3>
                     </div>
                     <div class="type-description">
-                        <p>参加老E��所持E��を使ってスチE�EタスアチE�EアイチE��を購入するブ�Eス</p>
+                        <p>参加者が所持金を使ってステータスアップアイテムを購入するブース</p>
                         <ul>
-                            <li>パワーアチE�EアイチE��</li>
-                            <li>スタミナ回復アイチE��</li>
-                            <li>スピ�EドブーストアイチE��</li>
-                            <li>チE��ニック向上アイチE��</li>
-                            <li>ラチE��アチE�EアイチE��</li>
+                            <li>パワーアップアイテム</li>
+                            <li>スタミナ回復アイテム</li>
+                            <li>スピードブーストアイテム</li>
+                            <li>テクニック向上アイテム</li>
+                            <li>ラックアップアイテム</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- チE�Eブル関係セクション -->
+        <!-- テーブル関係セクション -->
         <section class="table-relationships">
-            <h2>🔗 チE�Eブル関俁E/h2>
+            <h2>🔗 テーブル関係</h2>
             <div class="relationships-content">
                 <div class="relationship-card">
                     <div class="relationship-header">
-                        <span class="relationship-type">1対夁E/span>
-                        <span class="relationship-direction">ↁE/span>
+                        <span class="relationship-type">1対多</span>
+                        <span class="relationship-direction">→</span>
                     </div>
                     <div class="relationship-details">
                         <div class="related-table">
@@ -176,7 +176,7 @@
                             <span class="table-name">activity_logs</span>
                         </div>
                         <div class="relationship-description">
-                            1つのブ�Eスが褁E��の活動ログを持つ
+                            1つのブースが複数の活動ログを持つ
                         </div>
                     </div>
                 </div>
@@ -185,18 +185,18 @@
 
         <!-- 使用例セクション -->
         <section class="usage-examples">
-            <h2>💡 使用侁E/h2>
+            <h2>💡 使用例</h2>
             <div class="examples-content">
                 <div class="example-card">
-                    <h3>ブ�Eス登録</h3>
+                    <h3>ブース登録</h3>
                     <div class="sql-example">
                         <pre><code>INSERT INTO booths (booth_name, description, booth_type) 
-VALUES ('パワーチャージ・スチE�Eション', 'ボタン連打でパワーとスタミナを獲征E, 'game');</code></pre>
+VALUES ('パワーチャージ・ステーション', 'ボタン連打でパワーとスタミナを獲得', 'game');</code></pre>
                     </div>
                 </div>
 
                 <div class="example-card">
-                    <h3>ブ�Eス一覧取征E/h3>
+                    <h3>ブース一覧取得</h3>
                     <div class="sql-example">
                         <pre><code>SELECT booth_id, booth_name, booth_type 
 FROM booths 
@@ -205,7 +205,7 @@ ORDER BY booth_type, booth_name;</code></pre>
                 </div>
 
                 <div class="example-card">
-                    <h3>ゲームブ�Eスのみ取征E/h3>
+                    <h3>ゲームブースのみ取得</h3>
                     <div class="sql-example">
                         <pre><code>SELECT * FROM booths 
 WHERE booth_type = 'game' 
@@ -214,7 +214,7 @@ ORDER BY booth_name;</code></pre>
                 </div>
 
                 <div class="example-card">
-                    <h3>ブ�Eス統訁E/h3>
+                    <h3>ブース統計</h3>
                     <div class="sql-example">
                         <pre><code>SELECT booth_type, COUNT(*) as booth_count 
 FROM booths 
