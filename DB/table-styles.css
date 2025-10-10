@@ -418,6 +418,137 @@
 }
 
 /* ========================================
+   サンプルデータテーブル
+   ======================================== */
+
+.sample-data {
+    margin: 2rem 0;
+    padding: 2rem;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.sample-data h2 {
+    margin-bottom: 1.5rem;
+    color: #333333;
+    font-size: 1.8rem;
+    border-bottom: 3px solid #007bff;
+    padding-bottom: 0.5rem;
+}
+
+.data-table-container {
+    overflow-x: auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sample-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    min-width: 1200px;
+}
+
+.sample-table thead {
+    background: #333333;
+    color: #ffffff;
+}
+
+.sample-table th {
+    padding: 0.75rem 0.5rem;
+    text-align: left;
+    font-weight: 600;
+    border: 1px solid #555555;
+    white-space: nowrap;
+}
+
+.sample-table td {
+    padding: 0.5rem;
+    border: 1px solid #dddddd;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.sample-table tbody tr:nth-child(even) {
+    background: #f8f9fa;
+}
+
+.sample-table tbody tr:hover {
+    background: #e3f2fd;
+    transform: scale(1.01);
+    transition: all 0.2s ease;
+}
+
+.sample-table td:nth-child(1) {
+    background: #e74c3c;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.sample-table td:nth-child(2) {
+    background: #3498db;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.sample-table td:nth-child(3) {
+    background: #2ecc71;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* ステータス値の色分け */
+.sample-table td:nth-child(5),
+.sample-table td:nth-child(6),
+.sample-table td:nth-child(7),
+.sample-table td:nth-child(8),
+.sample-table td:nth-child(9) {
+    font-weight: 600;
+}
+
+.sample-table td:nth-child(5) { /* power */
+    background: #ff6b6b;
+    color: #ffffff;
+}
+
+.sample-table td:nth-child(6) { /* stamina */
+    background: #4ecdc4;
+    color: #ffffff;
+}
+
+.sample-table td:nth-child(7) { /* speed */
+    background: #45b7d1;
+    color: #ffffff;
+}
+
+.sample-table td:nth-child(8) { /* technique */
+    background: #96ceb4;
+    color: #ffffff;
+}
+
+.sample-table td:nth-child(9) { /* luck */
+    background: #feca57;
+    color: #333333;
+}
+
+.sample-table td:nth-child(10) { /* money */
+    background: #ff9ff3;
+    color: #333333;
+    font-weight: 600;
+}
+
+/* タイムスタンプ列 */
+.sample-table td:nth-child(11),
+.sample-table td:nth-child(12) {
+    background: #a55eea;
+    color: #ffffff;
+    font-size: 0.75rem;
+}
+
+/* ========================================
    レスポンシブデザイン
    ======================================== */
 
@@ -425,6 +556,25 @@
     .header-top {
         flex-direction: column;
         text-align: center;
+    }
+    
+    .sample-data {
+        padding: 1rem;
+        margin: 1rem 0;
+    }
+    
+    .sample-data h2 {
+        font-size: 1.5rem;
+    }
+    
+    .sample-table {
+        font-size: 0.75rem;
+        min-width: 1000px;
+    }
+    
+    .sample-table th,
+    .sample-table td {
+        padding: 0.25rem 0.125rem;
     }
     
     .header-top h1 {
