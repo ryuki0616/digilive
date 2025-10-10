@@ -459,11 +459,21 @@ function updateSidebarActiveItem(tableName) {
  * @param {string} tableName - 表示するテーブル名
  */
 function showTableDetail(tableName) {
+    console.log(`showTableDetail関数が呼ばれました: ${tableName}`);
+    
     const tableContent = document.querySelector('.table-content');
+    console.log('tableContent要素:', tableContent);
+    
     const tableData = databaseSchema[tableName];
+    console.log('tableData:', tableData);
     
     if (!tableData) {
         console.error(`テーブル "${tableName}" のデータが見つかりません`);
+        return;
+    }
+    
+    if (!tableContent) {
+        console.error('.table-content要素が見つかりません');
         return;
     }
     
@@ -493,18 +503,23 @@ function showTableDetail(tableName) {
         </div>
     `;
     
+    console.log('生成されたHTML:', tableDetailHTML.substring(0, 200) + '...');
     tableContent.innerHTML = tableDetailHTML;
+    console.log('HTMLが設定されました');
     
     // アニメーション効果を追加
     const tableDetail = tableContent.querySelector('.table-detail');
-    tableDetail.style.opacity = '0';
-    tableDetail.style.transform = 'translateY(20px)';
-    
-    setTimeout(() => {
-        tableDetail.style.transition = 'all 0.3s ease';
-        tableDetail.style.opacity = '1';
-        tableDetail.style.transform = 'translateY(0)';
-    }, 100);
+    if (tableDetail) {
+        tableDetail.style.opacity = '0';
+        tableDetail.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+            tableDetail.style.transition = 'all 0.3s ease';
+            tableDetail.style.opacity = '1';
+            tableDetail.style.transform = 'translateY(0)';
+            console.log('アニメーションが適用されました');
+        }, 100);
+    }
 }
 
 /**
