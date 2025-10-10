@@ -1,79 +1,9 @@
 /**
  * データベース表示ページ用のJavaScript
  * テーブル詳細の表示、ER図の生成、インタラクティブな機能を提供
+ * 
+ * 注意: databaseSchemaはdatabase-schema.jsから読み込まれます
  */
-
-// データベーススキーマの定義
-const databaseSchema = {
-    participants: {
-        name: "参加者テーブル",
-        description: "NFCカードと連携した参加者情報とステータス管理",
-        fields: [
-            { name: "participant_id", type: "INT", constraint: "PK", description: "参加者ID" },
-            { name: "nfc_card_id", type: "VARCHAR", constraint: "UNIQUE", description: "NFCカードID" },
-            { name: "nickname", type: "VARCHAR", constraint: "NOT NULL", description: "ニックネーム" },
-            { name: "age", type: "INT", constraint: "NOT NULL", description: "年齢" },
-            { name: "power", type: "INT", constraint: "DEFAULT 0", description: "パワー" },
-            { name: "stamina", type: "INT", constraint: "DEFAULT 0", description: "スタミナ" },
-            { name: "speed", type: "INT", constraint: "DEFAULT 0", description: "スピード" },
-            { name: "technique", type: "INT", constraint: "DEFAULT 0", description: "テクニック" },
-            { name: "luck", type: "INT", constraint: "DEFAULT 0", description: "ラック" },
-            { name: "money", type: "INT", constraint: "DEFAULT 0", description: "所持金" },
-            { name: "created_at", type: "DATETIME", constraint: "DEFAULT CURRENT_TIMESTAMP", description: "登録日時" },
-            { name: "updated_at", type: "DATETIME", constraint: "DEFAULT CURRENT_TIMESTAMP ON UPDATE", description: "更新日時" }
-        ]
-    },
-    booths: {
-        name: "ブーステーブル",
-        description: "ゲームブースとショップブースの情報管理",
-        fields: [
-            { name: "booth_id", type: "INT", constraint: "PK", description: "ブースID" },
-            { name: "booth_name", type: "VARCHAR", constraint: "NOT NULL", description: "ブース名" },
-            { name: "description", type: "TEXT", constraint: "", description: "説明" },
-            { name: "booth_type", type: "VARCHAR", constraint: "NOT NULL", description: "ブースタイプ" }
-        ]
-    },
-    activity_logs: {
-        name: "活動ログテーブル",
-        description: "参加者の活動履歴とステータス変動の記録",
-        fields: [
-            { name: "log_id", type: "INT", constraint: "PK", description: "ログID" },
-            { name: "participant_id", type: "INT", constraint: "FK", description: "参加者ID" },
-            { name: "booth_id", type: "INT", constraint: "FK", description: "ブースID" },
-            { name: "money_change", type: "INT", constraint: "DEFAULT 0", description: "所持金変動" },
-            { name: "power_change", type: "INT", constraint: "DEFAULT 0", description: "パワー変動" },
-            { name: "stamina_change", type: "INT", constraint: "DEFAULT 0", description: "スタミナ変動" },
-            { name: "speed_change", type: "INT", constraint: "DEFAULT 0", description: "スピード変動" },
-            { name: "technique_change", type: "INT", constraint: "DEFAULT 0", description: "テクニック変動" },
-            { name: "luck_change", type: "INT", constraint: "DEFAULT 0", description: "ラック変動" },
-            { name: "created_at", type: "DATETIME", constraint: "DEFAULT CURRENT_TIMESTAMP", description: "記録日時" }
-        ]
-    },
-    shop_items: {
-        name: "ショップアイテムテーブル",
-        description: "ステータスアップアイテムの情報管理",
-        fields: [
-            { name: "item_id", type: "INT", constraint: "PK", description: "アイテムID" },
-            { name: "item_name", type: "VARCHAR", constraint: "NOT NULL", description: "アイテム名" },
-            { name: "price", type: "INT", constraint: "NOT NULL", description: "価格" },
-            { name: "effect_type", type: "VARCHAR", constraint: "NOT NULL", description: "効果タイプ" },
-            { name: "effect_value", type: "INT", constraint: "NOT NULL", description: "効果値" },
-            { name: "description", type: "TEXT", constraint: "", description: "説明" }
-        ]
-    },
-    purchase_logs: {
-        name: "購入ログテーブル",
-        description: "ショップでの購入履歴を管理",
-        fields: [
-            { name: "purchase_id", type: "INT", constraint: "PK", description: "購入ID" },
-            { name: "participant_id", type: "INT", constraint: "FK", description: "参加者ID" },
-            { name: "item_id", type: "INT", constraint: "FK", description: "アイテムID" },
-            { name: "quantity", type: "INT", constraint: "DEFAULT 1", description: "数量" },
-            { name: "total_price", type: "INT", constraint: "NOT NULL", description: "合計価格" },
-            { name: "created_at", type: "DATETIME", constraint: "DEFAULT CURRENT_TIMESTAMP", description: "購入日時" }
-        ]
-    }
-};
 
 /**
  * ページ読み込み完了時の初期化処理
@@ -222,7 +152,7 @@ function generateERDiagram() {
     const erDiagramHTML = `
         <div class="er-diagram-content">
             <div class="er-table participants-table">
-                <div class="table-header">👥 participants</div>
+                <div class="table-header">${databaseSchema.participants.icon} participants</div>
                 <div class="table-fields">
                     <div class="field pk">participant_id (PK)</div>
                     <div class="field">nfc_card_id</div>
@@ -238,7 +168,7 @@ function generateERDiagram() {
             </div>
             
             <div class="er-table activity-table">
-                <div class="table-header">📈 activity_logs</div>
+                <div class="table-header">${databaseSchema.activity_logs.icon} activity_logs</div>
                 <div class="table-fields">
                     <div class="field pk">log_id (PK)</div>
                     <div class="field fk">participant_id (FK)</div>
@@ -254,7 +184,7 @@ function generateERDiagram() {
             </div>
             
             <div class="er-table booths-table">
-                <div class="table-header">🎮 booths</div>
+                <div class="table-header">${databaseSchema.booths.icon} booths</div>
                 <div class="table-fields">
                     <div class="field pk">booth_id (PK)</div>
                     <div class="field">booth_name</div>
@@ -269,7 +199,7 @@ function generateERDiagram() {
             </div>
             
             <div class="er-table purchase-table">
-                <div class="table-header">🛒 purchase_logs</div>
+                <div class="table-header">${databaseSchema.purchase_logs.icon} purchase_logs</div>
                 <div class="table-fields">
                     <div class="field pk">purchase_id (PK)</div>
                     <div class="field fk">participant_id (FK)</div>
@@ -285,7 +215,7 @@ function generateERDiagram() {
             </div>
             
             <div class="er-table shop-table">
-                <div class="table-header">🛍️ shop_items</div>
+                <div class="table-header">${databaseSchema.shop_items.icon} shop_items</div>
                 <div class="table-fields">
                     <div class="field pk">item_id (PK)</div>
                     <div class="field">item_name</div>
