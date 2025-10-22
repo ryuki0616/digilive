@@ -1,275 +1,69 @@
-/* ========================================
-   ディジタライブ・アドベンチャー スタイルシート
-   ======================================== */
-
-/* リセットCSS - ブラウザ間の差異を統一 */
+/* リセットCSS */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* ========================================
-   ベーススタイル
-   ======================================== */
-
-/* ページ全体の基本設定 */
+/* ベーススタイル */
 body {
-    /* システムフォントを使用（OS最適化） */
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     line-height: 1.6;
-    color: #ffffff;
-    /* 黒からグレーへのグラデーション背景 */
-    background: linear-gradient(135deg, #000000 0%, #333333 100%);
+    color: #333;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     padding: 20px;
 }
 
-/* メインコンテナ */
 .container {
-    max-width: 800px;                    /* 最大幅制限 */
-    margin: 0 auto;                      /* 中央配置 */
-    background: rgba(0, 0, 0, 0.8);      /* 半透明黒背景 */
-    padding: 40px;                       /* 内側余白 */
-    border-radius: 20px;                 /* 角丸 */
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);  /* 影効果 */
-    backdrop-filter: blur(10px);         /* 背景ぼかし効果 */
-    border: 2px solid #ffffff;           /* 白いボーダー */
+    max-width: 800px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
-/* ========================================
-   タイポグラフィ
-   ======================================== */
-
-/* メインタイトル */
 h1 {
-    font-size: 3rem;                     /* 大きなフォントサイズ */
-    text-align: center;                  /* 中央揃え */
-    margin-bottom: 20px;                 /* 下余白 */
-    color: #ffffff;                      /* 白色 */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);  /* テキストシャドウ */
-    animation: fadeInUp 1s ease-out;     /* フェードインアニメーション */
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: #333;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* サブタイトル・本文 */
 p {
-    font-size: 1.2rem;                   /* 読みやすいサイズ */
-    text-align: center;                  /* 中央揃え */
-    margin-bottom: 30px;                 /* 下余白 */
-    color: #ffffff;                      /* 白色 */
-    animation: fadeInUp 1s ease-out 0.2s both;  /* 遅延アニメーション */
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: #666;
 }
 
-/* ========================================
-   ナビゲーションリンク
-   ======================================== */
-
-/* ナビゲーションリンクコンテナ */
-.nav-links {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    margin: 2rem 0;
-    flex-wrap: wrap;
-}
-
-/* ナビゲーションボタン */
-.nav-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 1rem 2rem;
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    text-decoration: none;
-    border-radius: 50px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    transition: all 0.3s ease;
-    font-weight: 600;
-    font-size: 1.1rem;
-    backdrop-filter: blur(10px);
-    animation: fadeInUp 1s ease-out 0.4s both;
-}
-
-/* ナビゲーションボタンのホバー効果 */
-.nav-button:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.6);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
-}
-
-/* ボタンアイコン */
-.button-icon {
-    font-size: 1.5rem;
-    transition: transform 0.3s ease;
-}
-
-/* ホバー時のアイコンアニメーション */
-.nav-button:hover .button-icon {
-    transform: scale(1.1);
-}
-
-/* ボタンテキスト */
-.button-text {
-    font-weight: 600;
-}
-
-/* ========================================
-   ボタンスタイル（将来使用予定）
-   ======================================== */
-
-/* 基本ボタンスタイル */
-.btn {
-    display: inline-block;
-    padding: 12px 24px;
-    margin: 10px;
-    background: linear-gradient(45deg, #667eea, #764ba2);  /* グラデーション背景 */
-    color: white;
-    border: none;
-    border-radius: 50px;                  /* 丸いボタン */
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;            /* スムーズなトランジション */
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);  /* 影効果 */
-    animation: fadeInUp 1s ease-out 0.4s both;
-}
-
-/* ホバー効果 */
-.btn:hover {
-    transform: translateY(-2px);          /* 上に浮き上がる */
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);  /* 影を強化 */
-}
-
-/* アクティブ状態 */
-.btn:active {
-    transform: translateY(0);             /* 元の位置に戻る */
-}
-
-/* セカンダリボタン */
-.btn-secondary {
-    background: linear-gradient(45deg, #f093fb, #f5576c);  /* ピンク系グラデーション */
-    box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
-}
-
-.btn-secondary:hover {
-    box-shadow: 0 8px 25px rgba(240, 147, 251, 0.6);
-}
-
-/* ========================================
-   コンテンツエリア（将来使用予定）
-   ======================================== */
-
-/* コンテンツボックス */
 .content-box {
-    margin-top: 30px;                     /* 上余白 */
-    padding: 30px;                        /* 内側余白 */
-    background: rgba(255, 255, 255, 0.1); /* 半透明白背景 */
-    border-radius: 15px;                  /* 角丸 */
-    border: 2px solid #ffffff;            /* 白いボーダー */
-    transition: all 0.3s ease;            /* スムーズなトランジション */
-    animation: fadeInUp 1s ease-out 0.6s both;  /* 遅延アニメーション */
+    margin-top: 30px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
 }
 
-/* ホバー効果 */
 .content-box:hover {
-    border-color: #ffffff;                /* ボーダー色維持 */
-    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);  /* 白い影 */
-    background: rgba(255, 255, 255, 0.15);  /* 背景を少し明るく */
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
-/* コンテンツボックス内のテキスト */
-.content-box p {
-    margin: 0;                           /* マージンリセット */
-    color: #ffffff;                      /* 白色テキスト */
-}
-
-/* ========================================
-   アニメーション
-   ======================================== */
-
-/* フェードインアップアニメーション */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;                      /* 透明から開始 */
-        transform: translateY(30px);     /* 下から30px移動 */
-    }
-    to {
-        opacity: 1;                      /* 不透明で終了 */
-        transform: translateY(0);        /* 元の位置に戻る */
-    }
-}
-
-/* ========================================
-   レスポンシブデザイン
-   ======================================== */
-
-/* タブレット・スマートフォン対応 */
+/* レスポンシブデザイン */
 @media (max-width: 768px) {
-    /* コンテナの調整 */
     .container {
-        padding: 20px;                   /* パディングを縮小 */
-        margin: 10px;                     /* マージンを縮小 */
+        padding: 20px;
+        margin: 10px;
     }
     
-    /* タイトルサイズの調整 */
     h1 {
-        font-size: 2rem;                  /* フォントサイズを縮小 */
+        font-size: 2rem;
     }
     
-    /* 本文サイズの調整 */
     p {
-        font-size: 1rem;                  /* フォントサイズを縮小 */
-    }
-    
-    /* ナビゲーションリンクの調整 */
-    .nav-links {
-        flex-direction: column;           /* 縦並び */
-        align-items: center;              /* 中央揃え */
-    }
-    
-    .nav-button {
-        width: 100%;                      /* 全幅使用 */
-        max-width: 300px;                 /* 最大幅制限 */
-        justify-content: center;          /* 中央揃え */
-    }
-    
-    /* ボタンの調整 */
-    .btn {
-        display: block;                   /* ブロック表示 */
-        width: 100%;                      /* 全幅使用 */
-        margin: 10px 0;                   /* 上下マージン */
-    }
-}
-
-/* ========================================
-   ダークモード対応
-   ======================================== */
-
-/* システムのダークモード設定に対応 */
-@media (prefers-color-scheme: dark) {
-    /* 背景の調整 */
-    body {
-        background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);  /* より暗いグラデーション */
-    }
-    
-    /* コンテナの調整 */
-    .container {
-        background: rgba(0, 0, 0, 0.9);  /* より不透明な背景 */
-        color: #ffffff;
-        border-color: #ffffff;
-    }
-    
-    /* コンテンツボックスの調整 */
-    .content-box {
-        background: rgba(255, 255, 255, 0.05);  /* より透明な背景 */
-        border-color: #ffffff;
-        color: #ffffff;
-    }
-    
-    /* コンテンツボックス内のテキスト */
-    .content-box p {
-        color: #ffffff;
+        font-size: 1rem;
     }
 }
