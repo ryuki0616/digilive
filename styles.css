@@ -152,36 +152,72 @@ p {
 
 
 
+/* 
+    ナビゲーションボタン - シンプル&モダンなデザイン
+    -----------------------------------------
+    ・inline-flexでアイコン&テキストの横並び
+    ・円形に近い角丸
+    ・グラデーション背景に馴染む薄い白背景
+    ・柔らかい影とスムーズなアニメーション
+*/
 .nav-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 1rem 2rem;
-    background: rgba(255, 255, 255, 0.1);
-    color: #333;
-    text-decoration: none;
-    border-radius: 50px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    transition: all 0.3s ease;
-    font-weight: 600;
+    display: inline-flex;                        /* 横並びでアイコンやテキストを中央揃え */
+    align-items: center;                         /* 縦中央揃え */
+    gap: 0.75rem;                                /* アイコンとラベルの間隔 */
+    padding: 1rem 2rem;                          /* 大きめのパディングで押しやすく */
+    background: rgba(255, 255, 255, 0.1);        /* 薄い白背景でグラデになじむ */
+    color: #333;                                 /* ダークグレーで視認性重視 */
+    text-decoration: none;                       /* 下線をなくす */
+    border-radius: 50px;                         /* 丸みの強い角丸ボタン */
+    border: 2px solid rgba(255, 255, 255, 0.3);  /* 半透明の白いボーダー */
+    transition: all 0.3s ease;                   /* トランジションで滑らかに */
+    font-weight: 600;                            /* テキストの強調 */
 }
 
+/* ホバー時のボタンアニメーション効果 */
 .nav-button:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.2);        /* 背景をより明るく */
+    transform: translateY(-2px);                 /* わずかに浮き上がる */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);   /* 影を強調 */
 }
 
+/* 
+    機能説明カード - コンテンツの魅力を強調するパネル
+    -----------------------------------------------
+    ・白を基調にした柔らかい背景
+    ・丸みを帯びたリッチなカード
+    ・適度な余白と影で情報を引き立てる
+*/
 .feature-card {
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 15px;
-    padding: 2rem;
-    margin: 1rem 0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.8);        /* 明るめの半透明背景 */
+    border-radius: 15px;                         /* 角丸で親しみやすい印象 */
+    padding: 2rem;                               /* 内側余白をしっかり */
+    margin: 1rem 0;                              /* 上下の区切り */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);   /* 柔らかい影で浮き感 */
+    transition: all 0.3s ease;                   /* アニメーションを滑らかに */
 }
 
+/* ホバー時のカードアニメーション効果 */
 .feature-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);                 /* カードを少し浮かせる */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);  /* 影を強調して注目度UP */
+}
+
+/* ========================================
+   フォームグループ - フォームの要素をグループ化
+   ======================================== */
+
+/* 
+「.form-group」と「.form-group p」の違い：
+
+.form-groupはフォーム全体のグループブロックに適用。マージンボトムで下との余白を作り、テキスト左寄せのレイアウトを制御します。
+.form-group pは、グループ内の「p」要素（ラベルや説明テキストなど）専用で、下余白で次のフォーム要素との間隔を調整します。
+*/
+.form-group {
+    margin-bottom: 20px;    /* 各フォームグループ同士の下余白 */
+    text-align: center;       /* 内容は左寄せ配置 */
+}
+
+.form-group p {
+    margin-bottom: 10px;    /* ラベル(説明)下に余白、入力欄と分離 */
 }
