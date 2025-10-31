@@ -214,10 +214,32 @@ p {
 .form-group pは、グループ内の「p」要素（ラベルや説明テキストなど）専用で、下余白で次のフォーム要素との間隔を調整します。
 */
 .form-group {
-    margin-bottom: 20px;    /* 各フォームグループ同士の下余白 */
-    text-align: center;       /* 内容は左寄せ配置 */
+    margin-top: 0;                 /* 上余白（デフォルト） */
+    margin-right: 0;               /* 右余白（デフォルト） */
+    margin-bottom: 20px;           /* 下余白：各フォームグループ間 */
+    margin-left: 0;                /* 左余白（デフォルト） */
+    padding-top: 0;                /* 上パディング（デフォルト） */
+    padding-right: 0;              /* 右パディング（デフォルト） */
+    padding-bottom: 0;             /* 下パディング（デフォルト） */
+    padding-left: 0;               /* 左パディング（デフォルト） */
+    text-align: center;            /* 中央寄せ（内容の配置） */
+    display: block;                /* ブロック要素表示（デフォルト） */
+    width: 100%;                   /* 幅を100%に */
+    box-sizing: border-box;        /* パディング・ボーダー含む幅計算 */
 }
 
 .form-group p {
-    margin-bottom: 10px;    /* ラベル(説明)下に余白、入力欄と分離 */
+    margin-top: 0;                 /* ラベル上余白 */
+    margin-right: 0;               /* ラベル右余白 */
+    margin-bottom: 10px;           /* ラベル下余白：入力欄と分離 */
+    margin-left: 0;                /* ラベル左余白 */
+    padding-top: 0;                /* ラベル上パディング */
+    padding-right: 0;              /* ラベル右パディング */
+    padding-bottom: 0;             /* ラベル下パディング */
+    padding-left: 0;               /* ラベル左パディング */
+    font-size: 1rem;               /* ラベル文字サイズ */
+    color: #333;                   /* ラベル文字色 */
+    font-weight: 500;              /* ラベル太さ */
+    line-height: 1.4;              /* ラベル行間 */
+    text-align: left;              /* ラベル左寄せ */
 }
