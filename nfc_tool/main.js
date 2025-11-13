@@ -111,7 +111,11 @@ ipcMain.on('write-nfc-request', (event, dataToWrite) => {
     ];
     
     console.log(`Python書き込みスクリプトを起動: ${writerScriptPath}`);
-    const writerProcess = spawn('python', [writerScriptPath, ...args]);
+    const writerProcess = spawn('python', [writerScriptPath, ...args], {
+        // 標準入出力のエンコーディングをUTF-8に設定
+        stdio: ['pipe', 'pipe', 'pipe'],
+        encoding: 'utf8'
+    });
     
     let stdout = '';
     let stderr = '';

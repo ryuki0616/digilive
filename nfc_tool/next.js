@@ -581,13 +581,24 @@ if (writeNfcButton && nfcWriteStatus) {
     window.electronAPI.onWriteNfcResult((result) => {
         console.log('NFC書き込み結果:', result);
         
-        // 結果をステータスエリアに表示
-        nfcWriteStatus.textContent = result;
-        
-        // 5秒後にメッセージをクリア（オプション）
-        setTimeout(() => {
-            nfcWriteStatus.textContent = '';
-        }, 5000);
+        // 書き込みが成功したかどうかを判定 (成功メッセージは '✅' で始まると仮定)
+        if (result.startsWith('✅')) {
+            // 成功した場合
+            // ユーザーに成功を通知
+            alert('NFCカードへの書き込みが成功しました！最初のページに戻ります。');
+            
+            // 最初のページ (index.html) にリダイレクト
+            window.location.href = 'index.html';
+        } else {
+            // 失敗した場合
+            // 結果をステータスエリアに表示
+            nfcWriteStatus.textContent = result;
+            
+            // 5秒後にメッセージをクリア（オプション）
+            setTimeout(() => {
+                nfcWriteStatus.textContent = '';
+            }, 5000);
+        }
     });
 }
 
