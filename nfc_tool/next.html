@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!-- HTML5の文書型宣言：このファイルがHTML5で書かれていることを示します -->
+<html lang="ja">
+<!-- lang="ja"：このページの言語が日本語であることを示します -->
+<head>
+    <!-- headタグ：ページの設定情報を書く場所です（画面には表示されません） -->
+    
+    <!-- 文字コードの設定：日本語を正しく表示するためにUTF-8を指定します -->
+    <meta charset="UTF-8">
+    
+    <!-- ビューポート（画面幅・拡大率の設定）。スマートフォン等で見やすくするための指定 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- ページのタイトル：ブラウザのタブに表示されるタイトルです -->
+    <title>登録完了 - NFC初期設定アプリ</title>
+    
+    <!-- CSSファイルの読み込み：styles.cssファイルのスタイルを適用します -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- bodyタグ：実際に画面に表示される内容を書く場所です -->
+    
+    <!-- 見出し1：ページのメインタイトルです -->
+    <h1>登録ステータス確認</h1>
+    
+    <!-- 戻るボタンのコンテナ：左上に配置されるボタンを囲む要素です -->
+    <p class="back-button-container">
+        <!-- 戻るボタン：クリックすると前のページに戻ります -->
+        <button type="button" id="back_button">戻る</button>
+    </p>
+    
+    <!-- 上部のグリッドコンテナ：横2列のボックスを配置するコンテナです -->
+    <div class="top-grid-container">
+        <!-- トップボックス1：上部左側のボックス（IDを追加してJavaScriptから参照可能に） -->
+        <div class="grid-item-wrapper">
+            <label class="grid-box-label" id="label-top-box-1">名前</label>
+            <div class="grid-box" id="top-box-1"></div>
+        </div>
+        <!-- トップボックス2：上部右側のボックス（IDを追加してJavaScriptから参照可能に） -->
+        <div class="grid-item-wrapper">
+            <label class="grid-box-label" id="label-top-box-2">所持金</label>
+            <div class="grid-box" id="top-box-2"></div>
+        </div>
+    </div>
+    
+    <!-- メインのグリッドコンテナ：横3列×縦2行のボックスを配置するコンテナです -->
+    <div class="grid-container">
+        <!-- ボックス1：1行目の左側（IDを追加してJavaScriptから参照可能に） -->
+        <div class="grid-item-wrapper">
+            <label class="grid-box-label" id="label-box-1">パワー</label>
+            <div class="grid-box" id="box-1"></div>
+        </div>
+        <!-- ボックス2：1行目の中央（IDを追加してJavaScriptから参照可能に） -->
+        <div class="grid-item-wrapper">
+            <label class="grid-box-label" id="label-box-2">スタミナ</label>
+            <div class="grid-box" id="box-2"></div>
+        </div>
+        <!-- ボックス3：1行目の右側（IDを追加してJavaScriptから参照可能に） -->
+        <div class="grid-item-wrapper">
+            <label class="grid-box-label" id="label-box-3">スピード</label>
+            <div class="grid-box" id="box-3"></div>
+        </div>
+        <!-- ボックス4：2行目の左側（IDを追加してJavaScriptから参照可能に） -->
+        <div class="grid-item-wrapper">
+            <label class="grid-box-label" id="label-box-4">テクニック</label>
+            <div class="grid-box" id="box-4"></div>
+        </div>
+        <!-- ボックス5：2行目の中央（IDを追加してJavaScriptから参照可能に） -->
+        <div class="grid-item-wrapper">
+            <label class="grid-box-label" id="label-box-5">ラック</label>
+            <div class="grid-box" id="box-5"></div>
+        </div>
+        <!-- ボックス6：2行目の右側（IDを追加してJavaScriptから参照可能に） -->
+        <div class="grid-item-wrapper">
+            <label class="grid-box-label" id="label-box-6">クラス</label>
+            <div class="grid-box" id="box-6"></div>
+        </div>
+    </div>
+    
+    <!-- ============================================
+         NFC書き込みボタンとステータス表示
+         ============================================ -->
+    <div class="nfc-write-container">
+        <!-- NFCカードに登録ボタン -->
+        <button id="write-nfc-button" class="modal-button modal-button-primary">NFCカードに登録</button>
+        
+        <!-- 書き込みステータス表示エリア -->
+        <p id="nfc-write-status"></p>
+    </div>
+    
+    <!-- ============================================
+         数値変更用のモーダルダイアログ（ポップアップ）
+         ============================================ -->
+    
+    <!-- モーダルの背景（オーバーレイ）：画面全体を覆う半透明の背景 -->
+    <div id="number-input-modal" class="modal-overlay" style="display: none;">
+        <!-- モーダルのコンテンツ：実際に表示されるダイアログ -->
+        <div class="modal-content">
+            <!-- モーダルのヘッダー：タイトルと閉じるボタン -->
+            <div class="modal-header">
+                <h2 id="modal-title">数値変更</h2>
+                <!-- 閉じるボタン（×）：モーダルを閉じる -->
+                <button class="modal-close" id="modal-close-btn">&times;</button>
+            </div>
+            
+            <!-- モーダルの本文：入力フィールドと説明 -->
+            <div class="modal-body">
+                <p id="modal-message">変更する数値を入力してください：</p>
+                
+                <!-- 数値入力フィールド -->
+                <input 
+                    type="text" 
+                    id="number-input-field" 
+                    class="modal-input" 
+                    placeholder="例：100, 200, 10, 20, 30, 40, 50, 60"
+                    autofocus
+                >
+                
+                <!-- 説明テキスト -->
+                <p class="modal-hint">カンマ区切りで複数の数値を入力できます</p>
+            </div>
+            
+            <!-- モーダルのフッター：ボタン -->
+            <div class="modal-footer">
+                <!-- 適用ボタン：入力した数値を適用する -->
+                <button id="modal-apply-btn" class="modal-button modal-button-primary">適用</button>
+                <!-- キャンセルボタン：モーダルを閉じる -->
+                <button id="modal-cancel-btn" class="modal-button modal-button-secondary">キャンセル</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScriptファイルの読み込み：next.jsファイルのプログラムを実行します -->
+    <script src="next.js"></script>
+</body>
+</html>
+
