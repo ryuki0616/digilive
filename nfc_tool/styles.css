@@ -97,6 +97,27 @@ h1{
 }
 
 /* ============================================
+   バイト数カウンターのスタイル
+   ============================================ */
+
+/* IDがname-byte-countの要素（バイト数カウンター）のスタイル */
+.byte-count {
+    color: #ffffff;
+    text-align: center;
+    font-size: 0.9rem;
+    height: 1.2em; /* 高さを確保して、表示/非表示でレイアウトがガタつくのを防ぐ */
+    margin-top: -10px; /* 入力欄との間隔を詰める */
+    margin-bottom: 10px;
+}
+
+/* バイト数オーバー時のエラー表示スタイル */
+.byte-count.error {
+    color: #ff0000; /* 文字色を赤にする */
+    font-weight: bold; /* 文字を太くする */
+}
+
+
+/* ============================================
    戻るボタンのスタイル設定
    ============================================ */
 
@@ -338,12 +359,13 @@ h1{
 .modal-button-primary{
     background-color: #000000;  /* 背景色を黒に設定 */
     color: #ffffff;  /* 文字色を白に設定 */
+    border: 2px solid #ffffff;  /* 白い枠線を追加 */
 }
 
 /* 適用ボタンにマウスを乗せたとき */
 .modal-button-primary:hover{
     background-color: #333333;  /* 背景色を濃いグレーに変更 */
-    border-color: #333333;  /* 枠の色も濃いグレーに変更 */
+    border-color: #dddddd;  /* 枠の色を薄いグレーに変更 */
 }
 
 /* キャンセルボタン（セカンダリ） */
@@ -355,4 +377,14 @@ h1{
 /* キャンセルボタンにマウスを乗せたとき */
 .modal-button-secondary:hover{
     background-color: #f0f0f0;  /* 背景色を薄いグレーに変更 */
+}
+
+/* ============================================
+   中央揃え用コンテナ
+   ============================================ */
+.center-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px; /* 上の要素との間隔 */
 }
