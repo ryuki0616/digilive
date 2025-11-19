@@ -1,3 +1,7 @@
+// ============================================
+// 要素の取得
+// ============================================
+
 // 「登録」ボタンの要素を取得
 const registerButton = document.getElementById('register_button');
 // エラーメッセージ表示要素を取得
@@ -11,6 +15,8 @@ const nameByteCount = document.getElementById('name-byte-count');
 
 /**
  * ページ読み込み時の初期化処理
+ * - 入力フォームのクリア
+ * - フォーカスの設定
  */
 document.addEventListener('DOMContentLoaded', () => {
     // 入力フィールドをクリア
@@ -23,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // エラーメッセージを非表示
     if (errorMessage) errorMessage.style.display = 'none';
     
-    // ニックネーム入力欄にフォーカスを当てる
+    // ニックネーム入力欄にフォーカスを当てる（ユーザーがすぐに入力できるように）
     if (userNameInput) {
         setTimeout(() => {
             userNameInput.focus();
@@ -33,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /**
  * 文字列のUTF-8エンコード時のバイト数を計算する関数
+ * NFCタグのメモリ容量には制限があるため、バイト数をチェックする必要があります
  * @param {string} str - 対象の文字列
  * @returns {number} バイト数
  */
@@ -40,6 +47,10 @@ function getByteLength(str) {
     // Blobを使って効率的にバイト数を計算
     return new Blob([str]).size;
 }
+
+// ============================================
+// イベントリスナーの設定
+// ============================================
 
 // --- ニックネーム入力時のリアルタイムバイト数チェック ---
 if (userNameInput && nameByteCount) {
@@ -50,7 +61,7 @@ if (userNameInput && nameByteCount) {
         // バイト数を表示
         nameByteCount.textContent = `現在のバイト数: ${byteLength} / 20`;
         
-        // 20バイトを超えた場合はエラー表示
+        // 20バイトを超えた場合はエラー表示（クラスを追加して赤くする）
         if (byteLength > 20) {
             nameByteCount.classList.add('error');
         } else {
@@ -63,30 +74,31 @@ if (userNameInput && nameByteCount) {
 function showError(message) {
     errorMessage.textContent = message;
     errorMessage.style.display = 'block';
-    // 3秒後に自動的に非表示にする（オプション）
+    // 3秒後に自動的に非表示にする
     setTimeout(() => {
         errorMessage.style.display = 'none';
     }, 3000);
 }
 
-// 「登録」ボタンがクリックされたときの処理を追加
+// --- 「登録」ボタンがクリックされたときの処理 ---
 registerButton.addEventListener('click', () => {
-    // エラーメッセージを非表示にする
+    // エラーメッセージを一旦非表示にする
     errorMessage.style.display = 'none';
     
-    // ニックネーム入力欄の値を取得
+    // 入力値を取得
     const userName = userNameInput.value.trim();
-    // 年齢入力欄の値を取得
     const userAge = userAgeInput.value.trim();
     
-    // 入力値の検証
-    if (!userName) { // 未入力チェック
+    // --- バリデーション（入力チェック） ---
+    
+    // ニックネームの未入力チェック
+    if (!userName) {
         showError('ニックネームを入力してください。');
         userNameInput.focus();
         return;
     }
     
-    // バイト数チェック
+    // ニックネームのバイト数チェック（20バイト以内）
     const byteLength = getByteLength(userName);
     if (byteLength > 20) {
         showError(`ニックネームは20バイト以内で入力してください。(現在: ${byteLength}バイト)`);
@@ -94,13 +106,14 @@ registerButton.addEventListener('click', () => {
         return;
     }
     
-    if (!userAge) { // 年齢の未入力チェック
+    // 年齢の未入力チェック
+    if (!userAge) {
         showError('年齢を入力してください。');
         userAgeInput.focus();
         return;
     }
     
-    // 年齢の数値と範囲をチェック
+    // 年齢の数値チェックと範囲チェック（0〜120歳）
     const age = parseInt(userAge, 10);
     if (isNaN(age) || age < 0 || age > 120) {
         showError('年齢は0歳から120歳の間で入力してください。');
@@ -108,9 +121,10 @@ registerButton.addEventListener('click', () => {
         return;
     }
     
-    // 入力情報をコンソールに出力（デバッグ用）
-    console.log(userName, userAge);
+    // デバッグ用ログ
+    console.log('登録情報:', userName, userAge);
     
-    // 次のページに遷移（URLパラメータで情報を渡す）
+    // 次のページ (next.html) に遷移
+    // URLパラメータとして名前と年齢を渡す
     window.location.href = `next.html?name=${encodeURIComponent(userName)}&age=${encodeURIComponent(userAge)}`;
 });

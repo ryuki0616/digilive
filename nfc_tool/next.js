@@ -604,4 +604,3 @@ if (writeNfcButton && nfcWriteStatus) {
         }
     });
 }
-

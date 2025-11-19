@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- 
+        登録画面 (register.html)
+        - ユーザー名と年齢を入力するフォーム
+        - 入力された情報は next.html に引き継がれる
+    -->
     <h1>NFC初期設定アプリ</h1>
     
     <!-- ============================================
@@ -21,11 +26,18 @@
 
     <!-- エラーメッセージ表示エリア -->
     <p id="error-message" style="color: #ff0000; text-align: center; display: none;"></p>
+    
+    <!-- ニックネーム入力フォーム -->
     <p class="form-group">ニックネーム<br><input type="text" id="user_name" placeholder="ニックネーム"></p>
-    <!-- バイト数カウンター表示エリア -->
+    <!-- バイト数カウンター表示エリア (NFCタグの容量制限のため) -->
     <p id="name-byte-count" class="byte-count"></p>
+    
+    <!-- 年齢入力フォーム -->
     <p class="form-group">年齢<br><input type="number" id="user_age" placeholder="年齢"></p>
+    
+    <!-- 登録ボタン -->
     <button type="button" id="register_button">登録</button>
+    
     <script src="register.js"></script>
 </body>
 </html>

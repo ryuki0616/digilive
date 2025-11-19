@@ -3,11 +3,20 @@ import json
 import io
 from smartcard.System import readers
 from smartcard.util import toHexString
-import time # Added for polling loop
+import time
+
+# ============================================
+# 設定と初期化
+# ============================================
 
 # --- 標準入出力のエンコーディングをUTF-8に設定 ---
+# 日本語を含むデータを正しく扱うために必要です
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+
+# ============================================
+# データマッピング定義
+# ============================================
 
 # 各データを書き込むNFCカードのページ番号を定義
 # 1ページの最大容量は4バイトです。
@@ -28,24 +37,44 @@ PAGE_MAPPING = {
     'class': 12              # クラス（ページ12）
 }
 
+# ============================================
+# ヘルパー関数
+# ============================================
+
 def write_page(connection, page, data):
-    """指定されたページにデータを書き込む。データは4バイトにパディングされる。"""
+    """
+    指定されたページにデータを書き込む関数
+    
+    Args:
+        connection: カードリーダーとの接続オブジェクト
+        page: 書き込むページ番号
+        data: 書き込むデータ (バイトリスト, 最大4バイト)
+        
+    Returns:
+        bool: 書き込み成功ならTrue
+    """
     if len(data) > 4:
         raise ValueError("書き込みデータは4バイト以内でなければなりません。")
     
     # データを4バイトにパディング (足りない分を0x00で埋める)
     padded_data = data + [0x00] * (4 - len(data))
     
-    # 書き込みコマンドを作成
+    # 書き込みコマンド: [Class, INS, P1, P2, Le] + Data
+    # 0xFF: Class, 0xD6: Update Binary, 0x00: P1, page: P2, 0x04: Le
     write_command = [0xFF, 0xD6, 0x00, page, 0x04] + padded_data
     _, sw1, sw2 = connection.transmit(write_command)
     return sw1 == 0x90 and sw2 == 0x00
+
+# ============================================
+# メイン処理
+# ============================================
 
 def main():
     try:
         # ============================================
         # 1. コマンドライン引数の受け取りと検証
         # ============================================
+        # main.js から spawn で呼び出される際に引数が渡されます
         args = sys.argv[1:]
         if len(args) != 8:
             print("エラー: 8つの引数（名前, 所持金, パワー, スタミナ, スピード, テクニック, ラック, クラス）が必要です。", file=sys.stderr)
@@ -65,7 +94,7 @@ def main():
         
         connection = r[0].createConnection()
         
-        # --- カード待機処理 (nfc_test.pyを参考) ---
+        # --- カード待機処理 ---
         print("NFCカードをタッチしてください...", file=sys.stderr) # このメッセージはmain.jsのログに出力される
         
         card_found = False
@@ -156,9 +185,9 @@ def main():
         # ============================================
         # 4. 残りのページをゼロでクリア (無効化)
         # ============================================
-        # print("残りのデータ領域をクリアしています...", file=sys.stderr)
+        # ※ インベントリデータを保持するため、クリア処理はコメントアウトしています
         
-        # ページ13から39までをゼロで埋める処理をコメントアウト
+        # print("残りのデータ領域をクリアしています...", file=sys.stderr)
         # zero_data = [0x00, 0x00, 0x00, 0x00]
         # for page in range(13, 40):
         #     if not write_page(connection, page, zero_data):

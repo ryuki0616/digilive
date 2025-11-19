@@ -2,73 +2,41 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const { spawn } = require('child_process');
 
+/**
+ * メインウィンドウを作成する関数
+ */
 function createWindow() {
   const win = new BrowserWindow({
     width: 1000,
     height: 800,
     webPreferences: {
+      // preloadスクリプトを指定（レンダラープロセスとメインプロセスの橋渡し）
       preload: path.join(__dirname, 'preload.js'),
+      // セキュリティ設定：コンテキスト分離を有効化
       contextIsolation: true,
+      // Node.jsの機能をレンダラープロセスで直接使えないようにする
       nodeIntegration: false
     }
   });
 
-  // index.htmlを読み込む (main.jsと同じディレクトリにあるため)
+  // index.htmlを読み込む
   win.loadFile('index.html');
   
   // 開発者ツールを開く（デバッグ用）
   // win.webContents.openDevTools();
 }
 
+// アプリケーションの準備が整ったら実行
 app.whenReady().then(() => {
-  // NFC読み取り処理のハンドラ
-  ipcMain.handle('read-nfc', async () => {
-    return new Promise((resolve, reject) => {
-      // Pythonスクリプトのパス (main.jsと同じディレクトリにある send.py)
-      const scriptPath = path.join(__dirname, 'send.py');
-      
-      // Pythonプロセスを起動
-      const pythonProcess = spawn('python', [scriptPath]);
-
-      let dataString = '';
-      let errorString = '';
-
-      // 標準出力を取得
-      pythonProcess.stdout.on('data', (data) => {
-        dataString += data.toString();
-      });
-
-      // 標準エラー出力を取得
-      pythonProcess.stderr.on('data', (data) => {
-        errorString += data.toString();
-      });
-
-      // プロセス終了時の処理
-      pythonProcess.on('close', (code) => {
-        if (code !== 0) {
-          console.error(`Python script exited with code ${code}: ${errorString}`);
-          reject(new Error(`読み取りエラー (Code ${code}): ${errorString}`));
-          return;
-        }
-        
-        try {
-          // JSONをパースして返す
-          const result = JSON.parse(dataString);
-          resolve(result);
-        } catch (e) {
-          console.error(`JSON Parse Error: ${e.message}, Data: ${dataString}`);
-          reject(new Error('データの解析に失敗しました。'));
-        }
-      });
-    });
-  });
-
+  
+  // ============================================
   // NFC書き込み処理のハンドラ
+  // ============================================
   ipcMain.on('write-nfc-data', (event, data) => {
     const scriptPath = path.join(__dirname, 'nfc_writer.py');
     
+    // Pythonスクリプトに渡す引数を準備
     // 引数の順序: name, money, power, stamina, speed, technique, luck, class
-    // next.js の boxTexts オブジェクトのキーに対応させる
     const args = [
       scriptPath,
       data.topBox1, // name
@@ -83,31 +51,39 @@ app.whenReady().then(() => {
 
     console.log('Running writer with args:', args);
 
+    // Pythonプロセスを起動して書き込みを実行
     const pythonProcess = spawn('python', args);
     let outputString = '';
     let errorString = '';
 
+    // 標準出力を取得
     pythonProcess.stdout.on('data', (data) => {
       outputString += data.toString();
       console.log('Writer stdout:', data.toString());
     });
 
+    // 標準エラー出力を取得
     pythonProcess.stderr.on('data', (data) => {
       errorString += data.toString();
       console.error('Writer stderr:', data.toString());
     });
 
+    // プロセス終了時の処理
     pythonProcess.on('close', (code) => {
       if (code === 0) {
-        // 成功時は標準出力の最後の行などを返すか、特定のメッセージを探す
-        // nfc_writer.py は "✅ NFCカードへの書き込みが成功しました！" を出力する
+        // 成功時：結果をレンダラープロセスに送信
         event.sender.send('write-nfc-result', outputString.trim());
       } else {
+        // エラー時：エラーメッセージを送信
         event.sender.send('write-nfc-result', `エラー (Code ${code}): ${errorString}`);
       }
     });
   });
 
+  // ============================================
+  // NFC監視処理のハンドラ
+  // ============================================
+  
   // NFC監視プロセスの管理用変数
   let monitorProcess = null;
 
@@ -121,10 +97,10 @@ app.whenReady().then(() => {
     const scriptPath = path.join(__dirname, 'monitor_nfc.py');
     console.log('Starting NFC monitor:', scriptPath);
     
-    // Pythonプロセスを起動
+    // Pythonプロセス（監視スクリプト）を起動
     monitorProcess = spawn('python', [scriptPath]);
     
-    // 標準出力を取得
+    // 標準出力を取得（リアルタイムでデータが送られてくる）
     monitorProcess.stdout.on('data', (data) => {
       const lines = data.toString().split('\n');
       lines.forEach(line => {
@@ -137,10 +113,10 @@ app.whenReady().then(() => {
             console.log(JSON.stringify(json.payload, null, 2));
             console.log('-------------------------');
             
-            // 読み取りデータを送信
+            // 読み取りデータをレンダラープロセスに送信
             event.sender.send('nfc-data-read', json.payload);
           } else if (json.type === 'removed') {
-            // カード離脱イベントを送信
+            // カード離脱イベントをレンダラープロセスに送信
             event.sender.send('nfc-tag-removed');
           }
         } catch (e) {
@@ -171,8 +147,10 @@ app.whenReady().then(() => {
     }
   });
 
+  // ウィンドウを作成
   createWindow();
 
+  // macOS用：アクティブになった時にウィンドウがなければ再作成
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
@@ -180,6 +158,7 @@ app.whenReady().then(() => {
   });
 });
 
+// 全てのウィンドウが閉じられたらアプリを終了（macOS以外）
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
