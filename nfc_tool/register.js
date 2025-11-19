@@ -4,8 +4,32 @@ const registerButton = document.getElementById('register_button');
 const errorMessage = document.getElementById('error-message');
 // ニックネーム入力欄の要素を取得
 const userNameInput = document.getElementById('user_name');
+// 年齢入力欄の要素を取得
+const userAgeInput = document.getElementById('user_age');
 // バイト数カウンターの要素を取得
 const nameByteCount = document.getElementById('name-byte-count');
+
+/**
+ * ページ読み込み時の初期化処理
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    // 入力フィールドをクリア
+    if (userNameInput) userNameInput.value = '';
+    if (userAgeInput) userAgeInput.value = '';
+    
+    // バイト数カウンターをリセット
+    if (nameByteCount) nameByteCount.textContent = '';
+    
+    // エラーメッセージを非表示
+    if (errorMessage) errorMessage.style.display = 'none';
+    
+    // ニックネーム入力欄にフォーカスを当てる
+    if (userNameInput) {
+        setTimeout(() => {
+            userNameInput.focus();
+        }, 100);
+    }
+});
 
 /**
  * 文字列のUTF-8エンコード時のバイト数を計算する関数
@@ -53,7 +77,7 @@ registerButton.addEventListener('click', () => {
     // ニックネーム入力欄の値を取得
     const userName = userNameInput.value.trim();
     // 年齢入力欄の値を取得
-    const userAge = document.getElementById('user_age').value.trim();
+    const userAge = userAgeInput.value.trim();
     
     // 入力値の検証
     if (!userName) { // 未入力チェック
@@ -72,7 +96,7 @@ registerButton.addEventListener('click', () => {
     
     if (!userAge) { // 年齢の未入力チェック
         showError('年齢を入力してください。');
-        document.getElementById('user_age').focus();
+        userAgeInput.focus();
         return;
     }
     
@@ -80,7 +104,7 @@ registerButton.addEventListener('click', () => {
     const age = parseInt(userAge, 10);
     if (isNaN(age) || age < 0 || age > 120) {
         showError('年齢は0歳から120歳の間で入力してください。');
-        document.getElementById('user_age').focus();
+        userAgeInput.focus();
         return;
     }
     

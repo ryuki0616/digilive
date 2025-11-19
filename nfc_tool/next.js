@@ -584,11 +584,14 @@ if (writeNfcButton && nfcWriteStatus) {
         // 書き込みが成功したかどうかを判定 (成功メッセージは '✅' で始まると仮定)
         if (result.startsWith('✅')) {
             // 成功した場合
-            // ユーザーに成功を通知
-            alert('NFCカードへの書き込みが成功しました！最初のページに戻ります。');
-            
-            // 最初のページ (index.html) にリダイレクト
-            window.location.href = 'index.html';
+            // ステータスメッセージを更新
+            nfcWriteStatus.textContent = '✅ 書き込み成功！3秒後にトップページに戻ります...';
+            nfcWriteStatus.style.color = '#00ff00'; // 緑色にする
+
+            // 3秒後に最初のページ (index.html) にリダイレクト
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 3000);
         } else {
             // 失敗した場合
             // 結果をステータスエリアに表示

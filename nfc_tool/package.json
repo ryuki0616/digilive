@@ -1,15 +1,15 @@
 {
   "name": "nfc_tool",
   "version": "1.0.0",
-  "description": "",
+  "description": "NFC Tool for Digilive",
   "main": "main.js",
-  "scripts": {"start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "scripts": {
+    "start": "electron ."
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^39.1.1"
+    "electron": "^33.2.0"
   }
 }
+

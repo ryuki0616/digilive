@@ -154,16 +154,16 @@ def main():
             sys.exit(1)
 
         # ============================================
-        # 4. 残りのページをゼロでクリア
+        # 4. 残りのページをゼロでクリア (無効化)
         # ============================================
-        print("残りのデータ領域をクリアしています...", file=sys.stderr)
+        # print("残りのデータ領域をクリアしています...", file=sys.stderr)
         
-        # ページ13から39までをゼロで埋める
-        zero_data = [0x00, 0x00, 0x00, 0x00]
-        for page in range(13, 40):
-            if not write_page(connection, page, zero_data):
-                print(f"エラー: ページ {page} のクリアに失敗しました。", file=sys.stderr)
-                sys.exit(1)
+        # ページ13から39までをゼロで埋める処理をコメントアウト
+        # zero_data = [0x00, 0x00, 0x00, 0x00]
+        # for page in range(13, 40):
+        #     if not write_page(connection, page, zero_data):
+        #         print(f"エラー: ページ {page} のクリアに失敗しました。", file=sys.stderr)
+        #         sys.exit(1)
 
         # ============================================
         # 5. 成功メッセージの出力

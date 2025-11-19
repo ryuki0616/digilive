@@ -5,10 +5,17 @@
 /* bodyタグのスタイル：ページ全体の基本設定です */
 body {
     background-color: #000000;  /* 背景色を黒に設定 */
+    color: #ffffff;  /* 文字色を白に設定 */
     font-family: Arial, sans-serif;  /* フォントをArialに設定（なければsans-serif） */
     margin: 0;  /* 外側の余白を0に設定（ブラウザのデフォルト余白を削除） */
     padding: 0;  /* 内側の余白を0に設定 */
     min-height: 100vh;  /* 最小の高さを画面の高さ（100vh）に設定 */
+}
+
+/* リンク（aタグ）のスタイル設定 */
+a {
+    text-decoration: none; /* 下線を消す */
+    color: inherit; /* 親要素の色を引き継ぐ（青色になるのを防ぐ） */
 }
 
 /* h1タグ（見出し1）のスタイル：ページのメインタイトルです */
@@ -19,9 +26,49 @@ h1{
     padding: 0 20px;  /* 内側の余白を設定（上下0px、左右20px） */
 }
 
+/* ページの説明文のスタイル */
+.page-description {
+    text-align: center; /* 中央揃え */
+    margin-bottom: 30px; /* 下のボタンとの間隔 */
+}
+
+/* ============================================
+   メニューボタンのスタイル設定
+   ============================================ */
+
+.menu-button {
+    width: 30%;  /* 幅を親要素の30%に設定 */
+    padding: 15px;  /* 内側の余白を15pxに設定 */
+    border: 2px solid #ffffff;  /* 白い2pxの実線の枠を設定 */
+    border-radius: 0px;  /* 角を丸くしない */
+    background-color: #000000;  /* 背景色を黒に設定 */
+    color: #ffffff;  /* 文字色を白に設定 */
+    display: block;  /* ブロック要素として表示 */
+    margin: 20px auto;  /* 上下の余白を20px、左右を自動（中央揃え）に設定 */
+    font-size: 1.1rem; /* 文字サイズを少し大きく */
+    cursor: pointer;  /* マウスカーソルをポインターに変更 */
+    transition: all 0.3s ease;  /* 変化をスムーズに */
+}
+
+.menu-button:hover {
+    background-color: #333333;  /* ホバー時は少し明るい黒（濃いグレー）に */
+    border-color: #dddddd;  /* 枠の色も少し薄く */
+}
+
+.menu-button:active {
+    background-color: #555555;  /* クリック時はさらに明るく */
+    transform: translateY(2px);  /* 少し押し込むアニメーション */
+}
+
 /* ============================================
    入力フォームのスタイル設定
    ============================================ */
+
+/* フォームグループ（ラベルと入力欄を囲むpタグ）のスタイル */
+.form-group {
+    text-align: center; /* テキスト（ラベルなど）を中央揃えにする */
+    margin-bottom: 20px; /* 下に余白を設ける */
+}
 
 /* IDがuser_nameの要素（ユーザー名入力欄）のスタイル */
 #user_name{
