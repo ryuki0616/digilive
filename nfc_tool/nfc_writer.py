@@ -1,9 +1,15 @@
 import sys
 import json
 import io
+import os
 from smartcard.System import readers
 from smartcard.util import toHexString
 import time
+import mysql.connector
+from dotenv import load_dotenv
+
+# .envファイルを読み込む
+load_dotenv()
 
 # ============================================
 # 設定と初期化
@@ -65,6 +71,87 @@ def write_page(connection, page, data):
     _, sw1, sw2 = connection.transmit(write_command)
     return sw1 == 0x90 and sw2 == 0x00
 
+def get_uid(connection):
+    """
+    NFCカードのUID (Unique Identifier) を取得する関数
+    """
+    # GET DATA コマンド (UID取得)
+    # Class: 0xFF, INS: 0xCA, P1: 0x00, P2: 0x00, Le: 0x00
+    get_uid_command = [0xFF, 0xCA, 0x00, 0x00, 0x00]
+    data, sw1, sw2 = connection.transmit(get_uid_command)
+    
+    if sw1 == 0x90 and sw2 == 0x00:
+        # UIDを16進数文字列に変換 (例: "04:A1:B2:C3:D4:E5:F6")
+        return toHexString(data).replace(' ', ':')
+    return None
+
+def save_to_db(player_data):
+    """
+    プレイヤーデータをMySQLデータベースに保存する関数
+    """
+    try:
+        # DB接続設定
+        db_config = {
+            'host': os.getenv('DB_HOST', 'localhost'),
+            'user': os.getenv('DB_USER', 'root'),
+            'password': os.getenv('DB_PASSWORD', ''),
+            'database': os.getenv('DB_NAME', 'nfc_game_db'),
+            'port': int(os.getenv('DB_PORT', 3306))
+        }
+
+        # データベースに接続
+        conn = mysql.connector.connect(**db_config)
+        cursor = conn.cursor()
+
+        # UPSERT文 (INSERT ... ON DUPLICATE KEY UPDATE)
+        # nfc_card_id が重複する場合は既存レコードを更新
+        sql = """
+        INSERT INTO player_status (
+            nfc_card_id, user_name, age, money, power, stamina, speed, technique, luck, class
+        ) VALUES (
+            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+        ) ON DUPLICATE KEY UPDATE
+            user_name = VALUES(user_name),
+            age = VALUES(age),
+            money = VALUES(money),
+            power = VALUES(power),
+            stamina = VALUES(stamina),
+            speed = VALUES(speed),
+            technique = VALUES(technique),
+            luck = VALUES(luck),
+            class = VALUES(class),
+            updated_at = CURRENT_TIMESTAMP
+        """
+
+        val = (
+            player_data['nfc_card_id'],
+            player_data['name'],
+            player_data['age'],
+            player_data['money'],
+            player_data['power'],
+            player_data['stamina'],
+            player_data['speed'],
+            player_data['technique'],
+            player_data['luck'],
+            player_data['class']
+        )
+
+        cursor.execute(sql, val)
+        conn.commit()
+        
+        print(f"データベースへの保存が完了しました。ID: {cursor.lastrowid}", file=sys.stderr)
+        
+        cursor.close()
+        conn.close()
+        return True
+
+    except mysql.connector.Error as err:
+        print(f"データベースエラー: {err}", file=sys.stderr)
+        return False
+    except Exception as e:
+        print(f"DB保存中に予期せぬエラーが発生しました: {e}", file=sys.stderr)
+        return False
+
 # ============================================
 # メイン処理
 # ============================================
@@ -76,11 +163,11 @@ def main():
         # ============================================
         # main.js から spawn で呼び出される際に引数が渡されます
         args = sys.argv[1:]
-        if len(args) != 8:
-            print("エラー: 8つの引数（名前, 所持金, パワー, スタミナ, スピード, テクニック, ラック, クラス）が必要です。", file=sys.stderr)
+        if len(args) != 9:
+            print(f"エラー: 9つの引数（名前, 年齢, 所持金, パワー, スタミナ, スピード, テクニック, ラック, クラス）が必要です。受信: {len(args)}", file=sys.stderr)
             sys.exit(1)
 
-        name, money, power, stamina, speed, technique, luck, player_class = args
+        name, age, money, power, stamina, speed, technique, luck, player_class = args
 
         # ============================================
         # 2. NFCリーダーの検出とカード接続
@@ -195,7 +282,35 @@ def main():
         #         sys.exit(1)
 
         # ============================================
-        # 5. 成功メッセージの出力
+        # 5. データベースへの保存
+        # ============================================
+        
+        # NFCカードのUIDを取得
+        uid = get_uid(connection)
+        if uid:
+            print(f"カードUID: {uid}", file=sys.stderr)
+            
+            # DB保存用のデータ辞書を作成
+            db_data = {
+                'nfc_card_id': uid,
+                'name': name,
+                'age': age if age and age.isdigit() else None,
+                'money': int(money),
+                'power': int(power),
+                'stamina': int(stamina),
+                'speed': int(speed),
+                'technique': int(technique),
+                'luck': int(luck),
+                'class': int(player_class)
+            }
+            
+            # DB保存を実行
+            save_to_db(db_data)
+        else:
+            print("警告: UIDが取得できなかったため、データベースへの保存をスキップしました。", file=sys.stderr)
+
+        # ============================================
+        # 6. 成功メッセージの出力
         # ============================================
         # このメッセージが main.js に渡され、画面に表示される
         print("✅ NFCカードへの書き込みが成功しました！")

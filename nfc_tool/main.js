@@ -36,10 +36,11 @@ app.whenReady().then(() => {
     const scriptPath = path.join(__dirname, 'nfc_writer.py');
     
     // Pythonスクリプトに渡す引数を準備
-    // 引数の順序: name, money, power, stamina, speed, technique, luck, class
+    // 引数の順序: name, age, money, power, stamina, speed, technique, luck, class
     const args = [
       scriptPath,
       data.topBox1, // name
+      data.age || "0", // age
       String(data.topBox2), // money
       String(data.box1),    // power
       String(data.box2),    // stamina

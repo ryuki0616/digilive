@@ -574,7 +574,9 @@ if (writeNfcButton && nfcWriteStatus) {
         
         // メインプロセスに書き込みをリクエスト
         // boxTextsオブジェクトのデータを送信
-        window.electronAPI.writeNfcData(boxTexts);
+        // ageも含めて送信する
+        const dataToSend = { ...boxTexts, age: age };
+        window.electronAPI.writeNfcData(dataToSend);
     });
     
     // メインプロセスから書き込み結果を受信
