@@ -48,22 +48,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const status = data.status || [];
         
         // ステータスの割り当て
-        // status[0]: パワー
-        // status[1]: スタミナ
-        // status[2]: スピード
-        // status[3]: テクニック
-        // status[4]: ラック
-        // status[5]: クラス
-        // status[6]: 所持金
+        // status[0]: 所持金
+        // status[1]: パワー
+        // status[2]: スタミナ
+        // status[3]: スピード
+        // status[4]: テクニック
+        // status[5]: ラック
+        // status[6]: クラス
         
         // 各要素に値をセット（値がない場合はハイフンを表示）
-        document.getElementById('nfc-power').textContent = status[0] !== undefined ? status[0] : '-';
-        document.getElementById('nfc-stamina').textContent = status[1] !== undefined ? status[1] : '-';
-        document.getElementById('nfc-speed').textContent = status[2] !== undefined ? status[2] : '-';
-        document.getElementById('nfc-technique').textContent = status[3] !== undefined ? status[3] : '-';
-        document.getElementById('nfc-luck').textContent = status[4] !== undefined ? status[4] : '-';
-        document.getElementById('nfc-class').textContent = status[5] !== undefined ? status[5] : '-';
-        document.getElementById('nfc-money').textContent = status[6] !== undefined ? status[6] : '-';
+        document.getElementById('nfc-money').textContent = status[0] !== undefined ? status[0] : '-';
+        document.getElementById('nfc-power').textContent = status[1] !== undefined ? status[1] : '-';
+        document.getElementById('nfc-stamina').textContent = status[2] !== undefined ? status[2] : '-';
+        document.getElementById('nfc-speed').textContent = status[3] !== undefined ? status[3] : '-';
+        document.getElementById('nfc-technique').textContent = status[4] !== undefined ? status[4] : '-';
+        document.getElementById('nfc-luck').textContent = status[5] !== undefined ? status[5] : '-';
+        document.getElementById('nfc-class').textContent = status[6] !== undefined ? status[6] : '-';
         
         // 読み取り完了メッセージ
         messageElement.textContent = "読み取り中...";

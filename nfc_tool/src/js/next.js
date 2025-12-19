@@ -323,6 +323,73 @@ function showNumberInputModal(message, targetBoxes) {
 }
 
 // ============================================
+// パスワード入力モーダルの制御
+// ============================================
+
+// パスワード入力モーダルを表示する関数
+function showPasswordInputModal(commandType) {
+    const modal = document.getElementById('password-input-modal');
+    const inputField = document.getElementById('password-input-field');
+    const verifyButton = document.getElementById('password-verify-btn');
+    const cancelButton = document.getElementById('password-cancel-btn');
+    const message = document.getElementById('password-message');
+
+    if (!modal || !inputField || !verifyButton || !cancelButton) {
+        console.error('❌ パスワードモーダルの要素が見つかりません');
+        return;
+    }
+
+    // 初期化
+    modal.style.display = 'flex';
+    inputField.value = '';
+    message.textContent = 'パスワードを入力してください';
+    message.style.color = '#000000';
+    inputField.focus();
+
+    const closeModal = () => {
+        modal.style.display = 'none';
+        keySequence = [];
+        typedString = '';
+    };
+
+    const verifyPassword = () => {
+        const password = inputField.value;
+        // ここでパスワードを確認 (仮のパスワード: 'admin123')
+        if (password === 'admin123') {
+            closeModal();
+            executeSecretCommand(commandType);
+        } else {
+            message.textContent = 'パスワードが間違っています';
+            message.style.color = 'red';
+            inputField.value = '';
+            inputField.focus();
+        }
+    };
+
+    // イベントリスナーの再設定（重複防止）
+    const newVerifyBtn = verifyButton.cloneNode(true);
+    const newCancelBtn = cancelButton.cloneNode(true);
+    verifyButton.parentNode.replaceChild(newVerifyBtn, verifyButton);
+    cancelButton.parentNode.replaceChild(newCancelBtn, cancelButton);
+
+    newVerifyBtn.addEventListener('click', verifyPassword);
+    newCancelBtn.addEventListener('click', closeModal);
+
+    // Enterキーで送信
+    const handleKeydown = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            verifyPassword();
+            inputField.removeEventListener('keydown', handleKeydown);
+        } else if (e.key === 'Escape') {
+            closeModal();
+            inputField.removeEventListener('keydown', handleKeydown);
+        }
+    };
+    inputField.addEventListener('keydown', handleKeydown);
+}
+
+// ============================================
 // 隠しコマンドの実装
 // ============================================
 
@@ -448,7 +515,8 @@ function setupKeyboardListeners() {
     if (recentKeys.length === konamiCode.length && 
         recentKeys.every((key, index) => key === konamiCode[index])) {
         // コナミコマンドが検出された！
-        executeSecretCommand('konami');
+        // executeSecretCommand('konami'); // パスワード入力へ変更
+        showPasswordInputModal('konami');
         return; // 処理を終了
     }
     

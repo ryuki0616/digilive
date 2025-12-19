@@ -20,7 +20,7 @@ function createWindow() {
   });
 
   // index.htmlを読み込む
-  win.loadFile('index.html');
+  win.loadFile('src/html/index.html');
   
   // 開発者ツールを開く（デバッグ用）
   // win.webContents.openDevTools();
@@ -33,7 +33,7 @@ app.whenReady().then(() => {
   // NFC書き込み処理のハンドラ
   // ============================================
   ipcMain.on('write-nfc-data', (event, data) => {
-    const scriptPath = path.join(__dirname, 'nfc_writer.py');
+    const scriptPath = path.join(__dirname, 'python/nfc_writer.py');
     
     // Pythonスクリプトに渡す引数を準備
     // 引数の順序: name, age, money, power, stamina, speed, technique, luck, class
@@ -95,7 +95,7 @@ app.whenReady().then(() => {
       monitorProcess.kill();
     }
     
-    const scriptPath = path.join(__dirname, 'monitor_nfc.py');
+    const scriptPath = path.join(__dirname, 'python/monitor_nfc.py');
     console.log('Starting NFC monitor:', scriptPath);
     
     // Pythonプロセス（監視スクリプト）を起動
@@ -146,6 +146,43 @@ app.whenReady().then(() => {
       monitorProcess.kill();
       monitorProcess = null;
     }
+  });
+
+  // ============================================
+  // DBデータ取得のハンドラ
+  // ============================================
+  ipcMain.handle('get-db-data', async (event, uid) => {
+    return new Promise((resolve, reject) => {
+      const scriptPath = path.join(__dirname, 'python/get_db_data.py');
+      console.log('Fetching DB data for UID:', uid);
+
+      const pythonProcess = spawn('python', [scriptPath, uid]);
+      
+      let outputString = '';
+      let errorString = '';
+
+      pythonProcess.stdout.on('data', (data) => {
+        outputString += data.toString();
+      });
+
+      pythonProcess.stderr.on('data', (data) => {
+        errorString += data.toString();
+        console.error('DB Fetch stderr:', data.toString());
+      });
+
+      pythonProcess.on('close', (code) => {
+        if (code === 0) {
+          try {
+            const result = JSON.parse(outputString);
+            resolve(result);
+          } catch (e) {
+            reject(`JSON Parse Error: ${e.message}, Output: ${outputString}`);
+          }
+        } else {
+          reject(`Process exited with code ${code}: ${errorString}`);
+        }
+      });
+    });
   });
 
   // ウィンドウを作成

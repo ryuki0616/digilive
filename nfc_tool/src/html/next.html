@@ -15,7 +15,7 @@
     <title>登録完了 - NFC初期設定アプリ</title>
     
     <!-- CSSファイルの読み込み：styles.cssファイルのスタイルを適用します -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
     <!-- 
@@ -138,7 +138,26 @@
         </div>
     </div>
     
+    <!-- ============================================
+         パスワード入力用のモーダルダイアログ
+         ============================================ -->
+    <div id="password-input-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h2>パスワード認証</h2>
+            </div>
+            <div class="modal-body">
+                <p id="password-message">パスワードを入力してください</p>
+                <input type="password" id="password-input-field" class="modal-input" placeholder="パスワード">
+            </div>
+            <div class="modal-footer">
+                <button id="password-verify-btn" class="modal-button modal-button-primary">認証</button>
+                <button id="password-cancel-btn" class="modal-button modal-button-secondary">キャンセル</button>
+            </div>
+        </div>
+    </div>
+
     <!-- JavaScriptファイルの読み込み：next.jsファイルのプログラムを実行します -->
-    <script src="next.js"></script>
+    <script src="../js/next.js"></script>
 </body>
 </html>

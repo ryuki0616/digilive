@@ -91,6 +91,10 @@ def save_to_db(player_data):
     """
     try:
         # DB接続設定
+        # 親ディレクトリの.envを読むためパスを調整するか、あるいはカレントディレクトリ依存
+        # ここでは環境変数がロード済みであることを期待するが、実行時のパスに依存する
+        # main.jsからの起動時はプロジェクトルートがcwdになるため、そのまま読めるはず
+        
         db_config = {
             'host': os.getenv('DB_HOST', 'localhost'),
             'user': os.getenv('DB_USER', 'root'),

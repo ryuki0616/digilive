@@ -2,7 +2,7 @@
   "name": "nfc_tool",
   "version": "1.0.0",
   "description": "NFC Tool for Digilive",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
     "start": "electron ."
   },

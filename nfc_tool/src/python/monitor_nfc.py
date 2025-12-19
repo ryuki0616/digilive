@@ -110,7 +110,7 @@ def read_nfc_data(connection):
             
     # 結果を辞書として返す
     return {
-        "idm": toHexString(idm_data),
+        "idm": toHexString(idm_data).replace(' ', ':'), # DB保存形式と一致させるためコロン区切りに変換
         "name": name,
         "status": status_list,
         "inventory": inventory_list

@@ -19,5 +19,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // データ読み取りイベントを受け取るリスナーを設定
   onNfcDataRead: (callback) => ipcRenderer.on('nfc-data-read', (_event, value) => callback(value)),
   // タグ離脱イベントを受け取るリスナーを設定
-  onNfcTagRemoved: (callback) => ipcRenderer.on('nfc-tag-removed', (_event) => callback())
+  onNfcTagRemoved: (callback) => ipcRenderer.on('nfc-tag-removed', (_event) => callback()),
+  
+  // --- DB連携機能 ---
+  // UIDを元にDBからデータを取得する (Promiseを返す)
+  getDbData: (uid) => ipcRenderer.invoke('get-db-data', uid)
 });
