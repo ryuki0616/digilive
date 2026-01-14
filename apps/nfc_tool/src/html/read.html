@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!-- HTML5の文書型宣言 -->
+<html lang="ja">
+<head>
+    <!-- 文字コードの設定 -->
+    <meta charset="UTF-8">
+    <!-- ビューポートの設定（スマホ対応） -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ページのタイトル -->
+    <title>NFC読み取り</title>
+    <!-- スタイルシートの読み込み -->
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <!-- 
+        読み取り画面 (read.html)
+        - NFCタグを読み取って情報を表示する
+        - カードをタッチしている間だけ情報を表示
+        - カードを離すと表示がクリアされる
+    -->
+    
+    <!-- ページの見出し -->
+    <h1>NFCタグ読み取り</h1>
+    
+    <!-- ============================================
+         戻るボタンエリア
+         ============================================ -->
+    <div class="back-button-container">
+        <a href="index.html">
+            <button type="button" id="back_button">戻る</button>
+        </a>
+    </div>
+    
+    <!-- ============================================
+         上部グリッドエリア（名前・所持金）
+         ============================================ -->
+    <div class="top-grid-container">
+        <!-- 名前表示ボックス -->
+        <div class="grid-item-wrapper">
+            <label class="grid-box-label">名前</label>
+            <div class="grid-box" id="nfc-name"></div>
+        </div>
+        <!-- 所持金表示ボックス -->
+        <div class="grid-item-wrapper">
+            <label class="grid-box-label">所持金</label>
+            <div class="grid-box" id="nfc-money"></div>
+        </div>
+    </div>
+    
+    <!-- ============================================
+         メイングリッドエリア（ステータス一覧）
+         ============================================ -->
+    <div class="grid-container">
+        <!-- パワー -->
+        <div class="grid-item-wrapper">
+            <label class="grid-box-label">パワー</label>
+            <div class="grid-box" id="nfc-power"></div>
+        </div>
+        <!-- スタミナ -->
+        <div class="grid-item-wrapper">
+            <label class="grid-box-label">スタミナ</label>
+            <div class="grid-box" id="nfc-stamina"></div>
+        </div>
+        <!-- スピード -->
+        <div class="grid-item-wrapper">
+            <label class="grid-box-label">スピード</label>
+            <div class="grid-box" id="nfc-speed"></div>
+        </div>
+        <!-- テクニック -->
+        <div class="grid-item-wrapper">
+            <label class="grid-box-label">テクニック</label>
+            <div class="grid-box" id="nfc-technique"></div>
+        </div>
+        <!-- ラック -->
+        <div class="grid-item-wrapper">
+            <label class="grid-box-label">ラック</label>
+            <div class="grid-box" id="nfc-luck"></div>
+        </div>
+        <!-- クラス -->
+        <div class="grid-item-wrapper">
+            <label class="grid-box-label">クラス</label>
+            <div class="grid-box" id="nfc-class"></div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         メッセージ・制御エリア
+         ============================================ -->
+    
+    <!-- 読み取り状態メッセージ -->
+    <p id="message" style="text-align: center; margin-top: 20px;">NFCタグをデバイスに近づけてください...</p>
+
+    <!-- 隠し要素：ステータスリスト（JavaScriptでの内部処理用） -->
+    <ul id="nfc-status-list" style="display: none;"></ul>
+
+    <!-- JavaScriptファイルの読み込み -->
+    <script src="../js/read.js"></script>
+</body>
+</html>

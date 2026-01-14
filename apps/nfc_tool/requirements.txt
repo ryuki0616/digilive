@@ -1,0 +1,4 @@
+pyscard
+mysql-connector-python
+python-dotenv
+
