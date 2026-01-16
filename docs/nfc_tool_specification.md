@@ -139,7 +139,7 @@ PowerShellスクリプトを使用して、一括でセットアップを行い�
 
 1. **プロジェクトディレクトリへ移動**
    ```bash
-   cd Project/digilive/nfc_tool
+   cd Ploject/digilive/apps/nfc_tool
    ```
 
 2. **セットアップスクリプトの実行**
@@ -161,7 +161,7 @@ PowerShellスクリプトを使用して、一括でセットアップを行い�
    ```
 
 3. **環境設定ファイルの作成**
-   プロジェクトルートにある `.env` ファイルを作成（または `.env.template` からコピー）し、データベース接続情報を設定します。
+   プロジェクトルートにある `.env` ファイルを作成（または `env.template` からコピー）し、データベース接続情報を設定します。
 
    ```ini
    DB_HOST=localhost

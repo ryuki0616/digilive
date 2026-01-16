@@ -20,7 +20,8 @@ function createWindow() {
   });
 
   // index.htmlを読み込む
-  win.loadFile('src/html/index.html');
+  // cwdに依存せず、常にこのファイル（src/main.js）基準で参照する
+  win.loadFile(path.join(__dirname, 'html', 'index.html'));
   
   // 開発者ツールを開く（デバッグ用）
   // win.webContents.openDevTools();

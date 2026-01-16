@@ -1,6 +1,42 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const { spawn } = require('child_process');
+const fs = require('fs');
+
+// #region agent log
+function agentLog(hypothesisId, location, message, data) {
+  try {
+    fs.appendFileSync('/Users/ryukisato/deta_box/.cursor/debug.log', `${JSON.stringify({
+      sessionId: 'debug-session',
+      runId: 'run_cards',
+      hypothesisId,
+      location,
+      message,
+      data,
+      timestamp: Date.now()
+    })}\n`);
+  } catch (_e) {}
+}
+// #endregion
+
+/**
+ * Python実行コマンドを解決する
+ * - macOSセットアップでは `apps/nfc_tool/.venv` を作るため、それを優先する
+ * - 無ければ環境の python3 / python を使用する
+ *
+ * @returns {string} Pythonの実行コマンド（パス or コマンド名）
+ */
+function resolvePythonCommand() {
+  const projectRoot = path.join(__dirname, '..');
+  const venvPython3 = path.join(projectRoot, '.venv', 'bin', 'python3');
+  const venvPython = path.join(projectRoot, '.venv', 'bin', 'python');
+
+  if (fs.existsSync(venvPython3)) return venvPython3;
+  if (fs.existsSync(venvPython)) return venvPython;
+
+  // macOSでは python が存在しない場合があるため python3 を優先
+  return 'python3';
+}
 
 /**
  * メインウィンドウを作成する関数
@@ -29,7 +65,6 @@ function createWindow() {
 
 // アプリケーションの準備が整ったら実行
 app.whenReady().then(() => {
-  
   // ============================================
   // NFC書き込み処理のハンドラ
   // ============================================
@@ -54,7 +89,8 @@ app.whenReady().then(() => {
     console.log('Running writer with args:', args);
 
     // Pythonプロセスを起動して書き込みを実行
-    const pythonProcess = spawn('python', args);
+    const pythonCmd = resolvePythonCommand();
+    const pythonProcess = spawn(pythonCmd, args);
     let outputString = '';
     let errorString = '';
 
@@ -93,6 +129,11 @@ app.whenReady().then(() => {
   ipcMain.on('start-nfc-monitor', (event) => {
     // 既に起動している場合は一度終了する
     if (monitorProcess) {
+      // #region agent log
+      agentLog('H6', 'apps/nfc_tool/src/main.js:start-nfc-monitor', 'monitorProcess exists -> kill', {
+        pid: monitorProcess.pid || null
+      });
+      // #endregion
       monitorProcess.kill();
     }
     
@@ -100,7 +141,14 @@ app.whenReady().then(() => {
     console.log('Starting NFC monitor:', scriptPath);
     
     // Pythonプロセス（監視スクリプト）を起動
-    monitorProcess = spawn('python', [scriptPath]);
+    const pythonCmd = resolvePythonCommand();
+    // #region agent log
+    agentLog('H6', 'apps/nfc_tool/src/main.js:start-nfc-monitor', 'spawn monitor', {
+      pythonCmd,
+      scriptPath
+    });
+    // #endregion
+    monitorProcess = spawn(pythonCmd, [scriptPath]);
     
     // 標準出力を取得（リアルタイムでデータが送られてくる）
     monitorProcess.stdout.on('data', (data) => {
@@ -136,6 +184,9 @@ app.whenReady().then(() => {
     // プロセス終了時の処理
     monitorProcess.on('close', (code) => {
       console.log(`Monitor process exited with code ${code}`);
+      // #region agent log
+      agentLog('H6', 'apps/nfc_tool/src/main.js:monitor-close', 'monitor exited', { code });
+      // #endregion
       monitorProcess = null;
     });
   });
@@ -157,7 +208,8 @@ app.whenReady().then(() => {
       const scriptPath = path.join(__dirname, 'python/get_db_data.py');
       console.log('Fetching DB data for UID:', uid);
 
-      const pythonProcess = spawn('python', [scriptPath, uid]);
+      const pythonCmd = resolvePythonCommand();
+      const pythonProcess = spawn(pythonCmd, [scriptPath, uid]);
       
       let outputString = '';
       let errorString = '';

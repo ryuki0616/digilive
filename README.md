@@ -18,26 +18,18 @@
 
 ```
 digilive/
-├── index.html          # メインHTMLファイル
-├── styles.css          # スタイルシート
-├── script.js           # JavaScriptファイル
-├── README.md           # このファイル
-├── 要件定義書.md        # 要件定義書
-├── プロジェクト計画書.md # プロジェクト計画書
-└── backend/            # バックエンド関連ファイル
-    ├── config.js
-    ├── database.js
-    ├── server.js
-    ├── package.json
-    └── README.md
+├── apps/
+│   ├── web/             # 静的Web（HTML/CSS/JS）
+│   └── nfc_tool/        # NFCツール（Electron + Python）
+├── docs/                # 仕様/計画/作業ログなど
+├── README.md            # このファイル
+└── rules.md             # コーディング規約
 ```
 
 ## 🛠️ 技術スタック
 
-- **HTML5**: セマンティックマークアップ
-- **CSS3**: フレックスボックス、アニメーション、グラデーション
-- **JavaScript (ES6+)**: モダンなJavaScript機能
-- **Node.js**: バックエンド（オプション）
+- **Web（静的）**: HTML5 / CSS3 / JavaScript (ES6+)
+- **NFCツール**: Electron / Node.js / Python
 
 ## 🎮 操作方法
 
@@ -94,19 +86,35 @@ digilive/
 
 ```bash
 # ローカルサーバーで実行（Python）
+cd apps/web
 python -m http.server 8000
 
 # または Node.js
+cd apps/web
 npx serve .
 ```
 
-## 🔧 開発
+## 🧰 NFCツール（Electron + Python）
 
-### バックエンド開発（オプション）
+### 事前準備（共通）
+
+- Node.js（推奨: LTS）
+- Python 3.x
+- PC/SC対応NFCリーダー/ライター（例: Sony PaSoRi など）
+- MySQL（DB連携を使う場合）
+
+### セットアップ（macOS）
+
+`apps/nfc_tool/scripts/setup_mac.sh` を実行してください。（Homebrewを使って依存導入まで行います）
+
+### セットアップ（Windows）
+
+`apps/nfc_tool/setup.ps1` を実行してください。
+
+### 起動
 
 ```bash
-cd backend
-npm install
+cd apps/nfc_tool
 npm start
 ```
 
@@ -143,6 +151,10 @@ npm start
 ## 📄 ライセンス
 
 このプロジェクトはMITライセンスの下で公開されています。
+
+## 📄 ドキュメント
+
+仕様・計画・作業ログは `docs/` に集約しています。
 
 ## 🔮 今後の予定
 

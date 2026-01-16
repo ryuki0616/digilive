@@ -258,18 +258,17 @@ ipcRenderer.on('auth-result', (event, result) => {
 ### ディレクトリ構成
 ```
 digilive/
-├── index.html          # メインHTML
-├── styles.css          # スタイルシート
-├── script.js           # JavaScript
-├── nfc_tool/           # NFCツール
-│   ├── src/
-│   │   ├── html/       # HTMLファイル
-│   │   ├── js/         # JavaScriptファイル
-│   │   ├── css/        # CSSファイル
-│   │   └── python/     # Pythonスクリプト
-│   ├── main.js         # Electron Main Process
-│   └── preload.js      # Preload Script
-└── requirements.txt    # Python依存関係
+├── apps/
+│   ├── web/            # 静的Web（HTML/CSS/JS）
+│   └── nfc_tool/       # NFCツール（Electron + Python）
+│       ├── src/
+│       │   ├── html/   # HTMLファイル
+│       │   ├── js/     # JavaScriptファイル
+│       │   ├── css/    # CSSファイル
+│       │   └── python/ # Pythonスクリプト
+│       ├── package.json
+│       └── requirements.txt
+└── docs/               # 仕様/計画/作業ログなど
 ```
 
 ## その他の注意事項
